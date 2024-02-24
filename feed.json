@@ -1,0 +1,26 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "ZM's Blog",
+    "home_page_url": "https://valaxy.site/",
+    "feed_url": "https://valaxy.site/feed.json",
+    "description": "唱，跳，rap~~",
+    "icon": "https://foruda.gitee.com/avatar/1708772741724750297/10223838_wzm_love_coding_1708772741.png!avatar200",
+    "author": {
+        "name": "前端练习生zm",
+        "url": "https://valaxy.site"
+    },
+    "items": [
+        {
+            "id": "",
+            "content_html": "<h2>邂逅</h2>\n<p>第一篇个人博客</p>\n",
+            "url": "https://valaxy.site/posts/hello-zm",
+            "title": "Hello, ZM!",
+            "date_modified": "2024-02-24T00:00:00.000Z",
+            "date_published": "2024-02-24T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        }
+    ]
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>ZM's Blog</title>
+        <link>https://valaxy.site/</link>
+        <description>唱，跳，rap~~</description>
+        <lastBuildDate>Sat, 24 Feb 2024 12:50:09 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <image>
+            <title>ZM's Blog</title>
+            <url>https://foruda.gitee.com/avatar/1708772741724750297/10223838_wzm_love_coding_1708772741.png!avatar200</url>
+            <link>https://valaxy.site/</link>
+        </image>
+        <copyright>CC BY-NC-SA 4.0 2024 © 前端练习生zm</copyright>
+        <atom:link href="https://valaxy.site/feed.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[Hello, ZM!]]></title>
+            <link>https://valaxy.site/posts/hello-zm</link>
+            <guid>https://valaxy.site/posts/hello-zm</guid>
+            <pubDate>Sat, 24 Feb 2024 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>邂逅</h2>
+<p>第一篇个人博客</p>
+]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+    </channel>
+</rss>
