@@ -7,6 +7,7 @@
     "build": "npm run build:ssg",
     "build:spa": "valaxy build",
     "build:ssg": "valaxy build --ssg",
+    "fuse": "valaxy fuse",
     "dev": "valaxy",
     "rss": "valaxy rss",
     "serve": "vite preview"
