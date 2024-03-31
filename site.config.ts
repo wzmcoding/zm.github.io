@@ -51,4 +51,9 @@ export default defineSiteConfig({
       },
     },
   },
+  
+  /**
+   * 开启图片预览
+   */
+  mediumZoom: { enable: true }
 });
