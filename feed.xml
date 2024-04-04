@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>ZM's Blog</title>
+        <link>https://valaxy.site/</link>
+        <description>唱，跳，rap~~</description>
+        <lastBuildDate>Thu, 04 Apr 2024 08:49:52 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <image>
+            <title>ZM's Blog</title>
+            <url>https://foruda.gitee.com/avatar/1708772741724750297/10223838_wzm_love_coding_1708772741.png!avatar200</url>
+            <link>https://valaxy.site/</link>
+        </image>
+        <copyright>CC BY-NC-SA 4.0 2024 © 前端练习生zm</copyright>
+        <atom:link href="https://valaxy.site/feed.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[清明假期]]></title>
+            <link>https://valaxy.site/posts/20240404</link>
+            <guid>https://valaxy.site/posts/20240404</guid>
+            <pubDate>Thu, 04 Apr 2024 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h3>清明假期</h3>
+<ul>
+<li>今天待在出租屋，明天打算去西湖玩；</li>
+<li>好无聊啊~~</li>
+</ul>
+]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[Git 使用]]></title>
+            <link>https://valaxy.site/posts/git-use</link>
+            <guid>https://valaxy.site/posts/git-use</guid>
+            <pubDate>Sun, 31 Mar 2024 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h3>git rebase介绍</h3>
+<ul>
+<li>git rebase是git的一个分支管理命令，它允许你将一个分支的提交历史重写到另一个分支上。</li>
+<li>git rebase命令主要用途：将一个分支的提交历史重写</li>
+</ul>
+]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[Hello, ZM!]]></title>
+            <link>https://valaxy.site/posts/hello-zm</link>
+            <guid>https://valaxy.site/posts/hello-zm</guid>
+            <pubDate>Sat, 24 Feb 2024 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>邂逅</h2>
+<p>第一篇个人博客</p>
+]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+    </channel>
+</rss>

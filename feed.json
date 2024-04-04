@@ -1,0 +1,50 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "ZM's Blog",
+    "home_page_url": "https://valaxy.site/",
+    "feed_url": "https://valaxy.site/feed.json",
+    "description": "唱，跳，rap~~",
+    "icon": "https://foruda.gitee.com/avatar/1708772741724750297/10223838_wzm_love_coding_1708772741.png!avatar200",
+    "author": {
+        "name": "前端练习生zm",
+        "url": "https://valaxy.site"
+    },
+    "items": [
+        {
+            "id": "",
+            "content_html": "<h3>清明假期</h3>\n<ul>\n<li>今天待在出租屋，明天打算去西湖玩；</li>\n<li>好无聊啊~~</li>\n</ul>\n",
+            "url": "https://valaxy.site/posts/20240404",
+            "title": "清明假期",
+            "date_modified": "2024-04-04T00:00:00.000Z",
+            "date_published": "2024-04-04T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "",
+            "content_html": "<h3>git rebase介绍</h3>\n<ul>\n<li>git rebase是git的一个分支管理命令，它允许你将一个分支的提交历史重写到另一个分支上。</li>\n<li>git rebase命令主要用途：将一个分支的提交历史重写</li>\n</ul>\n",
+            "url": "https://valaxy.site/posts/git-use",
+            "title": "Git 使用",
+            "date_modified": "2024-03-31T00:00:00.000Z",
+            "date_published": "2024-03-31T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "",
+            "content_html": "<h2>邂逅</h2>\n<p>第一篇个人博客</p>\n",
+            "url": "https://valaxy.site/posts/hello-zm",
+            "title": "Hello, ZM!",
+            "date_modified": "2024-02-24T00:00:00.000Z",
+            "date_published": "2024-02-24T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        }
+    ]
+}

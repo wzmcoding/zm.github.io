@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://valaxy.site/</id>
+    <title>ZM's Blog</title>
+    <updated>2024-04-04T08:49:52.327Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <author>
+        <name>前端练习生zm</name>
+        <email>i@valaxy.site</email>
+        <uri>https://valaxy.site</uri>
+    </author>
+    <link rel="alternate" href="https://valaxy.site/"/>
+    <link rel="self" href="https://valaxy.site/atom.xml"/>
+    <subtitle>唱，跳，rap~~</subtitle>
+    <logo>https://foruda.gitee.com/avatar/1708772741724750297/10223838_wzm_love_coding_1708772741.png!avatar200</logo>
+    <icon>https://valaxy.site/favicon.svg</icon>
+    <rights>CC BY-NC-SA 4.0 2024 © 前端练习生zm</rights>
+    <entry>
+        <title type="html"><![CDATA[清明假期]]></title>
+        <id>https://valaxy.site/posts/20240404</id>
+        <link href="https://valaxy.site/posts/20240404"/>
+        <updated>2024-04-04T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[<h3>清明假期</h3>
+<ul>
+<li>今天待在出租屋，明天打算去西湖玩；</li>
+<li>好无聊啊~~</li>
+</ul>
+]]></content>
+        <author>
+            <name>前端练习生zm</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-04-04T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Git 使用]]></title>
+        <id>https://valaxy.site/posts/git-use</id>
+        <link href="https://valaxy.site/posts/git-use"/>
+        <updated>2024-03-31T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[<h3>git rebase介绍</h3>
+<ul>
+<li>git rebase是git的一个分支管理命令，它允许你将一个分支的提交历史重写到另一个分支上。</li>
+<li>git rebase命令主要用途：将一个分支的提交历史重写</li>
+</ul>
+]]></content>
+        <author>
+            <name>前端练习生zm</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-03-31T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hello, ZM!]]></title>
+        <id>https://valaxy.site/posts/hello-zm</id>
+        <link href="https://valaxy.site/posts/hello-zm"/>
+        <updated>2024-02-24T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[<h2>邂逅</h2>
+<p>第一篇个人博客</p>
+]]></content>
+        <author>
+            <name>前端练习生zm</name>
+            <email>i@valaxy.site</email>
+            <uri>https://valaxy.site</uri>
+        </author>
+        <published>2024-02-24T00:00:00.000Z</published>
+    </entry>
+</feed>
