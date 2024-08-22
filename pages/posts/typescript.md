@@ -2,10 +2,10 @@
 title: 重学TypeScript
 date: 2024-08-22
 updated: 2024-08-22
-categories: TS
+categories: TypeScript
 tags:
-  - TS
-top: 1
+  - TypeScript
+top: 2
 ---
 
 ```typescript
