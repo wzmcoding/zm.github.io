@@ -186,3 +186,84 @@ feedCat(new Dog())
 ```
 
 
+## 类型系统层级
+```typescript
+// 在代码中判断类型兼容性主要使用条件类型判断，比如：
+type Result = 'xxx' extends string ? 1 : 2;
+// 也可以通过赋值来进行兼容性检查：
+declare let source: string;
+declare let anyType: any;
+declare let neverType: never;
+
+anyType = source;
+
+// 不能将类型“string”分配给类型“never”。
+// neverType = source;
+// 如果 a = b 成立，即意味着 <变量 b 的类型> extends <变量 a 的类型>
+// 即 b 类型是 a 类型的子类型
+
+// 在 TypeScript 中最底层的类型是 never  它代表了一个根本不存在的类型
+// 对于这个类型他是任何类型的子类型，也包括了各种字面量类型：
+type Rusult = never extends 'xxx' ? 1 : 2; // 1
+type Result111 = never extends string ? true : false // true
+
+// 对于不存在的类型，我们可能会想到一些特殊的类型，比如 null、undefined、void，但在TypeScript 中，
+// void、undefined、null 都是切实存在、有实际意义的类型，
+// 它们和 string、number、object 并没有什么本质区别。
+type Result1 = undefined extends 'xxx' ? 1 : 2; // 2
+type Result2 = null extends 'xxx' ? 1 : 2; // 2
+type Result3 = void extends 'xxx' ? 1 : 2; // 2
+```
+
+
+## 原始类型与联合类型
+- 最底层类型往上就是我们经常接触的原始类型了，
+- 一个基础类型和它们对应的字面量类型必定存在父子类型关系，
+- 同时对于类型 object，它代表着所有非原始类型的类型，即数组、对象与函数类型。
+```typescript
+  type Result4 = "xxx" extends string ? 1 : 2; // 1
+  type Result5 = 1 extends number ? 1 : 2; // 1
+  type Result6 = true extends boolean ? 1 : 2; // 1
+  type Result7 = { name: string } extends object ? 1 : 2; // 1
+  type Result8 = { name: 'xxx' } extends object ? 1 : 2; // 1
+  type Result9 = [] extends object ? 1 : 2; // 1
+  type Result10 = string extends string | false | number ? 1 : 2; // 1
+  // 如果一个联合类型由同一个基础类型的类型字面量组成，那与该原始类型也存在父子关系：
+  type Result11 = 'aa' | 'bb' | 'cc' extends string ? 1 : 2; // 1
+  type Result12 = {} | (() => void) | [] extends object ? 1 : 2; // 1
+  // 结论：
+  // 1. 字面量类型 < 包含此字面量类型的联合类型，原始类型 < 包含此原始类型的联合类型
+  // 2. 同一基础类型的字面量联合类型 < 此基础类型。
+```
+
+
+## 装箱类型
+- 原始类型是其装箱类型的子类型，比如 string 类型会是 String 类型的子类型，同时 String 类型会是 Object 类型的子类型。
+```typescript
+  type Result13 = String extends {} ? 1 : 2; // 1
+  // 需要注意的一点是⚠️：{} 是 object 的字面量类型，从前文我们可知 {} 是 objcet 的子类型，
+  // 看起来这就构建起了string < {} < object 这个类型链，但实际上 string extends object 并不成立：
+  type Result14 = string extends object ? 1 : 2; // 2
+
+  // 由于结构化类型系统的存在，TypeScript 中存在着一些看着不符合直觉的类型关系：
+  type Result15 = {} extends object ? 1 : 2; // 1
+  type Result16 = object extends {} ? 1 : 2; // 1
+
+  type Result17 = object extends Object ? 1 : 2; // 1
+  type Result18 = Object extends object ? 1 : 2; // 1
+
+  type Result19 = Object extends {} ? 1 : 2; // 1
+  type Result20 = {} extends Object ? 1 : 2; // 1
+
+  // 1. {} extends object 和 {} extends Object 意味着， {} 是 object 和 Object 的字面量类型，
+  //    是从类型信息的层面出发的，即字面量类型在基础类型之上提供了更详细的类型信息。
+  // 2. object extends {} 和 Object extends {} 则是从结构化类型系统的比较出发的，
+  //    即 {} 作为一个一无所有的空对象，几乎可以被视作是所有类型的基类，万物的起源。
+  // 3. object extends Object 和 Object extends object 这两者的情况就要特殊一些，
+  //    它们是因为“系统设定”的问题，Object 包含了所有除 Top Type 以外的类型（基础类型、函数类型等），
+  //    object 包含了所有非原始类型的类型，即数组、对象与函数类型，这就导致了你中有我、我中有你的神奇现象。
+
+  // 结论：只关注从类型信息层面出发部分的话，即 原始类型 < 原始类型对应的装箱类型 < Object 类型
+```
+
+
