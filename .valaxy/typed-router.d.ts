@@ -49,7 +49,7 @@ declare module 'vue-router/auto/routes' {
     '/girls/': RouteRecordInfo<'/girls/', '/girls', Record<never, never>, Record<never, never>>,
     '/links/': RouteRecordInfo<'/links/', '/links', Record<never, never>, Record<never, never>>,
     '/page/[page]': RouteRecordInfo<'/page/[page]', '/page/:page', { page: ParamValue<true> }, { page: ParamValue<false> }>,
-    '/posts/git-use': RouteRecordInfo<'/posts/git-use', '/posts/git-use', Record<never, never>, Record<never, never>>,
+    '/posts/git-use/': RouteRecordInfo<'/posts/git-use/', '/posts/git-use', Record<never, never>, Record<never, never>>,
     '/posts/hello-zm': RouteRecordInfo<'/posts/hello-zm', '/posts/hello-zm', Record<never, never>, Record<never, never>>,
     '/tags/': RouteRecordInfo<'/tags/', '/tags', Record<never, never>, Record<never, never>>,
   }
