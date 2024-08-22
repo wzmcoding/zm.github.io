@@ -323,18 +323,20 @@ function transformDogAndBark(dogFactory: DogFactory) {
 ```
 
 ## 各类型的逆变协变 在 TypeScript 中，协变和逆变主要应用于泛型类型（如数组、Promise、Set、Map、Record等）以及函数类型。下面是这些类型的协变和逆变特性的概述：
-  1. 数组 (Array)
-     协变：TypeScript中的数组默认是协变的。如果类型 A 是类型 B 的子类型，那么 Array<A> 也可以视为 Array<B> 的子类型。
-  2. Promise (Promise)
-     协变：Promise同样是协变的。如果类型 A 是类型 B 的子类型，那么 Promise<A> 可以被赋值给 Promise<B> 的引用。
-  3. Set (Set)
-     协变：Set在TypeScript中也是协变的。如果类型 A 是类型 B 的子类型，那么 Set<A> 可以被视为 Set<B> 的子类型。
-  4. Map (Map)
-     协变：Map的值 (V) 是协变的，如果类型 V1 是类型 V2 的子类型，那么 Map V1 可以被视为 Map V2 的子类型。
-     键 (K) 不是协变也不是逆变的。键必须保持精确匹配，不能以子类型或超类型替代。
-  5. Record (Record)
-     协变：Record的值 (T) 是协变的。如果类型 A 是类型 B 的子类型，那么 Record<T,A> 可以被视为 Record<T,B> 的子类型。
-  6. 函数 (Function)
-     参数类型（逆变）：在启用 --strictFunctionTypes 标志时，函数参数是逆变的。如果类型 A 是类型 B 的子类型，那么 (b: B) => void 可以视为 (a: A) => void 的子类型。
-     这是因为一个接受更通用类型 B 的函数可以安全地处理类型 A 的实例。
-     返回类型（协变）：函数的返回类型是协变的。如果类型 A 是类型 B 的子类型，那么 () => A 可以视为 () => B 的子类型。
+```typescript
+  // 1. 数组 (Array)
+  //    协变：TypeScript中的数组默认是协变的。如果类型 A 是类型 B 的子类型，那么 Array<A> 也可以视为 Array<B> 的子类型。
+  // 2. Promise (Promise)
+  //    协变：Promise同样是协变的。如果类型 A 是类型 B 的子类型，那么 Promise<A> 可以被赋值给 Promise<B> 的引用。
+  // 3. Set (Set)
+  //    协变：Set在TypeScript中也是协变的。如果类型 A 是类型 B 的子类型，那么 Set<A> 可以被视为 Set<B> 的子类型。
+  // 4. Map (Map)
+  //    协变：Map的值 (V) 是协变的，如果类型 V1 是类型 V2 的子类型，那么 Map V1 可以被视为 Map V2 的子类型。
+  //    键 (K) 不是协变也不是逆变的。键必须保持精确匹配，不能以子类型或超类型替代。
+  // 5. Record (Record)
+  //    协变：Record的值 (T) 是协变的。如果类型 A 是类型 B 的子类型，那么 Record<T,A> 可以被视为 Record<T,B> 的子类型。
+  // 6. 函数 (Function)
+  //    参数类型（逆变）：在启用 --strictFunctionTypes 标志时，函数参数是逆变的。如果类型 A 是类型 B 的子类型，那么 (b: B) => void 可以视为 (a: A) => void 的子类型。
+  //    这是因为一个接受更通用类型 B 的函数可以安全地处理类型 A 的实例。
+  //    返回类型（协变）：函数的返回类型是协变的。如果类型 A 是类型 B 的子类型，那么 () => A 可以视为 () => B 的子类型。
+```
