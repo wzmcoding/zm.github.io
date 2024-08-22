@@ -267,3 +267,74 @@ type Result3 = void extends 'xxx' ? 1 : 2; // 2
 ```
 
 
+## 顶层类型
+- 再往上就到了类型层级的顶端，在这里只有 any 和 unknow ，
+- 这两个类型是系统中设定为Top Type 的两个类型，
+- 所有的类型都会是这两个类型的子类型。那么如果他们和其他类型进行比较呢：
+```typescript
+  type Result21 = any extends Object ? 1 : 2; // 1 | 2
+  type Result22 = unknown extends Object ? 1 : 2; // 2
+
+  // 可以看到 any 的比较结果是不太一样的，和其他类型的比较也是：
+  type Result23 = any extends 'xxx' ? 1 : 2; // 1 | 2
+  type Result24 = any extends string ? 1 : 2; // 1 | 2
+  type Result25 = any extends {} ? 1 : 2; // 1 | 2
+  type Result26 = any extends never ? 1 : 2; // 1 | 2
+
+  /**
+  * any 代表了任何可能的类型，当我们使用 any extends 时，它包含了“让条件成立的一部分”，以及“让条件不成立的一部分”。
+  * 而从实现上说，在 TypeScript 内部代码的条件类型处理中，
+  * 如果接受判断的是 any，那么会直接返回条件类型结果组成的联合类型。
+    */
+  // any 类型和 unknown 类型的比较也是互相成立的：
+  type Result27 = any extends unknown ? 1 : 2;  // 1
+  type Result28 = unknown extends any ? 1 : 2;  // 1
+
+  type ExampleType = Record<'a' | 'b' | 'c', number>;
+
+  const example: ExampleType = {
+    a: 1,
+    b: 2,
+    c: 3
+  };
+```
+
+
+
+## 函数类型：协变与逆变
+```typescript
+class Animal {
+  asPet() { }
+}
+
+class Dog007 extends Animal {
+  bark() { }
+}
+
+class Corgi extends Dog007 {
+  cute() { }
+}
+type DogFactory = (args: Dog007) => Dog007;
+
+function transformDogAndBark(dogFactory: DogFactory) {
+  const dog = dogFactory(new Dog007());
+  dog.bark();
+}
+```
+
+## 各类型的逆变协变 在 TypeScript 中，协变和逆变主要应用于泛型类型（如数组、Promise、Set、Map、Record等）以及函数类型。下面是这些类型的协变和逆变特性的概述：
+  1. 数组 (Array)
+     协变：TypeScript中的数组默认是协变的。如果类型 A 是类型 B 的子类型，那么 Array<A> 也可以视为 Array<B> 的子类型。
+  2. Promise (Promise)
+     协变：Promise同样是协变的。如果类型 A 是类型 B 的子类型，那么 Promise<A> 可以被赋值给 Promise<B> 的引用。
+  3. Set (Set)
+     协变：Set在TypeScript中也是协变的。如果类型 A 是类型 B 的子类型，那么 Set<A> 可以被视为 Set<B> 的子类型。
+  4. Map (Map)
+     协变：Map的值 (V) 是协变的，如果类型 V1 是类型 V2 的子类型，那么 Map V1 可以被视为 Map V2 的子类型。
+     键 (K) 不是协变也不是逆变的。键必须保持精确匹配，不能以子类型或超类型替代。
+  5. Record (Record)
+     协变：Record的值 (T) 是协变的。如果类型 A 是类型 B 的子类型，那么 Record<T,A> 可以被视为 Record<T,B> 的子类型。
+  6. 函数 (Function)
+     参数类型（逆变）：在启用 --strictFunctionTypes 标志时，函数参数是逆变的。如果类型 A 是类型 B 的子类型，那么 (b: B) => void 可以视为 (a: A) => void 的子类型。
+     这是因为一个接受更通用类型 B 的函数可以安全地处理类型 A 的实例。
+     返回类型（协变）：函数的返回类型是协变的。如果类型 A 是类型 B 的子类型，那么 () => A 可以视为 () => B 的子类型。
