@@ -227,7 +227,7 @@ import "virtual:windi.css";
 
 
 
-### 2. Tailwind CSS
+#### 2. Tailwind CSS
 ```bash
 pnpm install -D tailwindcss postcss autoprefixer
 ```
@@ -265,3 +265,329 @@ module.exports = {
 @tailwind utilities;
 ```
 - 现在项目中就可以使用tailwind了
+
+
+
+
+
+### 如何利用Lint工具链来保证代码风格和质量
+#### JS/TS 规范工具: ESLint
+- 初始化, `pnpm i eslint -D`
+- 接着执行 ESLint 的初始化命令，并进行如下的命令行交互, `npx eslint --init`
+- 接着 ESLint 会帮我们自动生成`.eslintrc.js`配置文件，也可能没有，自己建一个。需要注意的是，在上述初始化流程中我们并没有用 npm 安装依赖，需要进行手动安装:
+```bash
+pnpm i eslint-plugin-react@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest -D
+```
+##### 核心配置解读
+- parser解析器（ESLint 底层不支持 TypeScript，社区提供了`@typescript-eslint/parser`这个解决方案，专门为了 TypeScript 的解析而诞生）
+- parserOptions解析器选项，
+  这个配置可以对上述的解析器进行能力定制，默认情况下 ESLint 支持 ES5 语法，你可以配置这个选项，具体内容如下:
+  - ecmaVersion: 这个配置和 `Acron` 的 [ecmaVersion](https://github.com/acornjs/acorn/tree/master/acorn) 是兼容的，可以配置 `ES + 数字`(如 ES6)或者`ES + 年份`(如 ES2015)，也可以直接配置为`latest`，启用最新的 ES 语法。
+  - sourceType: 默认为`script`，如果使用 ES Module 则应设置为`module`
+  - ecmaFeatures: 为一个对象，表示想使用的额外语言特性，如开启 `jsx`。
+```bash
+  parserOptions: {
+    parser: '@typescript-eslint/parser',
+    ecmaVersion: 2020,
+    sourceType: 'module',
+    jsxPragma: 'React',
+    ecmaFeatures: {
+    jsx: true,
+  },
+}
+```
+- rules具体代码规则，`rules` 配置即代表在 ESLint 中手动调整哪些代码规则，比如`禁止在 if 语句中使用赋值语句`这条规则可以像如下的方式配置:
+在 rules 对象中，`key` 一般为`规则名`，`value` 为具体的配置内容，在上述的例子中我们设置为一个数组，数组第一项为规则的 `ID`，第二项为`规则的配置`。
+这里重点说一说规则的 ID，它的语法对所有规则都适用
+
+  - `off` 或 `0`: 表示关闭规则。
+  - `warn` 或 `1`: 表示开启规则，不过违背规则后只抛出 warning，而不会导致程序退出。
+  - `error` 或 `2`: 表示开启规则，不过违背规则后抛出 error，程序会退出。
+
+```ts
+// .eslintrc.js
+module.exports = {
+  // 其它配置省略
+  rules: {
+    // key 为规则名，value 配置内容
+    "no-cond-assign": ["error", "always"]
+  }
+}
+```
+具体的规则配置可能会不一样，有的是一个字符串，有的可以配置一个对象，可以参考 [ESLint 官方文档](https://cn.eslint.org/docs/rules/)。
+也能直接将 `rules` 对象的 `value` 配置成 ID，如: `"no-cond-assign": "error"`。
+- plugins
+  ESLint 本身也没有内置 TypeScript 的代码规则，这个时候 ESLint 的插件系统就派上用场了。我们需要通过添加 ESLint 插件来增加一些特定的规则，比如添加`@typescript-eslint/eslint-plugin` 来拓展一些关于 TS 代码的规则，如下代码所示:
+```js
+// .eslintrc.js
+module.exports = {
+  // 添加 TS 规则，可省略`eslint-plugin`
+  plugins: ['@typescript-eslint']
+}
+```
+值得注意的是，添加插件后只是拓展了 ESLint 本身的规则集，但 ESLint 默认并**没有开启**这些规则的校验！如果要开启或者调整这些规则，你需要在 rules 中进行配置，如:
+```js
+// .eslintrc.js
+module.exports = {
+  // 开启一些 TS 规则
+  rules: {
+    '@typescript-eslint/ban-ts-comment': 'error',
+    '@typescript-eslint/no-explicit-any': 'warn',
+  }
+}
+```
+- extends继承配置
+  extends 相当于`继承`另外一份 ESLint 配置，可以配置为一个字符串，也可以配置成一个字符串数组。主要分如下 3 种情况:
+
+1. 从 ESLint 本身继承；
+2. 从类似 `eslint-config-xxx` 的 npm 包继承；
+3. 从 ESLint 插件继承。
+```ts
+// .eslintrc.js
+module.exports = {
+   "extends": [
+     // 第1种情况
+     "eslint:recommended",
+     // 第2种情况，一般配置的时候可以省略 `eslint-config`
+     "standard",
+     // 第3种情况，可以省略包名中的 `eslint-plugin`
+     // 格式一般为: `plugin:${pluginName}/${configName}`
+     "plugin:react/recommended",
+     "plugin:@typescript-eslint/recommended",
+   ]
+}
+```
+   有了 extends 的配置，对于之前所说的 ESLint 插件中的繁多配置，我们就**不需要手动一一开启**了，通过 extends 字段即可自动开启插件中的推荐规则:
+```bash
+ extends: ["plugin:@typescript-eslint/recommended"]
+```
+- env 和 globals
+  这两个配置分别表示`运行环境`和`全局变量`，在指定的运行环境中会预设一些全局变量，比如:
+```js
+// .eslint.js
+module.export = {
+  "env": {
+    "browser": "true",
+    "node": "true"
+  }
+}
+```
+指定上述的 `env` 配置后便会启用浏览器和 Node.js 环境，这两个环境中的一些全局变量(如 `window`、`global` 等)会同时启用。
+有些全局变量是业务代码引入的第三方库所声明，这里就需要在`globals`配置中声明全局变量了。每个全局变量的配置值有 3 种情况:
+
+1. `"writable"`或者 `true`，表示变量可重写；
+2. `"readonly"`或者`false`，表示变量不可重写；
+3. `"off"`，表示禁用该全局变量。
+拿`jquery`举例，我们可以在配置文件中声明如下:
+```js
+// .eslintrc.js
+module.exports = {
+  "globals": {
+    // 不可重写
+    "$": false,
+    "jQuery": false
+  }
+}
+```
+##### 与 Prettier 强强联合
+虽然 ESLint 本身具备自动格式化代码的功能(`eslint --fix`)，但术业有专攻，ESLint 的主要优势在于`代码的风格检查并给出提示`，而在代码格式化这一块 Prettier 做的更加专业，因此我们经常将 ESLint 结合 Prettier 一起使用。
+```bash
+pnpm i prettier -D
+```
+在项目根目录新建`.prettierrc.js`配置文件，填写如下的配置内容:
+```ts
+// .prettierrc.js
+module.exports = {
+  printWidth: 80, //一行的字符数，如果超过会进行换行，默认为80
+  tabWidth: 2, // 一个 tab 代表几个空格数，默认为 2 个
+  useTabs: false, //是否使用 tab 进行缩进，默认为false，表示用空格进行缩减
+  singleQuote: true, // 字符串是否使用单引号，默认为 false，使用双引号
+  semi: true, // 行尾是否使用分号，默认为true
+  trailingComma: "none", // 是否使用尾逗号
+  bracketSpacing: true // 对象大括号直接是否有空格，默认为 true，效果：{ a: 1 }
+};
+```
+接下来我们将`Prettier`集成到现有的`ESLint`工具中，首先安装两个工具包:
+
+```bash
+pnpm i eslint-config-prettier eslint-plugin-prettier -D
+```
+其中`eslint-config-prettier`用来覆盖 ESLint 本身的规则配置，而`eslint-plugin-prettier`则是用于让 Prettier 来接管`eslint --fix`即修复代码的能力。
+
+在 `.eslintrc.js` 配置文件中接入 prettier 的相关工具链，最终的配置代码如下所示
+```js
+// .eslintrc.js
+module.exports = {
+  env: {
+    browser: true,
+    es2021: true
+  },
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    // 1. 接入 prettier 的规则
+    "prettier",
+    "plugin:prettier/recommended"
+  ],
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true
+    },
+    ecmaVersion: "latest",
+    sourceType: "module"
+  },
+  // 2. 加入 prettier 的 eslint 插件
+  plugins: ["react", "@typescript-eslint", "prettier"],
+  rules: {
+    // 3. 注意要加上这一句，开启 prettier 自动修复的功能
+    "prettier/prettier": "error",
+    quotes: ["error", "single"],
+    semi: ["error", "always"],
+    "react/react-in-jsx-scope": "off"
+  }
+};
+```
+
+#### 样式规范工具: Stylelint
+> Stylelint，一个强大的现代化样式 Lint 工具，用来帮助你避免语法错误和统一代码风格。
+
+Stylelint 主要专注于样式代码的规范检查，内置了 **170 多个 CSS 书写规则**，支持 **CSS 预处理器**(如 Sass、Less)，提供**插件化机制**以供开发者扩展规则，已经被 Google、Github 等**大型团队**投入使用。与 ESLint 类似，在规范检查方面，Stylelint 已经做的足够专业，而在代码格式化方面，我们仍然需要结合 Prettier 一起来使用。
+```bash
+pnpm i stylelint stylelint-prettier stylelint-config-prettier stylelint-config-recess-order stylelint-config-standard stylelint-config-standard-scss -D
+```
+然后，我们在 Stylelint 的配置文件`.stylelintrc.cjs`中一一使用这些工具套件:
+
+```js
+// .stylelintrc.cjs
+module.exports = {
+  // 注册 stylelint 的 prettier 插件
+  plugins: ['stylelint-prettier'],
+  // 继承一系列规则集合
+  extends: [
+    // standard 规则集合
+    'stylelint-config-standard',
+    // standard 规则集合的 scss 版本
+    'stylelint-config-standard-scss',
+    // 样式属性顺序规则
+    'stylelint-config-recess-order',
+    // 接入 Prettier 规则
+    'stylelint-config-prettier',
+    'stylelint-prettier/recommended'
+  ],
+  // 配置 rules
+  rules: {
+    // 开启 Prettier 自动格式化功能
+    'prettier/prettier': true
+  }
+};
+```
+
+可以发现 Stylelint 的配置文件和 ESLint 还是非常相似的，常用的`plugins`、`extends`和`rules`属性在 ESLint 同样存在，并且与 ESLint 中这三个属性的功能也基本相同。不过需要强调的是在 Stylelint 中 rules 的配置会和 ESLint 有些区别，对于每个具体的 rule 会有三种配置方式:
+
+- `null`，表示关闭规则。
+- 一个简单值(如 true，字符串，根据不同规则有所不同)，表示开启规则，但并不做过多的定制。
+- 一个数组，包含两个元素，即`[简单值，自定义配置]`，第一个元素通常为一个简单值，第二个元素用来进行更精细化的规则配置。
+
+接下来我们将 Stylelint 集成到项目中，回到 `package.json` 中，增加如下的 `scripts` 配置:
+
+```json
+{
+  "scripts": {
+    // 整合 lint 命令
+    "lint": "npm run lint:script && npm run lint:style",
+    // stylelint 命令
+    "lint:style": "stylelint --fix \"src/**/*.{css,scss}\""
+  }
+}
+```
+
+执行`pnpm run lint:style`即可完成样式代码的规范检查和自动格式化。
+
+
+
+#### Husky + lint-staged 的 Git 提交工作流集成
+##### 提交前的代码 Lint 检查
+- 在上文中我们提到了安装 `ESLint`、`Prettier`和`Stylelint`的 VSCode 插件或者 Vite 插件，在开发阶段提前规避掉代码格式的问题，但实际上这也只是将问题提前暴露，并不能保证规范问题能完全被解决，还是可能导致线上的代码出现不符合规范的情况。那么如何来避免这类问题呢？
+
+我们可以在代码提交的时候进行卡点检查，也就是拦截 `git commit` 命令，进行代码格式检查，只有确保通过格式检查才允许正常提交代码。社区中已经有了对应的工具——`Husky`来完成这件事情，让我们来安装一下这个工具:
+```bash
+pnpm i husky -D
+```
+- husky init
+init 命令简化了项目中的 husky 设置。它会在 .husky/ 中创建 pre-commit 脚本，并更新 package.json 中的 prepare 脚本。随后可根据你的工作流进行修改。
+```bash
+pnpm exec husky init
+```
+我们直接在 Husky 的钩子中执行 `npm run lint`，这会产生一个额外的问题: Husky 中每次执行`npm run lint`都对仓库中的代码进行全量检查，也就是说，即使某些文件并没有改动，也会走一次 Lint 检查，当项目代码越来越多的时候，提交的过程会越来越慢，影响开发体验。
+
+而`lint-staged`就是用来解决上述全量扫描问题的，可以实现只对存入`暂存区`的文件进行 Lint 检查，大大提高了提交代码的效率。首先，让我们安装一下对应的 npm 包:
+
+```bash
+pnpm i -D lint-staged
+```
+
+然后在 `package.json`中添加如下的配置:
+
+```json
+{
+  "lint-staged": {
+    "**/*.{js,jsx,tsx,ts}": [
+      "npm run lint:script",
+      "git add ."
+    ],
+    "**/*.{scss}": [
+      "npm run lint:style",
+      "git add ."
+    ]
+  }
+}
+```
+
+接下来我们需要在 Husky 中应用`lint-stage`，回到`.husky/pre-commit`脚本中，将原来的`npm run lint`换成如下脚本:
+
+```bash
+npx --no -- lint-staged
+```
+
+如此一来，我们便实现了提交代码时的`增量 Lint 检查`。
+##### 提交时的 commit 信息规范
+除了代码规范检查之后，Git 提交信息的规范也是不容忽视的一个环节，规范的 commit 信息能够方便团队协作和问题定位。首先我们来安装一下需要的工具库，执行如下的命令:
+```bash
+pnpm i commitlint @commitlint/cli @commitlint/config-conventional -D
+```
+
+接下来新建`.commitlintrc.js`
+```ts
+// .commitlintrc.js
+module.exports = {
+  extends: ["@commitlint/config-conventional"]
+};
+```
+一般我们直接使用`@commitlint/config-conventional`规范集就可以了，它所规定的 commit 信息一般由两个部分: `type` 和 `subject` 组成，结构如下:
+
+```js
+// type 指提交的类型
+// subject 指提交的摘要信息
+<type>: <subject>
+```
+
+常用的 `type` 值包括如下:
+
+- `feat`: 添加新功能。
+- `fix`: 修复 Bug。
+- `chore`: 一些不影响功能的更改。
+- `docs`: 专指文档的修改。
+- `perf`: 性能方面的优化。
+- `refactor`: 代码重构。
+- `test`: 添加一些测试代码等等。
+
+# Add commit message linting to commit-msg hook
+```bash
+echo "pnpm dlx commitlint --edit \$1" > .husky/commit-msg
+
+npm pkg set scripts.commitlint="commitlint --edit"
+echo "pnpm commitlint \${1}" > .husky/commit-msg
+```
+ok, 完成了 Git 提交信息的卡点扫描和规范检查。
