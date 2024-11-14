@@ -6,7 +6,7 @@ export default defineSiteConfig({
   title: `ZM's Blog`,
   author: {
     name: "前端练习生zm",
-    avatar: 'https://foruda.gitee.com/avatar/1708772741724750297/10223838_wzm_love_coding_1708772741.png!avatar200',
+    avatar: 'https://avatars.githubusercontent.com/u/99781695?v=4',
     status: {
       emoji: "🐔",
       message: '练习时长两年半~'
@@ -17,7 +17,7 @@ export default defineSiteConfig({
    * 站点图标
    */
   favicon:
-    "https://foruda.gitee.com/avatar/1708772741724750297/10223838_wzm_love_coding_1708772741.png!avatar200",
+    "https://avatars.githubusercontent.com/u/99781695?v=4",
   description: "唱，跳，rap~~",
   social: [
     {
