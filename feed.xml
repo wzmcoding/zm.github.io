@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>ZM's Blog</title>
+        <link>https://valaxy.site/</link>
+        <description>唱，跳，rap~~</description>
+        <lastBuildDate>Fri, 21 Feb 2025 14:02:03 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <image>
+            <title>ZM's Blog</title>
+            <url>https://avatars.githubusercontent.com/u/99781695?v=4</url>
+            <link>https://valaxy.site/</link>
+        </image>
+        <copyright>CC BY-NC-SA 4.0 2025 © 前端练习生zm</copyright>
+        <atom:link href="https://valaxy.site/feed.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[大文件分片上传]]></title>
+            <link>https://valaxy.site/posts/nestjs/index</link>
+            <guid>https://valaxy.site/posts/nestjs/index</guid>
+            <pubDate>Fri, 21 Feb 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h3>大文件上传介绍</h3>
+<ul>
+<li>把大文件分成小文件，然后并行上传</li>
+</ul>
+<h3><strong>如何拆分和合并</strong></h3>
+<ul>
+<li>通过 Blob的slice方法 对 File 分片,File是一种特殊的Blob</li>
+<li>合并：fs的</li>
+</ul>
+]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[前端工程化-vite]]></title>
+            <link>https://valaxy.site/posts/engineering/index</link>
+            <guid>https://valaxy.site/posts/engineering/index</guid>
+            <pubDate>Thu, 26 Sep 2024 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h3>前端工程的痛点</h3>
+<ul>
+<li>模块化需求</li>
+<li>兼容浏览器，编译高级语法</li>
+<li>线上代码的质量</li>
+<li>开发效率，项目的冷启动/二次启动时间、热更新时间</li>
+</ul>
+<h3>前端构建工具是如何解决以上问题的呢？</h3>
+<ul>
+<li>模</li>
+</ul>
+]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[数组去重]]></title>
+            <link>https://valaxy.site/posts/interview/index</link>
+            <guid>https://valaxy.site/posts/interview/index</guid>
+            <pubDate>Mon, 02 Sep 2024 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>filter 实现数组去重</h2>
+<pre><code class="language-typescript">interface Item {
+  id: number;
+  name: string;
+}
+
+const items: Item[]</code></pre>
+]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[重学TypeScript]]></title>
+            <link>https://valaxy.site/posts/typescript/index</link>
+            <guid>https://valaxy.site/posts/typescript/index</guid>
+            <pubDate>Thu, 22 Aug 2024 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<pre><code class="language-typescript">interface A {
+  [key: string]: string
+}
+const foo: A = {
+  &quot;666&quot;: '123',
+  11: &quot;xxx&quot;,</code></pre>
+]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[Git 使用]]></title>
+            <link>https://valaxy.site/posts/git-use/index</link>
+            <guid>https://valaxy.site/posts/git-use/index</guid>
+            <pubDate>Sun, 31 Mar 2024 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h3>git rebase介绍</h3>
+<ul>
+<li>git rebase是git的一个分支管理命令，它允许你将一个分支的提交历史重写到另一个分支上。</li>
+<li>git rebase命令主要用途：将一个分支的提交历史重写</li>
+</ul>
+]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+    </channel>
+</rss>
