@@ -8,14 +8,14 @@ tags:
 top: 1
 ---
 
-### **大文件上传介绍**
+### 大文件上传介绍
 - 把大文件分成小文件，然后并行上传
 
 ### **如何拆分和合并**
 - 通过 Blob的slice方法 对 File 分片,File是一种特殊的Blob
 - 合并：fs的createWriteStream方法支持指定 start,把每个分片按照不同位置写入文件。
 
-### **Nestjs实现**
+### Nestjs实现
 
 ```html
 <!DOCTYPE html>
@@ -178,7 +178,7 @@ export class AppController {
 </html>
 ```
 
-## **总结**
+## 总结
 
 当文件比较大的时候，文件上传会很慢，这时候一般我们会通过分片的方式来优化。
 
