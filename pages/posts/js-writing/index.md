@@ -544,25 +544,181 @@ start();
 ### 手写 Promise
 
 ```js
+class MyPromise {
+  // 构造方法
+  constructor(executor) {
+    // 初始化值
+    this.initValue();
+    // 初始化this指向
+    this.initBind();
+    // 执行传进来的函数
+    executor(this.resolve, this.reject);
+  }
 
+  initBind() {
+    // 初始化this
+    this.resolve = this.resolve.bind(this);
+    this.reject = this.reject.bind(this);
+  }
+
+  initValue() {
+    // 初始化值
+    this.PromiseResult = null; // 终值
+    this.PromiseState = "pending"; // 状态
+  }
+
+  resolve(value) {
+    // 如果执行resolve，状态变为fulfilled
+    this.PromiseState = "fulfilled";
+    // 终值为传进来的值
+    this.PromiseResult = value;
+  }
+
+  reject(reason) {
+    // 如果执行reject，状态变为rejected
+    this.PromiseState = "rejected";
+    // 终值为传进来的reason
+    this.PromiseResult = reason;
+  }
+}
 ```
 
 ### 手写 Promise.all
 
-```js
+Promise.all接收一个包含多个Promise的数组，当所有Promise都成功时，返回一个包含所有结果的数组；如果其中一个失败，就立即拒绝
 
+```js
+static all(promises) {
+  return new MyPromise((resolve, reject) => {
+    const result = [];
+    let count = 0;
+
+    // 处理空数组情况
+    if (promises.length === 0) {
+      resolve(result);
+      return;
+    }
+
+    const processItem = (index, item) => {
+      // 处理 thenable 对象（包括所有 Promise 类型）
+      if (item && (typeof item === 'object' || typeof item === 'function')) {
+        const then = item.then;
+        if (typeof then === 'function') {
+          then.call(
+            item,
+            res => processItem(index, res),  // 递归解析可能嵌套的 thenable
+            reject
+          );
+          return;
+        }
+      }
+
+      // 基础值或非 thenable 对象
+      result[index] = item;
+      if (++count === promises.length) resolve(result);
+    };
+
+    promises.forEach((promise, index) => {
+      processItem(index, promise);
+    });
+  });
+}
 ```
 
 ### 手写 Promise.race
 
-```js
+Promise.race 接收一个可迭代对象（通常是数组），返回一个新的 Promise，这个 Promise 的状态由第一个完成的 Promise 决定。
 
+```js
+static race(promises) {
+  // 返回一个新的 Promise 实例
+  return new MyPromise((resolve, reject) => {
+    // 检查传入的是否是可迭代对象
+    if (!promises || typeof promises[Symbol.iterator] !== 'function') {
+      // 如果参数不可迭代，立即 reject 并返回
+      return reject(new TypeError('Argument is not iterable'));
+    }
+
+    // 标记是否已有 Promise 完成
+    let isSettled = false;
+
+    // 遍历所有传入的 Promise 或值
+    for (const item of promises) {
+      // 将每个元素转换为 Promise（兼容普通值和其他 Promise 实现）
+      MyPromise.resolve(item).then(
+        // 成功回调
+        (value) => {
+          if (!isSettled) {
+            isSettled = true;
+            resolve(value); // 第一个成功的 Promise 触发 resolve
+          }
+        },
+        // 失败回调
+        (reason) => {
+          if (!isSettled) {
+            isSettled = true;
+            reject(reason); // 第一个失败的 Promise 触发 reject
+          }
+        }
+      );
+    }
+  });
+}
 ```
 
 ### 手写 Promise.allSettled
 
-```js
+Promise.allSettled 会等待所有 Promise 完成（无论成功或失败），返回一个包含所有结果的对象数组。
 
+```js
+static allSettled(promises) {
+  // 返回一个新的 Promise 实例
+  return new MyPromise((resolve, reject) => {
+    // 检查传入的是否是可迭代对象
+    if (!promises || typeof promises[Symbol.iterator] !== 'function') {
+      // 如果参数不可迭代，立即 reject 并返回类型错误
+      return reject(new TypeError('Argument is not iterable'));
+    }
+
+    // 如果传入空数组，立即 resolve 空数组
+    if (promises.length === 0) {
+      return resolve([]);
+    }
+
+    // 结果数组，保持原始顺序
+    const results = new Array(promises.length);
+    // 计数器，记录已处理的 Promise 数量
+    let settledCount = 0;
+
+    // 处理每个 Promise 的结果
+    const processResult = (index, value, status) => {
+      // 根据状态构造结果对象
+      results[index] = status === 'fulfilled'
+        ? { status: 'fulfilled', value }
+        : { status: 'rejected', reason: value };
+
+      // 增加计数器
+      settledCount++;
+
+      // 当所有 Promise 都处理完毕时 resolve 结果数组
+      if (settledCount === promises.length) {
+        resolve(results);
+      }
+    };
+
+    // 遍历所有 Promise
+    promises.forEach((promise, index) => {
+      // 将值转换为 Promise 以统一处理
+      MyPromise.resolve(promise)
+        .then(
+          // 成功回调
+          value => processResult(index, value, 'fulfilled'),
+          // 失败回调
+          reason => processResult(index, reason, 'rejected')
+        );
+    });
+  });
+}
 ```
 
 ### 手写一个 LazyMan 实现 sleep 机制
@@ -579,7 +735,56 @@ LazyMan("Tony").eat("breakfast").sleep(3).eat("lunch").sleep(1).eat("dinner");
 ```
 
 ```js
+function LazyMan(name) {
+  // 创建实例对象，维护任务队列
+  const instance = {
+    tasks: [], // 任务队列，存储待执行的任务函数
+  };
 
+  // 初始任务：输出名字，并返回一个已解决的Promise保证链式执行
+  const initTask = () => {
+    console.log(`Hi I am ${name}`);
+    return Promise.resolve();
+  };
+  instance.tasks.push(initTask); // 将初始任务加入队列
+
+  // 使用setTimeout将任务队列的执行放入事件循环的下一个周期
+  // 确保所有同步链式调用的任务都添加到队列后再开始执行
+  setTimeout(() => {
+    // 通过reduce链式调用Promise，实现任务顺序执行
+    instance.tasks.reduce((prevPromise, task) => {
+      // 将任务按顺序串联起来，前一个任务完成后再执行下一个
+      return prevPromise.then(() => task());
+    }, Promise.resolve()); // 初始Promise，开始执行队列
+  }, 0);
+
+  // 定义eat方法，接受食物名称并添加到任务队列
+  instance.eat = function (food) {
+    this.tasks.push(() => {
+      console.log(`I am eating ${food}`);
+      return Promise.resolve(); // 同步任务立即解决
+    });
+    return this; // 返回实例，支持链式调用
+  };
+
+  // 定义sleep方法，延迟指定时间后继续执行
+  instance.sleep = function (seconds) {
+    this.tasks.push(() => {
+      // 返回一个Promise，在指定时间后解决
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log(`等待${seconds}秒...`);
+          resolve(); // 延迟结束后解决Promise，继续后续任务
+        }, seconds * 1000); // 转换为毫秒
+      });
+    });
+    return this; // 返回实例，支持链式调用
+  };
+
+  // 返回实例对象，使其能够调用方法
+  return instance;
+}
+LazyMan("Tony").eat("breakfast").sleep(3).eat("lunch").sleep(1).eat("dinner");
 ```
 
 ### 手写 curry 函数，实现函数柯里化
