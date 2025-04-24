@@ -790,7 +790,50 @@ LazyMan("Tony").eat("breakfast").sleep(3).eat("lunch").sleep(1).eat("dinner");
 ### 手写 curry 函数，实现函数柯里化
 
 ```js
+/**
+ * 函数柯里化封装工具
+ * @param {Function} func 需要被柯里化的原函数
+ * @returns {Function} 柯里化后的新函数
+ */
+function curry(func) {
+  /**
+   * 柯里化包装函数
+   * @param {...any} args 累计传入的参数
+   */
+  return function curried(...args) {
+    // 检查已收集的参数是否满足原函数参数个数
+    if (args.length >= func.length) {
+      // 参数足够：执行原函数并返回结果
+      // 使用 apply 以保持正确的 this 指向
+      return func.apply(this, args);
+    } else {
+      // 参数不足：返回新函数继续收集参数
+      // 新函数会合并历史参数和新参数
+      return function (...args2) {
+        // 递归调用 curried 函数，合并参数列表
+        // 使用 apply 保持链式调用的 this 上下文
+        return curried.apply(this, args.concat(args2));
+      };
+    }
+  };
+}
 
+// 原始加法函数
+function sum(a, b, c) {
+  return a + b + c;
+}
+
+// 生成柯里化版本
+const curriedSum = curry(sum);
+
+// 典型链式调用
+console.log(curriedSum(1)(2)(3)); // 6
+
+// 混合参数调用
+console.log(curriedSum(1, 2)(3)); // 6
+
+// 最终立即执行
+console.log(curriedSum(1)(2, 3)); // 6
 ```
 
 ### 手写 compose 函数
@@ -798,37 +841,205 @@ LazyMan("Tony").eat("breakfast").sleep(3).eat("lunch").sleep(1).eat("dinner");
 compose 函数是函数式编程中的一个重要概念，它将多个函数组合成一个函数，从右到左执行。
 
 ```js
+/**
+ * 组合多个函数，从右到左执行。例如 compose(f, g, h) 等价于 (...args) => f(g(h(...args)))
+ * @param {...Function} fns 要组合的函数列表
+ * @returns {Function} 组合后的新函数
+ */
+const compose = (...fns) => {
+  // 边界情况处理：如果没有传入任何函数，返回一个 identity 函数（直接返回参数）
+  if (fns.length === 0) {
+    return (arg) => arg;
+  }
 
-```
+  // 边界情况处理：如果只传入一个函数，直接返回该函数
+  if (fns.length === 1) {
+    return fns[0];
+  }
 
-### 手写一个 LRU 缓存
+  /**
+   * 核心实现：通过 reduceRight 从右到左遍历函数列表
+   * prevFn：已组合的前序函数
+   * currentFn：当前遍历到的函数
+   * 返回值：一个新的组合函数，将当前函数包裹在外层
+   */
+  return fns.reduceRight(
+    (prevFn, currentFn) =>
+      // 每次返回一个新函数，该函数将参数传递给前序函数，再将结果传递给当前函数
+      (...args) =>
+        currentFn(prevFn(...args)),
+    // 初始值为 identity 函数，保证第一个执行的函数（最右侧）能接收原始参数
+    (x) => x,
+  );
+};
 
-```js
+// 测试 1：数学计算
+const add = (a, b) => a + b;
+const square = (x) => x * x;
+const double = (x) => x * 2;
 
+const mathComposed = compose(double, square, add);
+console.log(mathComposed(2, 3)); // 输出：50（add(5) → square(25) → double(50)）
+
+// 测试 2：字符串处理
+const greet = (name) => `Hello, ${name}!`;
+const exclaim = (str) => str + "!!!";
+const lower = (str) => str.toLowerCase();
+
+const strComposed = compose(lower, exclaim, greet);
+console.log(strComposed("Alice")); // 输出："hello, alice!!!!"
+
+// 测试 3：空函数情况
+const identity = compose();
+console.log(identity(5)); // 输出：5
 ```
 
 ### 使用 Vue3 Composable 组合式函数，实现 useCount
+```js
+const { count } = useCount() // count 初始值是 0 ，每一秒 count 加 1
+```
+
 
 ```js
+import { ref, onMounted, onUnmounted } from 'vue'
 
+export function useCount() {
+  const count = ref(0)
+  let timer = null
+
+  // 开始计数
+  const startCount = () => {
+    timer = setInterval(() => {
+      count.value++
+    }, 1000)
+  }
+
+  // 组件挂载时开始计数
+  onMounted(() => {
+    startCount()
+  })
+
+  // 组件卸载时清除定时器
+  onUnmounted(() => {
+    if (timer) {
+      clearInterval(timer)
+    }
+  })
+
+  return {
+    count,
+  }
+}
 ```
 
 ### 使用 Vue3 Composable 组合式函数，实现 useRequest
 
 ```js
+const { loading, data, error } = useRequest(url) // 可只考虑 get 请求
+```
 
+```js
+import { ref } from 'vue'
+
+export function useRequest(url) {
+  const data = ref(null)
+  const loading = ref(false)
+  const error = ref(null)
+
+  const fetchData = async () => {
+    loading.value = true
+    error.value = null
+
+    try {
+      const response = await fetch(url)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      data.value = await response.json()
+    } catch (e) {
+      error.value = e
+    } finally {
+      loading.value = false
+    }
+  }
+
+  // 立即执行请求
+  fetchData()
+
+  return {
+    data,
+    loading,
+    error,
+  }
+}
 ```
 
 ### 使用 React Hook 实现 useCount
 
 ```js
+// count 从 0 计数，每一秒 +1 （可使用 setInterval）
+const { count } = useCount()
+```
+```js
+import { useState, useEffect } from 'react'
 
+function useCount() {
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCount((prev) => prev + 1)
+    }, 1000)
+
+    // 清理函数，组件卸载时清除定时器
+    return () => clearInterval(timer)
+  }, [])
+
+  return { count }
+}
+
+export default useCount
 ```
 
 ### 使用 React Hook 实现 useRequest
+```js
+const { loading, data, error } = useRequest(url) // 可只考虑 get 请求
+```
 
 ```js
+import { useState, useEffect } from 'react'
 
+function useRequest(url) {
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true)
+      setError(null)
+
+      try {
+        const response = await fetch(url)
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        const result = await response.json()
+        setData(result)
+      } catch (e) {
+        setError(e)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [url])
+
+  return { data, loading, error }
+}
+
+export default useRequest
 ```
 
 ### 手写 VNode 对象，表示如下 DOM 节点
@@ -841,5 +1052,172 @@ compose 函数是函数式编程中的一个重要概念，它将多个函数组
 ```
 
 ```js
+const vnode = {
+  tag: "div",
+  props: {
+    class: "container",
+  },
+  children: [
+    {
+      tag: "img",
+      props: {
+        src: "x1.png",
+      },
+    },
+    {
+      tag: "p",
+      props: {},
+      children: ["hello"],
+    },
+  ],
+};
+```
 
+
+### 手写一个 LRU 缓存
+
+```js
+/**
+ * LRU 缓存实现：最近最少使用缓存策略，当缓存满时淘汰最久未使用的数据
+ * 使用哈希表（快速查找） + 双向链表（维护访问顺序）实现
+ */
+class LRUCache {
+  constructor(capacity) {
+    // 缓存容量限制
+    this.capacity = capacity;
+    // 哈希表用于O(1)时间复杂度查找键
+    this.cacheMap = new Map();
+    // 链表虚拟头节点（方便操作）
+    this.dummyHead = new Node(null, null);
+    // 链表虚拟尾节点
+    this.dummyTail = new Node(null, null);
+    // 初始化空链表
+    this.dummyHead.next = this.dummyTail;
+    this.dummyTail.prev = this.dummyHead;
+  }
+
+  /**
+   * 获取缓存值，并更新节点到链表头部（表示最近使用）
+   */
+  get(key) {
+    if (!this.cacheMap.has(key)) return -1;
+
+    const node = this.cacheMap.get(key);
+    // 将节点移动到链表头部
+    this.moveToHead(node);
+    return node.value;
+  }
+
+  /**
+   * 添加缓存，如果已存在则更新值并移动到头部
+   * 超过容量时删除链表尾节点
+   */
+  put(key, value) {
+    if (this.cacheMap.has(key)) {
+      // 存在则更新值并移动
+      const node = this.cacheMap.get(key);
+      node.value = value;
+      this.moveToHead(node);
+    } else {
+      // 创建新节点并添加到头部
+      const newNode = new Node(key, value);
+      this.cacheMap.set(key, newNode);
+      this.addToHead(newNode);
+
+      // 检查容量，超过则删除尾节点
+      if (this.cacheMap.size > this.capacity) {
+        const tailNode = this.removeTail();
+        this.cacheMap.delete(tailNode.key);
+      }
+    }
+  }
+
+  /**
+   * 将节点移动到链表头部（分两步：删除原位置 + 插入头部）
+   */
+  moveToHead(node) {
+    this.removeNode(node);   // 从原位置删除
+    this.addToHead(node);    // 插入到头部
+  }
+
+  /**
+   * 从链表中删除指定节点
+   */
+  removeNode(node) {
+    node.prev.next = node.next; // 前节点的next指向后节点
+    node.next.prev = node.prev; // 后节点的prev指向前节点
+  }
+
+  /**
+   * 在链表头部插入节点（插入到虚拟头节点之后）
+   */
+  addToHead(node) {
+    node.prev = this.dummyHead;      // 新节点prev指向虚拟头
+    node.next = this.dummyHead.next; // 新节点next指向原第一个节点
+    this.dummyHead.next.prev = node; // 原第一个节点的prev指向新节点
+    this.dummyHead.next = node;      // 虚拟头的next指向新节点
+  }
+
+  /**
+   * 删除链表尾节点（最久未使用的节点）
+   */
+  removeTail() {
+    const tailNode = this.dummyTail.prev; // 获取真实尾节点
+    this.removeNode(tailNode);            // 删除节点
+    return tailNode;                      // 返回被删除的节点
+  }
+}
+
+/**
+ * 双向链表节点类
+ */
+class Node {
+  constructor(key, value) {
+    this.key = key;    // 用于删除尾节点时同步删除Map中的键
+    this.value = value; // 存储的值
+    this.prev = null;   // 前驱指针
+    this.next = null;   // 后继指针
+  }
+}
+
+/* 实现思路说明：
+   1. 数据结构选择：
+      - 哈希表：实现O(1)时间复杂度的键值查找
+      - 双向链表：维护访问顺序，头部是最新访问的节点，尾部是最久未使用的节点
+
+   2. 关键操作：
+      - get操作：通过哈希表快速定位节点，并将节点移动到链表头部
+      - put操作：
+        a. 已存在：更新值并移动节点到头部
+        b. 不存在：创建新节点，添加到链表头部，若超过容量则删除尾节点
+
+   3. 链表操作细节：
+      - 使用虚拟头尾节点简化边界条件处理
+      - 移动节点时先删除后插入
+      - 删除尾节点时同步清理哈希表
+
+   4. 时间复杂度：
+      - 所有操作（get/put）都保持O(1)时间复杂度
+*/
+```
+关键点解释：
+
+双向链表维护访问顺序：最近访问的节点始终保持在链表头部，尾节点是最久未使用的
+
+虚拟头尾节点简化链表操作：避免处理null指针等边界情况
+
+哈希表快速定位节点：实现O(1)时间的查找操作
+
+节点移动策略：每次访问（get/put）都将节点移动到头部，保证链表顺序反映访问时间顺序
+
+容量控制：插入新节点时检查容量，超过则删除尾节点并同步清理哈希表
+
+示例使用：
+```js
+const cache = new LRUCache(2);
+cache.put(1, 1);
+cache.put(2, 2);
+cache.get(1);       // 返回 1，此时键1变为最近使用
+cache.put(3, 3);    // 插入键3，容量已满，淘汰最久未使用的键2
+cache.get(2);       // 返回 -1（已被淘汰）
 ```
