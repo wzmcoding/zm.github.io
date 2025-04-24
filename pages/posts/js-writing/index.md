@@ -1,7 +1,7 @@
 ---
 title: 手写常见js代码
 date: 2025-04-21
-updated: 2025-04-21
+updated: 2025-04-24
 categories: js手写
 tags:
   - js手写
