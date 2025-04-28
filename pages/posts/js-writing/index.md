@@ -198,6 +198,29 @@ throttleTest(5, 6);
 ### 手写 bind
 
 ```js
+Function.prototype.myBind = function(thisArg, ...args1) {
+    const func = this; // 获取原函数
+
+    // 定义绑定函数
+    const bound = function(...args2) {
+        // 判断是否通过 new 调用
+        const isNew = this instanceof bound;
+        // 确定 this 值
+        const thisBinding = isNew ? this : thisArg;
+        // 合并参数并调用原函数
+        return func.apply(thisBinding, args1.concat(args2));
+    };
+
+    // 继承原函数的原型链
+    bound.prototype = Object.create(func.prototype);
+    // 可选：保持原型的 constructor 属性
+    bound.prototype.constructor = bound;
+
+    return bound;
+};
+```
+
+```js
 Function.prototype.myBind = function (context, ...args) {
   // 1. 检查调用者是否为函数
   if (typeof this !== "function") {
@@ -418,6 +441,16 @@ bus.off("test", handler);
 ```
 
 ### 手写数组拍平 Array Flatten
+```js
+function Flatten(arr, depth = 1) {
+  if(!arr.length) return;
+  return arr.reduce((acc, cur) => {
+    return Array.isArray(cur) && depth > 0 ? [...acc, ...Flatten(cur, depth - 1)] : [...acc, cur]
+  }, [])
+}
+const arr = [1, [2, [3, [4, [5]]]]]
+console.log(Flatten(arr, 2))
+```
 
 ```js
 function Flatten(arr) {
@@ -518,8 +551,8 @@ function green() {
   console.log("绿色");
 }
 
-function blue() {
-  console.log("蓝色");
+function yellow() {
+  console.log("黄色");
 }
 
 function start() {
@@ -531,7 +564,7 @@ function start() {
       return light(green);
     })
     .then(() => {
-      return light(blue);
+      return light(yellow);
     })
     .finally(() => {
       return start();
@@ -1220,4 +1253,276 @@ cache.put(2, 2);
 cache.get(1);       // 返回 1，此时键1变为最近使用
 cache.put(3, 3);    // 插入键3，容量已满，淘汰最久未使用的键2
 cache.get(2);       // 返回 -1（已被淘汰）
+```
+
+
+### 测试
+
+```js
+Function.prototype.call = function(context = window, ...args) {
+  if (typeof this !== 'function') {
+    throw new TypeError('not a function')
+  }
+  const fnKey = Symbol('fn')
+  context[fnKey] = this
+  const result = context[fnKey](...args)
+  Reflect.deleteProperty(context, fnKey)
+  return result
+}
+
+Function.prototype.apply = function(context = window, arrArgs = []) {
+  if (typeof this !== 'function') {
+    throw new TypeError('not a function')
+  }
+  if(!Array.isArray(arrArgs) && !(arrArgs instanceof Object && arrArgs.hasOwnProperty('length'))) {
+    throw new TypeError('arrArgs is not an array')
+  }
+  const fnKey = Symbol('fn')
+  context[fnKey] = this
+  const result = context[fnKey](...args)
+  Reflect.deleteProperty(context, fnKey)
+  return result
+}
+
+function Flatten(arr, depth = 1) {
+  return arr.reduce((acc, cur) => {
+    return Array.isArray(cur) && depth > 0 ? [...acc, ...Flatten(cur, depth - 1)] : [...acc, cur]
+  }, [])
+}
+const arr = [1, [2, [3, [4, [5]]]]]
+console.log(Flatten(arr, 2))
+
+function parseQueryParams(url = window.location.href) {
+  const res = {}
+  const arr = url.split('?')[1]?.split('&') // name=zhangsan&age=18 -> [name=zhangsan, age=18]
+  for (const item of arr) {
+    if(!item) continue
+    let [key, value] = item.split('=')
+    key = decodeURIComponent(key.replace(/\+/g, ' '))
+    const decodeValue = decodeURIComponent(value.replace(/\+/g, ' '))
+    if(res.hasOwnProperty(key)) {
+      res[key] = [res[key], decodeValue]
+    } else {
+      res[key] = decodeValue
+    }
+  }
+  return res
+}
+
+console.log(parseQueryParams("http://www.baidu.com?name=zhangsan&age=18"))
+console.log(parseQueryParams("http://example.com?name=John%20Doe&age=25&hobby=编程&hobby=游泳"))
+
+console.log(unique([1, 2, 2, 3, 4, 4, 5]))
+
+function light(cb, time = 1000) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      cb()
+      resolve()
+    }, time)
+  })
+}
+
+function red(){
+  console.log('red')
+}
+function green(){
+  console.log('green')
+}
+function yellow(){
+  console.log('yellow')
+}
+function start() {
+  return Promise.resolve()
+  .then(() =>  light(red))
+  .then(() =>  light(yellow))
+  .then(() =>  light(green))
+  .finally(() => start())
+}
+start()
+
+
+### 1. 手写 Promise 构造函数
+
+// 自定义 Promise 构造函数
+function MyPromise(executor) {
+  this.status = 'pending'; // 初始状态为 pending
+  this.value = null; // 成功时的值
+  this.reason = null; // 失败时的原因
+  this.onFulfilledCallbacks = []; // 存储成功回调队列
+  this.onRejectedCallbacks = []; // 存储失败回调队列
+
+  // 定义 resolve 函数
+  const resolve = (value) => {
+    if (this.status === 'pending') {
+      this.status = 'fulfilled'; // 状态改为成功
+      this.value = value; // 保存成功的值
+      // 执行所有成功回调（异步）
+      this.onFulfilledCallbacks.forEach(fn => fn());
+    }
+  };
+
+  // 定义 reject 函数
+  const reject = (reason) => {
+    if (this.status === 'pending') {
+      this.status = 'rejected'; // 状态改为失败
+      this.reason = reason; // 保存失败原因
+      // 执行所有失败回调（异步）
+      this.onRejectedCallbacks.forEach(fn => fn());
+    }
+  };
+
+  try {
+    executor(resolve, reject); // 立即执行执行器函数
+  } catch (err) {
+    reject(err); // 执行器报错直接 reject
+  }
+}
+
+// 实现 then 方法
+MyPromise.prototype.then = function(onFulfilled, onRejected) {
+  // 处理回调的默认值（实现值穿透）
+  onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : value => value;
+  onRejected = typeof onRejected === 'function' ? onRejected : err => { throw err };
+
+  // 返回新的 Promise 实现链式调用
+  const promise2 = new MyPromise((resolve, reject) => {
+    // 封装处理回调的通用逻辑
+    const handleCallback = (callback, valueOrReason) => {
+      setTimeout(() => { // 模拟微任务（实际 Promise 是微任务）
+        try {
+          const x = callback(valueOrReason);
+          // 处理返回值可能是 Promise 的情况
+          if (x instanceof MyPromise) {
+            x.then(resolve, reject);
+          } else {
+            resolve(x);
+          }
+        } catch (err) {
+          reject(err);
+        }
+      }, 0);
+    };
+
+    // 当前状态为 fulfilled
+    if (this.status === 'fulfilled') {
+      handleCallback(onFulfilled, this.value);
+    } 
+    // 当前状态为 rejected
+    else if (this.status === 'rejected') {
+      handleCallback(onRejected, this.reason);
+    } 
+    // 当前状态为 pending，将回调加入队列
+    else {
+      this.onFulfilledCallbacks.push(() => handleCallback(onFulfilled, this.value));
+      this.onRejectedCallbacks.push(() => handleCallback(onRejected, this.reason));
+    }
+  });
+
+  return promise2;
+};
+
+### 2. 手写 `Promise.all`
+
+MyPromise.all = function(promises) {
+  return new MyPromise((resolve, reject) => {
+    const results = []; // 存储所有 Promise 的结果
+    let completedCount = 0; // 记录完成的 Promise 数量
+
+    // 遍历所有 Promise
+    promises.forEach((promise, index) => {
+      // 用 Promise.resolve 包裹，确保处理非 Promise 值
+      MyPromise.resolve(promise).then(
+        value => {
+          results[index] = value; // 按顺序保存结果
+          completedCount++;
+          // 全部完成时 resolve 结果数组
+          if (completedCount === promises.length) {
+            resolve(results);
+          }
+        },
+        reason => {
+          reject(reason); // 任何一个失败立即 reject
+        }
+      );
+    });
+
+    // 处理空数组情况
+    if (promises.length === 0) {
+      resolve(results);
+    }
+  });
+};
+
+### 3. 手写 `Promise.race`
+
+MyPromise.race = function(promises) {
+  return new MyPromise((resolve, reject) => {
+    // 遍历所有 Promise
+    promises.forEach(promise => {
+      // 用 Promise.resolve 包裹，确保处理非 Promise 值
+      MyPromise.resolve(promise).then(
+        value => resolve(value), // 第一个成功的结果 resolve
+        reason => reject(reason) // 第一个失败的结果 reject
+      );
+    });
+
+    // 处理空数组情况（原生 Promise.race 会永久 pending）
+  });
+};
+
+### 4. 手写 `Promise.allSettled`
+
+MyPromise.allSettled = function(promises) {
+  return new MyPromise((resolve) => {
+    const results = []; // 存储所有 Promise 的结果
+    let completedCount = 0; // 记录完成的 Promise 数量
+
+    // 遍历所有 Promise
+    promises.forEach((promise, index) => {
+      MyPromise.resolve(promise).then(
+        value => {
+          results[index] = { status: 'fulfilled', value }; // 记录成功结果
+          completedCount++;
+          if (completedCount === promises.length) {
+            resolve(results);
+          }
+        },
+        reason => {
+          results[index] = { status: 'rejected', reason }; // 记录失败结果
+          completedCount++;
+          if (completedCount === promises.length) {
+            resolve(results);
+          }
+        }
+      );
+    });
+
+    // 处理空数组情况
+    if (promises.length === 0) {
+      resolve(results);
+    }
+  });
+};
+
+### 实现思路总结
+
+1. **Promise 构造函数**  
+   - 通过 `status` 跟踪状态（pending/fulfilled/rejected）。
+   - 使用队列存储回调函数，确保异步执行。
+   - `resolve` 和 `reject` 修改状态并触发回调。
+   - `then` 方法返回新 Promise，处理链式调用和异步逻辑。
+
+2. **Promise.all**  
+   - 遍历所有 Promise，记录结果顺序。
+   - 使用计数器判断是否全部完成，全部成功则 resolve 结果数组。
+   - 任何一个失败立即 reject。
+
+3. **Promise.race**  
+   - 遍历所有 Promise，第一个完成（无论成功或失败）的结果直接决定返回 Promise 的状态。
+
+4. **Promise.allSettled**  
+   - 类似 `Promise.all`，但无论成功失败都记录结果。
+   - 最终返回包含所有结果的数组，每个结果标记状态（fulfilled/rejected）。
+
 ```
