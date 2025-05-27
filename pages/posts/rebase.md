@@ -1,3 +1,13 @@
+---
+title: git rebase合并多个commit 
+date: 2025-05-27
+updated: 2025-05-27
+categories: ZM 笔记
+tags:
+  - Git
+top: 2
+---
+
 ## git rebase合并多个commit 
 
 1. git rebase -i <想合并提交的前一个 commit hash>
