@@ -1,12 +1,111 @@
 ---
 title: 手写常见js代码
 date: 2025-04-21
-updated: 2025-04-24
+updated: 2025-06-05
 categories: js手写
 tags:
   - js手写
 top: 1
 ---
+
+### 手写findTreeNode
+
+```js
+const tree = {
+  id: 1,
+  name: 'root',
+  children: [
+    {
+      id: 2,
+      name: 'child1',
+      children: [
+        {
+          id: 3,
+          name: 'child2',
+          children: [
+            {
+              id: 4,
+              name: 'child3',
+              children: [
+                {
+                  id: 5,
+                  name: 'child4',
+                  children: []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 6,
+      name: 'child6',
+      children: [
+        {
+          id: 7,
+          name: 'child7',
+          children: [
+            {
+              id: 8,
+              name: 'child8',
+              children: []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+}
+
+/**
+ * 使用迭代的深度优先搜索（DFS）在树结构中查找指定 id 的节点
+ *
+ * @param {Object} tree - 要查找的树的根节点
+ * @param {number|string} id - 要查找的节点的唯一标识
+ * @returns {Object|null} 匹配 id 的节点对象，未找到返回 null
+ */
+function findTreeNode(tree, id) {
+  // 初始化栈，存放待遍历的节点，初始为根节点
+  const stack = [tree];
+  // 当栈不为空时循环
+  while (stack.length) {
+    // 弹出栈顶节点
+    const node = stack.pop();
+    // 判断当前节点 id 是否等于目标 id
+    if (node.id === id) {
+      // 找到目标节点，返回该节点
+      return node;
+    }
+    // 如果当前节点有子节点，则将所有子节点压入栈中
+    if (node.children && node.children.length) {
+      stack.push(...node.children);
+    }
+  }
+  // 遍历完整棵树未找到目标节点，返回 null
+  return null;
+}
+
+console.log(findTreeNode(tree, 8));
+
+
+// 使用cb
+function findTreeNode(tree, cb) {
+  const queue = [tree];
+  while (queue.length) {
+    const node = queue.pop();
+    if(cb(node)) {
+      return node
+    }
+    if(node.children?.length) {
+      queue.push(...node.children);
+    }
+  }
+  return null;
+}
+console.log(findTreeNode(tree, (node) => node.id === 8));
+console.log(findTreeNode(tree, (node) => node.key === 8));
+```
 
 ### 手写深拷贝，考虑循环引用
 
