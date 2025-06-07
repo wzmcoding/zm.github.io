@@ -1,12 +1,39 @@
 ---
 title: 手写常见js代码
 date: 2025-04-21
-updated: 2025-06-05
+updated: 2025-06-07
 categories: js手写
 tags:
   - js手写
 top: 1
 ---
+
+### 判断一个对象是否存在循环引用
+```js
+const obj = {
+  a: {
+    b: 1
+  },
+  c: {
+    d: 2
+  }
+}
+obj.e = obj
+// 判断是否为对象且不为 null
+function isObject(obj) {
+  return typeof obj === 'object' && obj !== null
+}
+
+// 检查对象是否有循环引用
+function hasCircRef(obj, set = new Set()) {
+  if (!isObject(obj)) return false // 不是对象直接返回 false
+  if (set.has(obj)) return true    // 已经遍历过，说明有环
+  set.add(obj)                     // 记录当前对象
+  // 递归检查所有属性值，传递 set 的副本，互不影响
+  return Object.values(obj).some(val => hasCircRef(val, new Set(set)))
+}
+hasCircRef(obj)
+```
 
 ### 手写findTreeNode
 
@@ -1506,11 +1533,11 @@ MyPromise.prototype.then = function(onFulfilled, onRejected) {
     // 当前状态为 fulfilled
     if (this.status === 'fulfilled') {
       handleCallback(onFulfilled, this.value);
-    } 
+    }
     // 当前状态为 rejected
     else if (this.status === 'rejected') {
       handleCallback(onRejected, this.reason);
-    } 
+    }
     // 当前状态为 pending，将回调加入队列
     else {
       this.onFulfilledCallbacks.push(() => handleCallback(onFulfilled, this.value));
@@ -1606,21 +1633,21 @@ MyPromise.allSettled = function(promises) {
 
 ### 实现思路总结
 
-1. **Promise 构造函数**  
+1. **Promise 构造函数**
    - 通过 `status` 跟踪状态（pending/fulfilled/rejected）。
    - 使用队列存储回调函数，确保异步执行。
    - `resolve` 和 `reject` 修改状态并触发回调。
    - `then` 方法返回新 Promise，处理链式调用和异步逻辑。
 
-2. **Promise.all**  
+2. **Promise.all**
    - 遍历所有 Promise，记录结果顺序。
    - 使用计数器判断是否全部完成，全部成功则 resolve 结果数组。
    - 任何一个失败立即 reject。
 
-3. **Promise.race**  
+3. **Promise.race**
    - 遍历所有 Promise，第一个完成（无论成功或失败）的结果直接决定返回 Promise 的状态。
 
-4. **Promise.allSettled**  
+4. **Promise.allSettled**
    - 类似 `Promise.all`，但无论成功失败都记录结果。
    - 最终返回包含所有结果的数组，每个结果标记状态（fulfilled/rejected）。
 
