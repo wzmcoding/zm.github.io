@@ -12,7 +12,7 @@ top: 1
 Vue 的响应式系统核心在于响应式对象的属性与 effect 副作用函数之间建立的依赖关系。让我们通过具体示例来理解这个概念：
 - 普通函数访问响应式数据
 
-```js
+```typescript
 import { ref } from 'vue'
 
 const count = ref(0)
@@ -31,7 +31,7 @@ setTimeout(() => {
 ```
 在这个例子中，虽然 fn 读取了响应式数据 count.value，但由于它不是在 effect 中执行的，因此当 count.value 发生变化时，该函数不会重新执行。
 - effect 中访问响应式数据
-```js
+```typescript
 import { ref, effect } from 'vue'
 
 const count = ref(0)
@@ -57,7 +57,7 @@ setTimeout(() => {
 - get：当我们读取 .value 的时候，触发 get 此时在 get 中会收集依赖，也就是建立响应式数据和 effect 之间的关联关系
 - set：当我们重新给 .value 赋值的时候，触发 set，此时在 set 中会找到之前 get 的时候收集的依赖，触发更新
 - ref.ts
-```js
+```typescript
 import { activeSub } from './effect'
 
 enum ReactiveFlags {
@@ -110,10 +110,16 @@ export function ref(value) {
 export function isRef(value) {
   return !!(value && value[ReactiveFlags.IS_REF])
 }
+```
+
 副作用函数 (Effect)
 副作用是指那些依赖响应式数据的函数，当数据发生变化时，这些函数会自动重新执行。
 - effect.ts
-// 当前正在收集的副作用函数，在模块中导出变量，这个时候当我执行 effect 的时候，我就把当前正在执行的函数，放到 activeSub 中，当然这么做只是为了我们在收集依赖的时候能找到它，如果你还是不理解，那你就把他想象成一个全局变量，这个时候如果执行 effect 那全局变量上就有一个正在执行的函数，就是 activeSub
+
+```typescript
+// 当前正在收集的副作用函数，在模块中导出变量，这个时候当我执行 effect 的时候，我就把当前正在执行的函数，放到 activeSub 中，
+// 当然这么做只是为了我们在收集依赖的时候能找到它，如果你还是不理解，那你就把他想象成一个全局变量，
+// 这个时候如果执行 effect 那全局变量上就有一个正在执行的函数，就是 activeSub
 export let activeSub
 
 // effect 函数用于注册副作用函数
@@ -126,7 +132,10 @@ export function effect(fn) {
   // 清空当前活跃的副作用函数
   activeSub = undefined
 }
+```
+
 这段代码实现了一个简单的响应式系统，它能够让我们追踪数据的变化并自动执行相关的更新操作。
+```typescript
 const count = ref(0)
 
 effect(() => {

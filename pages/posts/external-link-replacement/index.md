@@ -1,5 +1,5 @@
 ---
-title:
+title: 替换有道图片外链
 date: 2025-06-18
 updated: 2025-06-18
 categories: work-summary
@@ -13,7 +13,7 @@ top: 1
 - 在新增和编辑接口，将有道图片链接替换成自己的图片链接
 - 通过正则表达式匹配有道图片链接， 将图片上传到自己的图片服务器，然后替换链接
 
-```ts
+```typescript
 /**
  * 保存或者更新
  * @param params
