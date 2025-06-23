@@ -1,7 +1,7 @@
 ---
 title: 响应式
 date: 2025-06-15
-updated: 2025-06-17
+updated: 2025-06-23
 categories: 手写Vue3源码
 tags:
   - 手写Vue3源码
@@ -443,3 +443,263 @@ count 作为一个响应式数据源，如何与两个副作用 effect1 和 effe
 在这张图中，count 表示响应式数据 ref，effect1 和 effect2 表示副作用函数
 > count 通过 subs 指向了一个 link1 节点（头节点），这个头节点的 sub 指向了 effect1，这个 link 节点有一个 nextSub 属性，指向链表的下一个节点，link2，link2 的 sub 指向 effect2，当一秒钟后执行 count.value = 1 的时候，会触发 ref 的 set，在 set 中我们会通过 subs 遍历整个链表，找到 effect1 和 effect2 通知它们重新执行，它们在重新执行的过程中，会获取到最新的数据。
 
+#### 响应式数据的伴侣 - ReactiveEffect
+##### 构造函数
+我们之前的 effect 函数是这样的
+- effect
+```typescript
+export let activeSub = null
+
+// effect 函数用于注册副作用函数
+// 执行传入的函数，并在执行期间自动收集依赖
+export function effect(fn) {
+  // 设置当前活跃的副作用函数，方便在 get 中收集依赖
+  activeSub = fn
+  // 执行副作用函数，此时会触发依赖收集
+  fn()
+  // 清空当前活跃的副作用函数
+  activeSub = null
+}
+```
+但是实际上，vue 中需要考虑的问题比较多，所以 effect 函数中创建了一个类的实例，这个类就是
+`ReactiveEffect`
+- effect
+```typescript
+class ReactiveEffect {
+  // 表示当前是否被激活，如果为 false 则不收集依赖
+  active = true
+  constructor(public fn) {}
+
+  run() {
+    // 如果当前的 effect 未激活，那就不收集依赖，直接返回 fn 执行结果
+    if (!this.active) {
+      return this.fn()
+    }
+    // 将当前的 effect 保存到全局，以便于收集依赖
+    activeSub = this
+    try {
+      return this.fn()
+    } finally {
+      // fn 执行完毕后将 activeSub 回收
+      activeSub = undefined
+    }
+  }
+}
+
+export function effect(fn) {
+  // 创建一个 ReactiveEffect 实例
+  const e = new ReactiveEffect(fn)
+  e.run() // 执行 fn
+}
+```
+那么此时对应的 propagate 函数中的依赖触发也要修改，因为此时 activeSub 已经变成了一个对象
+- system.ts
+```typescript
+/*
+ * 传播更新的函数
+ * @param subs
+ */
+export function propagate(subs) {
+  let link = subs
+  let queuedEffect = []
+  while (link) {
+    queuedEffect.push(link.sub)
+    link = link.nextSub
+  }
+
+  queuedEffect.forEach((effect) => effect.run())
+}
+```
+
+#### 嵌套effect
+接着我们再来看一个案例：
+```typescript
+const count = ref(0)
+
+// effect1
+effect(() => {
+  // 🚨 effect2 在 effect1 中执行
+  effect(() => {
+    console.log('effect2', count.value)
+  })
+  console.log('effect1', count.value)
+})
+
+setTimeout(() => {
+  count.value = 1
+}, 1000)
+```
+老规矩，猜一下一秒钟后的打印结果。
+答案是：输出 'effect2' 1
+这不对啊，我们的预期应该是同时输出：输出 'effect2' 1 和 输出 'effect1' 1
+我们来看一下原因
+```typescript
+class ReactiveEffect {
+  // 表示当前是否被激活，如果为 false 则不收集依赖
+  active = true
+  constructor(public fn) {}
+
+  run() {
+    // 如果当前的 effect 未激活，那就不收集依赖，直接返回 fn 执行结果
+    if (!this.active) {
+      return this.fn()
+    }
+    // 将当前的 effect 保存到全局，以便于收集依赖
+    activeSub = this
+    try {
+      return this.fn()
+    } finally {
+      // fn 执行完毕后将 activeSub 回收
+      activeSub = undefined // 🚨 fn 执行完毕后，被置空了
+    }
+  }
+}
+```
+> activeSub = undefined 看一下这行代码，乍一看，似乎没有什么问题，但是，我们回到我们的案例中看一下，当 effect1 执行的时候，activeSub = effect1，然后在 effect1 中又创建了一个 effect2，此时执行 effect2 的 run 方法，然后马上 activeSub 又变成了 effect2，等 effect2 执行完毕后，将 activeSub 设置为 undefined，但是此时我们的 effect1 还没执行完毕对吧？那我后面访问到的 ref 就不会被收集到了，那么我们思考一下这个问题，当一个 effect 执行完毕后，我们是否需要把它设置为 undefined ？在我们这个案例中，肯定是不能的，那我们需要怎么做呢？我们可以考虑这样，我们在 activeSub = this 之前，也就是在 effect2 执行之前，activeSub 是有值的，它在 effect2 执行之前的值是 effect1，我们是不是可以把它保存起来，这样等 activeSub 执行完毕后，我们再把之前保存的值重新赋值给它，于是代码就变成了这样：
+
+```typescript
+class ReactiveEffect {
+  // 表示当前是否被激活，如果为 false 则不收集依赖
+  active = true
+  constructor(public fn) {}
+
+  run() {
+    // 💡 保存之前的 activeSub
+    const prevSub = activeSub
+    // 将当前的 effect 保存到全局，以便于收集依赖
+    activeSub = this
+    try {
+      return this.fn()
+    } finally {
+      // 💡 fn 执行完毕后将 activeSub 恢复为 prevSub
+      activeSub = prevSub
+    }
+  }
+}
+```
+> 这样我们在执行 activeSub = this 之前，先将它保存起来，等 fn 执行完毕后，再将它重新恢复，这样我们嵌套的问题就解决了，有的兄弟可能会说，那如果没有嵌套怎么办，如果没有嵌套，那第一次执行的时候，prevSub 就是 undefined，并不会影响我们的逻辑
+```typescript
+const count = ref(0)
+
+// effect1
+effect(() => {
+  // 🚨 effect2 在 effect1 中执行
+  effect(() => {
+    console.log('effect2', count.value)
+  })
+  console.log('effect1', count.value)
+})
+
+setTimeout(() => {
+  count.value = 1
+}, 1000)
+```
+
+此时这段代码在定时器修改完后会正常打印出：
+'effect2' 1
+'effect1' 1
+
+#### 调度器（scheduler）
+> 调度器是响应式系统重一个重要的概念，我们默认使用 effect 访问响应式属性的时候，会收集依赖，当然我们修改响应式属性后，这个 effect 的 fn 会重新执行，而 scheduler 的作用是，当响应式数据发生变化的时候，执行 scheduler，而不是重新执行 fn，当然我们在创建 effect 的时候，还是会执行 fn，因为要靠它收集依赖，我们来看一下：
+
+```typescript
+const count = ref(0)
+
+effect(
+  () => {
+    console.log('在 fn 中收集了依赖', count.value)
+  },
+  {
+    scheduler() {
+      console.log('scheduler', count.value)
+    }
+  }
+)
+
+setTimeout(() => {
+  // ⭐️ 由于传递了 scheduler ，所以我们更新响应式属性的时候，会触发 scheduler
+  count.value++ // scheduler
+}, 1000)
+```
+那么我们应该如何实现这个功能呢？其实说困难也困难，说简单也简单，我们来看下区别：
+- 默认：effect 在创建时会执行一次 fn，当 fn 中访问的响应式数据发生变化时，它会重新执行，此时无论是初始化，还是数据发生变化，都会重新执行 fn
+- 调度器：当我们传递了 scheduler，首次创建 effect 的时候，依然会执行 fn，但是当我们数据发生变化的时候，就会执行 scheduler，也就是说响应式数据触发更新的时候，要换台了，不能执行 fn 了，当然这一切都是建立在我们传递了 scheduler，或者说我们也可以这样，ReactiveEffect 本身就存在 scheduler，这个方法默认会帮我们调用 run 方法，但是如果我们传递了 scheduler，对象本身的 scheduler，这样就完成我们的功能了
+  那此时我们就假设 ReactiveEffect 本身的 scheduler 是直接调用 run 方法，
+
+```typescript
+class ReactiveEffect {
+  constructor(public fn) {}
+
+  run() {
+    // 先将当前的 effect 保存起来，用来处理嵌套的逻辑
+    const prevSub = activeSub
+
+    // 每次执行 fn 之前，把 this 放到 activeSub 上面
+    activeSub = this
+
+    try {
+      return this.fn()
+    } finally {
+      // 执行完成后，恢复之前的 effect
+      activeSub = prevSub
+    }
+  }
+
+  /**
+   * 默认调用 run，如果用户传了，那以用户的为主，实例属性的优先级，由于原型属性
+   */
+  scheduler() {
+    this.run()
+  }
+}
+
+export function effect(fn, options) {
+  const e = new ReactiveEffect(fn)
+  // 将传递的属性合并到 ReactiveEffect 的实例中
+  Object.assign(e, options)
+  // 执行 run 方法
+  e.run()
+}
+```
+当然此时我们的 propagate 中的执行的方法也需要修改一下，因为我们之前执行的是 run 方法
+```typescript
+/**
+ * 传播更新的函数
+ * @param subs
+ */
+export function propagate(subs) {
+  // 省略部分代码...
+
+  // 这里执行的是 run 方法
+  queuedEffect.forEach((effect) => effect.run())
+}
+```
+这里我们现在需要触发 scheduler 了，这里我们修改了几次了，我们索性这样，搞一个 notify 方法，我只管调用你的 notify 方法，至于你最终执行那个方法，你自己决定：
+```typescript
+/**
+ * 传播更新的函数
+ * @param subs
+ */
+export function propagate(subs) {
+  // 省略部分代码...
+
+  // 这里执行 notify 方法
+  queuedEffect.forEach((effect) => effect.notify())
+}
+```
+
+然后我们在 ReactiveEffect 中再添加一个 notify 方法
+```typescript
+class ReactiveEffect {
+  // 省略部分代码...
+
+  /**
+   * 通知更新的方法，如果依赖的数据发生了变化，会调用这个函数
+   */
+  notify() {
+    this.scheduler()
+  }
+
+  // 省略部分代码...
+}
+```
