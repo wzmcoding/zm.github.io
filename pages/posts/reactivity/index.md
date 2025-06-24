@@ -987,3 +987,147 @@ const newLink = {
 ```
 然后分别建立与 dep 和 sub 的关联关系：
 以上就是节点复用的流程
+
+#### 分支切换
+我们通过一个具体的例子来说明：
+```typescript
+const count = ref(0)
+const flag = ref(true)
+
+effect(() => {
+  if (flag.value) {
+    console.log(count.value)
+  } else {
+    console.log('不收集 count 了')
+  }
+})
+
+setTimeout(() => {
+  flag.value = false
+}, 1000)
+```
+这个例子里面我们可以看到，初始化的时候，effect 访问了 flag 和 count，此时会收集到这两个依赖，但是当一秒钟后，定时器触发 flag.value = false，
+此时我们就走了 else 的逻辑，按理说 count 变化就不应该触发我们的 effect 了，但是我们目前并不能做到这一点，本节我们来解决这个问题
+
+##### 依赖收集过程
+首次执行的时候 flag 为 true
+此时的数据结构：
+```typescript
+effect.deps = {
+  dep: flag依赖,
+  nextDep: {
+    dep: flag依赖,
+    nextDep: undefined
+  }
+}
+effect.depsTail = count依赖对应的Link
+```
+当 flag.value 变为 false 时：
+`effect -> flag依赖 -> nextDep需要清理 -> count依赖`
+
+##### 清理过程
+怎样拿到需要清理的依赖？
+```typescript
+const newLink = {
+  sub,
+  dep,
+  nextDep, // 这里的 nextDep 来自于之前复用失败的依赖
+  nextSub: undefined,
+  prevSub: undefined
+}
+```
+这里的关键是 `nextDep` 的传递，它保留了原有的依赖链，为后续清理提供了依据。
+在 `endTrack` 函数中：
+```typescript
+export function endTrack(sub: Sub) {
+  // 如果 depsTail 还有 nextDep，说明后面的依赖需要清理
+  if (sub.depsTail?.nextDep) {
+    // clearTracking 用来清理依赖，后续实现它，就是断开所有的关联关系
+    clearTracking(sub.depsTail.nextDep)
+    // 如果从尾节点后面开始的，那尾节点后面的就不要了，因为我们已经把它清理掉了
+    sub.depsTail.nextDep = undefined
+  }
+  // 如果 depsTail 为空但 deps 存在，说明这次执行没有收集到任何依赖
+  else if (!sub.depsTail && sub.deps) {
+    // clearTracking 用来清理依赖，后续实现它，就是断开所有的关联关系
+    clearTracking(sub.deps)
+    sub.deps = undefined // 如果从头节点开始清理的，那头节点就不要了
+  }
+}
+```
+
+##### 清理场景
+当 `flag.value` 变为 `false` 时：
+1. 只会收集 `flag` 的依赖
+2. `depsTail` 指向 `flag` 的 Link
+3. `depsTail.nextDep` 指向原来的 `count` 依赖
+4. 此时 `depsTail.nextDep` 存在，触发清理
+
+##### 完全没有收集到依赖
+`切换前： effect -> flag依赖 -> count依赖`
+`切换后： effect -需要清理> flag依赖 -需要清理> count依赖`
+例如：
+```typescript
+effect(() => {
+  if (false) {
+    console.log(count.value)
+  }
+})
+```
+此时：
+1. depsTail 为 undefined（没有收集到任何依赖）
+2. deps 存在（之前的依赖还在）
+3. 这种情况，从 deps 开始清理整个链表
+
+##### 清理函数实现
+```typescript
+/**
+ * 清理依赖关系
+ * @param link
+ */
+function clearTracking(link: Link) {
+  while (link) {
+    const { prevSub, nextSub, nextDep, dep } = link
+
+    /**
+     * 如果 prevSub 有，那就把 prevSub 的下一个节点，指向当前节点的下一个
+     * 如果没有，那就是头节点，那就把 dep.subs 指向当前节点的下一个
+     */
+
+    if (prevSub) {
+      prevSub.nextSub = nextSub
+      link.nextSub = undefined
+    } else {
+      dep.subs = nextSub
+    }
+
+    /**
+     * 如果下一个有，那就把 nextSub 的上一个节点，指向当前节点的上一个节点
+     * 如果下一个没有，那它就是尾节点，把 dep.depsTail 只想上一个节点
+     */
+    if (nextSub) {
+      nextSub.prevSub = prevSub
+      link.prevSub = undefined
+    } else {
+      dep.subsTail = prevSub
+    }
+
+    link.dep = link.sub = undefined
+
+    link.nextDep = undefined
+
+    link = nextDep
+  }
+}
+```
+
+##### 为什么要清理依赖
+1. 内存管理：防止内存泄漏
+2. 性能优化：避免不必要的更新计算
+3. 确保正确性：保证响应式系统的依赖关系准确性
+
+
+
+
+
+
