@@ -703,3 +703,287 @@ class ReactiveEffect {
   // 省略部分代码...
 }
 ```
+
+#### dep 和 sub 之间的双向链接
+我们来看一个案例
+```typescript
+const flag = ref(false)
+
+effect(() => {
+  console.count(flag.value)
+})
+
+btn.onclick = () => {
+  flag.value = !flag.value
+}
+```
+当我们点击按钮，此时会触发 effect 重新执行，这次执行，必然会触发 flag 的 get，从而再次收集依赖，
+此时 flag 的订阅者链表中已经有两个节点，并且它们同时指向同一个 effect，这必然会导致一次更新触发多次 effect，
+那么我们能不能想办法优化一下它呢？那肯定是可以的。
+我们先来设计一个结构，既然 dep 可以通过链表的节点找到 sub，那么我们能不能也让 sub 通过链表的节点找到 dep，
+这样我们每次重新执行的时候，都看一下，sub 和 dep 之间，有没有关联关系，如果有，那我们就不重新创建了，于是我们给链表设计成了这种结构：
+```typescript
+/**
+ * 依赖项
+ */
+interface Dep {
+  // 订阅者链表的头节点
+  subs: Link | undefined
+  // 订阅者链表的尾节点
+  subsTail: Link | undefined
+}
+
+/**
+ * 订阅者
+ */
+interface Sub {
+  // 依赖项链表的头节点
+  deps: Link | undefined
+  // 依赖项链表的尾节点
+  depsTail: Link | undefined
+}
+
+/**
+ * 链表节点
+ */
+export interface Link {
+  // 订阅者
+  sub: Sub
+  // 下一个订阅者节点
+  nextSub: Link | undefined
+  // 上一个订阅者节点
+  prevSub: Link | undefined
+  // 依赖项
+  dep: Dep
+
+  // 下一个依赖项节点
+  nextDep: Link | undefined
+}
+```
+那这样，我们的链表里面就同时保存了 dep 和 sub，并且我们给 ReactiveEffect 加一个单向链表，让它在重新执行时可以找到自己之前收集到的依赖，尝试复用：
+```typescript
+class ReactiveEffect {
+  /**
+   * 依赖项链表的头节点
+   */
+  deps: Link | undefined
+
+  /**
+   * 依赖项链表的尾节点
+   */
+  depsTail: Link | undefined
+
+  // 省略后续代码...
+}
+```
+然后 effect 在执行的时候，我们就要创建 sub 和 link 之间的关联关系了，怎么创建呢？当然和 dep 一样，在 link 函数中创建：
+```typescript
+/**
+ * 链接链表关系
+ * @param dep
+ * @param sub
+ */
+export function link(dep, sub) {
+  // 如果 activeSub 有，那就保存起来，等我更新的时候，触发
+  const newLink = {
+    sub,
+    dep,
+    nextDep: undefined,
+    nextSub: undefined,
+    prevSub: undefined
+  }
+
+  // 省略了 dep 和 link 创建关联关系的代码
+
+  //region 将链表节点和 sub 建立关联关系
+  /**
+   * 关联链表关系，分两种情况
+   * 1. 尾节点有，那就往尾节点后面加
+   * 2. 如果尾节点没有，则表示第一次关联，那就往头节点加，头尾相同
+   */
+  if (sub.depsTail) {
+    sub.depsTail.nextDep = newLink
+    sub.depsTail = newLink
+  } else {
+    sub.deps = newLink
+    sub.depsTail = newLink
+  }
+  //endregion
+}
+```
+好那这个结构搞好了之后，我们需要做什么呢？当 effect 执行完毕后，会收集到依赖，我们可以这样，当 effect 被通知更新的时候，
+我们把 depsTail 设置成 undefined
+那么此时，我们的 depsTail 指向 undefined，deps 指向 link1，
+这种情况下，我们可以视为它之前收集过依赖，在重新执行的时候，需要尝试着去复用，那么复用谁呢？肯定是先复用第一个，然后依次往后
+```typescript
+class ReactiveEffect {
+  run() {
+    // 先将当前的 effect 保存起来，用来处理嵌套的逻辑
+    const prevSub = activeSub
+
+    // 每次执行 fn 之前，把 this 放到 activeSub 上面
+    activeSub = this
+    // 这里在开始执行之前，我们将 depsTail 设置成 undefined
+    this.depsTail = undefined
+    try {
+      return this.fn()
+    } finally {
+      // 执行完成后，恢复之前的 effect    activeSub = prevSub
+    }
+  }
+}
+```
+好，那么此时我们进入到了第一种情况，就是 **头节点有，尾节点没有**，此时代表我们要尝试着去复用依赖项：
+```typescript
+export function link(dep, sub) {
+  const currentDep = sub.depsTail
+  // 如果尾节点没有，头节点有，那我们拿到头节点
+  const nextDep = currentDep === undefined ? sub.deps : undefined
+  // 看一下头节点有没有，如果头节点也有，那么我们看一下头节点的 dep 是不是等于当前我们要收集的 dep
+  if (nextDep && nextDep.dep === dep) {
+    // 相同，将尾节点指向头节点
+    sub.depsTail = nextDep
+    return
+  }
+}
+```
+当然我们还有另一种情况，就是有多个依赖，此时肯定尾节点还是有 nextDep 的，于是我们要再进一步复用 nextDep：
+```typescript
+export function link(dep, sub) {
+  //region 尝试复用链表节点
+  const currentDep = sub.depsTail
+  /**
+   * 分两种情况：
+   * 1. 如果头节点有，尾节点没有，那么尝试着复用头节点
+   * 2. 如果尾节点还有 nextDep，尝试复用尾节点的 nextDep
+   */
+  const nextDep = currentDep === undefined ? sub.deps : currentDep.nextDep
+  if (nextDep && nextDep.dep === dep) {
+    sub.depsTail = nextDep
+    return
+  }
+  //endregion
+}
+```
+总结需要复用 link 节点的两种情况：
+- 尾节点没有，头节点有，此时需要复用头节点
+- 尾结点有 nextDep 需要进一步复用 nextDep
+
+
+#### 节点复用
+我们先来看一下数据结构
+```typescript
+/**
+ * 依赖项
+ */
+interface Dep {
+  // 订阅者链表的头节点
+  subs: Link | undefined
+  // 订阅者链表的尾节点
+  subsTail: Link | undefined
+}
+
+/**
+ * 订阅者
+ */
+interface Sub {
+  // 依赖项链表的头节点
+  deps: Link | undefined
+  // 依赖项链表的尾节点
+  depsTail: Link | undefined
+}
+
+/**
+ * 链表节点
+ */
+export interface Link {
+  // 订阅者
+  sub: Sub
+  // 下一个订阅者节点
+  nextSub: Link | undefined
+  // 上一个订阅者节点
+  prevSub: Link | undefined
+  // 依赖项
+  dep: Dep
+  // 下一个依赖项节点
+  nextDep: Link | undefined
+}
+```
+我们每次触发 effect，都需要重新收集依赖，但是针对那些已经收集过的依赖，我们是不需要重复收集的，所以我们需要尝试着去复用之前收集过的依赖，
+但是我们需要知道，此次执行是需要复用依赖项的，所以我们可以这样，每次开始执行 fn 的时候，我们先把 depsTail 置空
+```typescript
+class ReactiveEffect {
+  run() {
+    // 先将当前的 effect 保存起来，用来处理嵌套的逻辑
+    const prevSub = activeSub
+    // 每次执行 fn 之前，把 this 放到 activeSub 上面
+    activeSub = this
+
+    // ⭐️ 每次执行 fn 之前，先把 depsTail 置空
+    this.depsTail = undefined
+
+    try {
+      return this.fn()
+    } finally {
+      // 执行完成后，恢复之前的 effect
+      activeSub = prevSub
+    }
+  }
+}
+```
+这样我们就可以明确的知道，以下两种情况是需要复用节点的
+- 头节点复用： deps存在，但 depsTail 为 undefined
+- nextDep复用： depsTail 存在且其 nextDep 可用
+
+##### 复用逻辑
+```typescript
+// 先拿到尾节点
+const currentDep = sub.depsTail
+/**
+ * 分两种情况：
+ * 1. 如果头节点有，尾节点没有，那么尝试着复用头节点
+ * 2. 如果尾节点还有 nextDep，尝试复用尾节点的 nextDep
+ */ const nextDep = currentDep === undefined ? sub.deps : currentDep.nextDep
+if (nextDep && nextDep.dep === dep) {
+  sub.depsTail = nextDep
+  return
+}
+```
+
+##### 头节点复用
+当 `depsTail` 为 `undefined` 时，系统会尝试复用 `deps`（头节点）。
+
+##### nextDep 复用
+当 `depsTail` 存在时，系统会尝试复用 `depsTail.nextDep`，就是 `nextDep2`
+
+复用的核心判断条件是：
+```typescript
+if (nextDep && nextDep.dep === dep)
+```
+这个条件确保：
+1. 待复用的节点存在
+2. 待复用节点的依赖项与当前依赖项相同
+   以上两条成立，会复用节点
+
+补充：
+1. deps 有, depsTail 没有，表示是收集第一个依赖，因为在执行 effect.fn 之前，已经把 depsTail 设置成 undefined 了，
+所以这个时候表示尝试复用链表的头节点，链表的头节点复用完成后，需要把 depsTail 指向当前已经复用成功的节点（就是 deps）此时头尾相同，
+注意此时有可能 depsTail 还有 nextDep，因为头节点可能有下一个节点
+
+2. 如果depsTail.nextDep有，表示本次是重新执行的，并且头节点已经复用完毕，此时需要尝试复用的节点，就是 depsTail.nextDep
+
+> 除了收集第一个依赖的时候，我们是用头节点去复用的，其他任何情况下，我们都会尝试复用 depsTail.nextDep
+
+##### 复用失败后的处理
+如果无法复用节点，系统会创建新的链表节点并建立双向关联：
+```typescript
+const newLink = {
+  sub,
+  dep,
+  nextDep,
+  nextSub: undefined,
+  prevSub: undefined
+}
+```
+然后分别建立与 dep 和 sub 的关联关系：
+以上就是节点复用的流程
