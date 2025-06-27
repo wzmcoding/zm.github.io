@@ -1,9 +1,9 @@
 import { defineSiteConfig } from "valaxy";
 
 export default defineSiteConfig({
-  url: "https://valaxy.site/",
+  url: "https://zm-github-io.vercel.app",
   lang: "zh-CN",
-  title: `ZM's Blog`,
+  title: `练习时长两年半~`,
   author: {
     name: "前端练习生zm",
     avatar: 'https://avatars.githubusercontent.com/u/99781695?v=4',
@@ -12,19 +12,25 @@ export default defineSiteConfig({
       message: '练习时长两年半~'
     }
   },
-  subtitle: '╮(╯▽╰)╭',
+  subtitle: 'cpdd~',
   /**
    * 站点图标
    */
   favicon:
     "https://avatars.githubusercontent.com/u/99781695?v=4",
-  description: "唱，跳，rap~~",
+  description: "唱，跳，rap，篮球~",
   social: [
     {
-      name: "Gitee",
-      link: "https://gitee.com/wzm_love_coding",
+      name: "GitHub",
+      link: "https://github.com/wzmcoding",
       icon: "i-ri-github-line",
       color: "#6e5494",
+    },
+    {
+      name: "wechat zm_15526070595",
+      link: "https://github.com/wzmcoding",
+      icon: "i-ri-wechat-fill",
+      color: "#78c93d",
     }
   ],
 
@@ -35,7 +41,7 @@ export default defineSiteConfig({
   sponsor: {
     enable: false,
   },
-  
+
   /**
    * 开启阅读统计
    */
@@ -51,7 +57,7 @@ export default defineSiteConfig({
       },
     },
   },
-  
+
   /**
    * 开启图片预览
    */

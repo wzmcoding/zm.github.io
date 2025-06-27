@@ -33,10 +33,10 @@ export default defineValaxyConfig<UserThemeConfig>({
     ],
 
     footer: {
-      since: 2024,
+      since: 2025,
       beian: {
         enable: true,
-        icp: '© 2024 - 2025 ZM',
+        icp: '© 2025 - 2026 ZM',
       },
     },
   },
