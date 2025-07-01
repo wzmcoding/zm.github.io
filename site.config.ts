@@ -28,7 +28,7 @@ export default defineSiteConfig({
     },
     {
       name: "wechat zm_15526070595",
-      link: "https://github.com/wzmcoding",
+      link: "",
       icon: "i-ri-wechat-fill",
       color: "#78c93d",
     }
