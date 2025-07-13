@@ -1,7 +1,7 @@
 ---
 title: 手写 computed
 date: 2025-07-04
-updated: 2025-07-07
+updated: 2025-07-13
 categories: 手写Vue3源码
 tags:
   - 手写Vue3源码
@@ -96,4 +96,82 @@ update() {
   return hasChanged(this._value, oldValue)
 }
 ```
+2. 在触发更新时会判断这个返回值：
+```typescript
+/**
+ * 处理 computed 更新逻辑
+ * @param computed
+ */
+function processComputedUpdate(computed) {
+  // 如果 subs 有，并且值变了，通知更新
+  if (computed.subs && computed.update()) {
+    // 💡 如果 update 返回 true，代表值发生了变化，通知所有 subs 更新
+    propagate(computed.subs)
+  }
+}
+/**
+ * 传播更新的函数
+ * @param subs
+ */
+export function propagate(subs) {
+  let link = subs
+  let queuedEffect = []
+  while (link) {
+    const sub = link.sub
+    if (!sub.tracking && !sub.dirty) {
+      // 先标记为 脏
+      sub.dirty = true
+      if ('update' in sub) {
+        // 💡 如果是 computed ，交给 processComputedUpdate 处理
+        processComputedUpdate(sub)
+      } else {
+        queuedEffect.push(sub)
+      }
+    }
+    link = link.nextSub
+  }
 
+  queuedEffect.forEach((effect) => effect.notify())
+}
+```
+只有当 `update()` 返回 `true`（即值发生变化）时，才会调用 `propagate` 通知订阅者更新。
+
+#### 5. Setter 的实现
+计算属性的 setter 实现相对简单：
+```typescript
+set value(newValue) {
+  if (this.setter) {
+    this.setter(newValue)
+  } else {
+    console.warn('我是只读的，你自己别瞎玩')
+  }
+}
+```
+创建计算属性时，可以通过两种方式：
+```typescript
+export function computed(getterOrOptions) {
+  let getter, setter
+
+  if (isFunction(getterOrOptions)) {
+    getter = getterOrOptions // 只读计算属性
+  } else {
+    getter = getterOrOptions.get // 可写计算属性
+    setter = getterOrOptions.set
+  }
+
+  return new ComputedRefImpl(getter, setter)
+}
+```
+如果只传入一个函数，则创建只读计算属性；如果传入一个包含 get 和 set 的对象，则创建可写计算属性。
+```typescript
+const count = ref(1)
+const double = computed(() => count.value * 2)
+
+effect(() => {
+  console.log(double.value) // 打印 2
+})
+
+setTimeout(() => {
+  count.value++ // 一秒钟后 count 变为 2，effect 重新执行打印 4
+}, 1000)
+```
