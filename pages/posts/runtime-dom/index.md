@@ -264,3 +264,6 @@ export function render(vnode, container) {
   return renderer.render(vnode, container)
 }
 ```
+
+- `monorepo` 子包安装依赖
+> `pnpm install @vue/reactivity @vue/shared --workspace --filter @vue/runtime-core`
