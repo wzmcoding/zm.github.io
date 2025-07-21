@@ -1,7 +1,7 @@
 ---
 title: diff
 date: 2025-07-20
-updated: 2025-07-20
+updated: 2025-07-21
 categories: 手写Vue3源码
 tags:
   - diff
@@ -134,4 +134,93 @@ if (i > e1) {
 
 
 ## 乱序 diff
+前面我们讲了双端 diff，但是并且举了几个例子，但是举的例子都是建立在数据比较理想的情况下，顺序也没有变，这种情况下是比较容易对比的，那么如果数据的顺序乱了呢？我们再来看一组案例：
+```typescript
+// c1 => [a, b, c, d, e]
+const vnode1 = h('div', [
+  h('p', { key: 'a', style: { color: 'blue' } }, 'a'),
+  h('p', { key: 'b', style: { color: 'blue' } }, 'b'),
+  h('p', { key: 'c', style: { color: 'blue' } }, 'c'),
+  h('p', { key: 'd', style: { color: 'blue' } }, 'd'),
+  h('p', { key: 'e', style: { color: 'blue' } }, 'e')
+])
+
+// c2 => [a, c, d, b, e]
+const vnode2 = h('div', [
+  h('p', { key: 'a', style: { color: 'red' } }, 'a'),
+  h('p', { key: 'c', style: { color: 'red' } }, 'c'),
+  h('p', { key: 'd', style: { color: 'red' } }, 'd'),
+  h('p', { key: 'b', style: { color: 'red' } }, 'b'),
+  h('p', { key: 'e', style: { color: 'red' } }, 'e')
+])
+
+render(vnode1, app)
+
+setTimeout(() => {
+  render(vnode2, app)
+}, 1000)
+```
+在这组数据中，我们可以看到，数据从 [a, b, c, d, e] 变为 [a, c, d, b, e]，这样的话顺序就发生了变化，但是这些 key 还是在的，所以我们就需要去找到对应的 key，进行 patch，此处我们先不考虑顺序的问题
+当双端 diff 结束后，此时 i = 1,e1 = 3,e2 = 3，此时 i 既不大于 e1 也不小于 e2，中间还有三个没有对比完，但是这些 key 还是在的，所以我们需要到 c1 中找到对应 key 的虚拟节点，进行 patch：
+```typescript
+// 老的子节点开始查找的位置 s1 - e1let s1 = i
+// 新的子节点开始查找的位置 s2 - e2let s2 = i
+
+/**
+ * 做一份新的子节点的key和index之间的映射关系
+ * map = {
+ *   c:1,
+ *   d:2, *   b:3 * }
+ */
+const keyToNewIndexMap = new Map()
+
+/**
+ * 遍历新的 s2 - e2 之间，这些是还没更新的，做一份 key => index map
+ */ for (let j = s2; j <= e2; j++) {
+  const n2 = c2[j]
+  keyToNewIndexMap.set(n2.key, j)
+}
+
+/**
+ * 遍历老的子节点
+ */
+for (let j = s1; j <= e1; j++) {
+  const n1 = c1[j]
+  // 看一下这个key在新的里面有没有
+  const newIndex = keyToNewIndexMap.get(n1.key)
+  if (newIndex != null) {
+    // 如果有，就patch
+    patch(n1, c2[newIndex], container)
+  } else {
+    // 如果没有，表示老的有，新的没有，需要卸载
+    unmount(n1)
+  }
+}
+```
+在这段代码中，我们声明了一个 keyToNewIndexMap 用来保存 c2 中 key 对应的 index，这样我们后续就可以快速的通过这个 key 找到对应的虚拟节点进行 patch，至此，该更新的就更新完了，但是目前顺序还是不对，我们需要遍历新的子节点，将每个子节点插入到正确的位置：
+```typescript
+/**
+ * 1. 遍历新的子元素，调整顺序，倒序插入
+ * 2. 新的有，老的没有的，我们需要重新挂载
+ */
+for (let j = e2; j >= s2; j--) {
+  /**
+   * 倒序插入
+   */
+  const n2 = c2[j]
+  // 拿到它的下一个子元素
+  const anchor = c2[j + 1]?.el || null
+  if (n2.el) {
+    // 依次进行倒序插入，保证顺序的一致性
+    hostInsert(n2.el, container, anchor)
+  } else {
+    // 新的有，老的没有，重新挂载
+    patch(null, n2, container, anchor)
+  }
+}
+```
+至此，真实 dom 更新完毕，顺序也 ok！
+
+## 最长递增子序列
+
 
