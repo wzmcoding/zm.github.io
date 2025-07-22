@@ -17,7 +17,7 @@ const vnode1 = h(Text, null, 'hello')
 // 将 vnode1 渲染到 app 元素中
 render(vnode1, app)
 ```
-这个功能其实也简单，我们并不需要修改虚拟 createVNode 中的代码，我们先来创建这个 Text 标记：
+这个功能其实也简单，我们并不需要修改虚拟 `createVNode` 中的代码，我们先来创建这个 `Text` 标记：
 - vnode.ts
 ```typescript
 // vnode.ts
@@ -26,7 +26,7 @@ render(vnode1, app)
  */
 export const Text = Symbol('v-txt')
 ```
-vnode.ts 中就做这一件事，其他的我们交给 renderer.ts 来处理
+`vnode.ts` 中就做这一件事，其他的我们交给 `renderer.ts` 来处理
 ```typescript
 const patch = (n1, n2, container, anchor = null) => {
   if (n1 === n2) {
@@ -62,7 +62,7 @@ const patch = (n1, n2, container, anchor = null) => {
   }
 }
 ```
-来看一下 processText
+来看一下 `processText`
 ```typescript
 /**
  * 处理文本的挂载和更新
@@ -86,8 +86,8 @@ const processText = (n1, n2, container, anchor) => {
   }
 }
 ```
-在 processText 中，我们判断 n1 是否为 null，如果是 null，表示是挂载，如果不是，表示是更新，我们通过 hostCreateText 创建一个文本节点，然后将它插入到容器中，最后将文本节点的 el 赋值给 n2.el，这样我们就可以复用这个节点了。
-完成这个功能后，我们再来扩展一个功能，比如我们之前渲染虚拟节点的 children，如果有多个子节点，我们只能传递 虚拟节点进去：
+在 `processText` 中，我们判断 `n1` 是否为 `null`，如果是 `null`，表示是挂载，如果不是，表示是更新，我们通过 `hostCreateText` 创建一个文本节点，然后将它插入到容器中，最后将文本节点的 `el` 赋值给 `n2.el`，这样我们就可以复用这个节点了。
+完成这个功能后，我们再来扩展一个功能，比如我们之前渲染虚拟节点的 `children`，如果有多个子节点，我们只能传递 虚拟节点进去：
 ```typescript
 const vnode = h('div', [h('span', 'hello'), h('span', 'world')])
 ```
@@ -95,7 +95,7 @@ const vnode = h('div', [h('span', 'hello'), h('span', 'world')])
 ```typescript
 const vnode = h('div', ['hello', 'world'])
 ```
-我们可以写成这样，就不用每次都传虚拟节点进去了，但是这样做，在 renderer 内部去挂载的时候还是会把它转换为文本节点，因为字符串是不能挂载的，那我们再挂载的时候将它转换一下：
+我们可以写成这样，就不用每次都传虚拟节点进去了，但是这样做，在 `renderer` 内部去挂载的时候还是会把它转换为文本节点，因为字符串是不能挂载的，那我们再挂载的时候将它转换一下：
 我们先来写个虚拟节点标准化的函数：
 ```typescript
 // vnode.ts
