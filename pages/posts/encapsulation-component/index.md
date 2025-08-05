@@ -298,7 +298,6 @@ defineExpose({a: 1, b: 2})
   </ElInput>
 </template>
 ```
-![img.png](img.png)
 
 - 在子组件的 ref 传递一个函数 `changeRef` ，在这个函数中，可以拿到原先组件（el-input）的对外暴露的对象 (方法)；
 - `getCurrentInstance` 获取的是当前组件的实例， `vm.exposed` 拿到的是 defineExpose 导出的 `{ a: 1, b: 2 }`
