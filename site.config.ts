@@ -8,11 +8,11 @@ export default defineSiteConfig({
     name: "前端练习生zm",
     avatar: 'https://avatars.githubusercontent.com/u/99781695?v=4',
     status: {
-      emoji: "🐔",
+      emoji: "😄",
       message: '练习时长两年半~'
     }
   },
-  subtitle: 'cpdd~',
+  subtitle: '',
   /**
    * 站点图标
    */
@@ -27,7 +27,7 @@ export default defineSiteConfig({
       color: "#6e5494",
     },
     {
-      name: "wechat zm_15526070595",
+      name: "wx zm_15526070595",
       link: "",
       icon: "i-ri-wechat-fill",
       color: "#78c93d",
