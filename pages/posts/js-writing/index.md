@@ -1,12 +1,63 @@
 ---
 title: 手写常见js代码
 date: 2025-04-21
-updated: 2025-06-07
+updated: 2025-08-11
 categories: js手写
 tags:
   - js手写
 top: 1
 ---
+
+### 模拟接口请求失败并实现递增间隔的重试机制
+请编写一个 JavaScript 函数 retryFetchWithDelay，模拟一个会失败的接口请求，并实现递增间隔的重试机制。具体要求如下：
+1. 接口模拟：函数内部使用 fetchData 函数模拟接口请求
+2. 重试策略：首次请求失败后，依次以 1 秒、2 秒、3 秒的间隔进行重试
+3. 成功处理：任何一次请求成功后，立即返回成功结果
+4. 失败处理：若三次重试后仍失败，返回错误提示 "请求已达最大重试次数"
+```js
+// 模拟一个接口请求函数，成功概率 50%
+function fetchData() {
+  return new Promise((resolve, reject) => {
+    const isSuccess = Math.random() > 0.5; // 随机决定请求是否成功
+    setTimeout(() => {
+      if (isSuccess) {
+        resolve("请求成功");  // 请求成功，返回结果
+      } else {
+        reject("请求失败");  // 请求失败，抛出错误
+      }
+    }, 1000);  // 模拟接口请求的延迟
+  });
+}
+
+// 定义重试函数
+async function retryFetchWithDelay(retryCount = 3) {
+  let attempt = 0;
+
+  // 使用一个循环尝试请求，最多重试 retryCount 次
+  while (attempt < retryCount) {
+    attempt++;  // 递增尝试次数
+    try {
+      // 尝试调用接口请求
+      const result = await fetchData();
+      return result;  // 请求成功，返回结果
+    } catch (error) {
+      console.log(`第 ${attempt} 次请求失败，原因: ${error}`);
+
+      // 如果已经是最后一次重试，返回失败提示
+      if (attempt === retryCount) {
+        return "请求已达最大重试次数";
+      }
+
+      // 如果请求失败，按照递增间隔（1, 2, 3秒）等待后重试
+      const delay = attempt * 1000;
+      console.log(`等待 ${delay} 毫秒后重试...`);
+      await new Promise(resolve => setTimeout(resolve, delay));  // 等待相应的时间
+    }
+  }
+}
+
+retryFetchWithDelay().then(console.log).catch(console.log)
+```
 
 ### 判断一个对象是否存在循环引用
 ```js
@@ -1379,276 +1430,4 @@ cache.put(2, 2);
 cache.get(1);       // 返回 1，此时键1变为最近使用
 cache.put(3, 3);    // 插入键3，容量已满，淘汰最久未使用的键2
 cache.get(2);       // 返回 -1（已被淘汰）
-```
-
-
-### 测试
-
-```js
-Function.prototype.call = function(context = window, ...args) {
-  if (typeof this !== 'function') {
-    throw new TypeError('not a function')
-  }
-  const fnKey = Symbol('fn')
-  context[fnKey] = this
-  const result = context[fnKey](...args)
-  Reflect.deleteProperty(context, fnKey)
-  return result
-}
-
-Function.prototype.apply = function(context = window, arrArgs = []) {
-  if (typeof this !== 'function') {
-    throw new TypeError('not a function')
-  }
-  if(!Array.isArray(arrArgs) && !(arrArgs instanceof Object && arrArgs.hasOwnProperty('length'))) {
-    throw new TypeError('arrArgs is not an array')
-  }
-  const fnKey = Symbol('fn')
-  context[fnKey] = this
-  const result = context[fnKey](...args)
-  Reflect.deleteProperty(context, fnKey)
-  return result
-}
-
-function Flatten(arr, depth = 1) {
-  return arr.reduce((acc, cur) => {
-    return Array.isArray(cur) && depth > 0 ? [...acc, ...Flatten(cur, depth - 1)] : [...acc, cur]
-  }, [])
-}
-const arr = [1, [2, [3, [4, [5]]]]]
-console.log(Flatten(arr, 2))
-
-function parseQueryParams(url = window.location.href) {
-  const res = {}
-  const arr = url.split('?')[1]?.split('&') // name=zhangsan&age=18 -> [name=zhangsan, age=18]
-  for (const item of arr) {
-    if(!item) continue
-    let [key, value] = item.split('=')
-    key = decodeURIComponent(key.replace(/\+/g, ' '))
-    const decodeValue = decodeURIComponent(value.replace(/\+/g, ' '))
-    if(res.hasOwnProperty(key)) {
-      res[key] = [res[key], decodeValue]
-    } else {
-      res[key] = decodeValue
-    }
-  }
-  return res
-}
-
-console.log(parseQueryParams("http://www.baidu.com?name=zhangsan&age=18"))
-console.log(parseQueryParams("http://example.com?name=John%20Doe&age=25&hobby=编程&hobby=游泳"))
-
-console.log(unique([1, 2, 2, 3, 4, 4, 5]))
-
-function light(cb, time = 1000) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      cb()
-      resolve()
-    }, time)
-  })
-}
-
-function red(){
-  console.log('red')
-}
-function green(){
-  console.log('green')
-}
-function yellow(){
-  console.log('yellow')
-}
-function start() {
-  return Promise.resolve()
-  .then(() =>  light(red))
-  .then(() =>  light(yellow))
-  .then(() =>  light(green))
-  .finally(() => start())
-}
-start()
-
-
-### 1. 手写 Promise 构造函数
-
-// 自定义 Promise 构造函数
-function MyPromise(executor) {
-  this.status = 'pending'; // 初始状态为 pending
-  this.value = null; // 成功时的值
-  this.reason = null; // 失败时的原因
-  this.onFulfilledCallbacks = []; // 存储成功回调队列
-  this.onRejectedCallbacks = []; // 存储失败回调队列
-
-  // 定义 resolve 函数
-  const resolve = (value) => {
-    if (this.status === 'pending') {
-      this.status = 'fulfilled'; // 状态改为成功
-      this.value = value; // 保存成功的值
-      // 执行所有成功回调（异步）
-      this.onFulfilledCallbacks.forEach(fn => fn());
-    }
-  };
-
-  // 定义 reject 函数
-  const reject = (reason) => {
-    if (this.status === 'pending') {
-      this.status = 'rejected'; // 状态改为失败
-      this.reason = reason; // 保存失败原因
-      // 执行所有失败回调（异步）
-      this.onRejectedCallbacks.forEach(fn => fn());
-    }
-  };
-
-  try {
-    executor(resolve, reject); // 立即执行执行器函数
-  } catch (err) {
-    reject(err); // 执行器报错直接 reject
-  }
-}
-
-// 实现 then 方法
-MyPromise.prototype.then = function(onFulfilled, onRejected) {
-  // 处理回调的默认值（实现值穿透）
-  onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : value => value;
-  onRejected = typeof onRejected === 'function' ? onRejected : err => { throw err };
-
-  // 返回新的 Promise 实现链式调用
-  const promise2 = new MyPromise((resolve, reject) => {
-    // 封装处理回调的通用逻辑
-    const handleCallback = (callback, valueOrReason) => {
-      setTimeout(() => { // 模拟微任务（实际 Promise 是微任务）
-        try {
-          const x = callback(valueOrReason);
-          // 处理返回值可能是 Promise 的情况
-          if (x instanceof MyPromise) {
-            x.then(resolve, reject);
-          } else {
-            resolve(x);
-          }
-        } catch (err) {
-          reject(err);
-        }
-      }, 0);
-    };
-
-    // 当前状态为 fulfilled
-    if (this.status === 'fulfilled') {
-      handleCallback(onFulfilled, this.value);
-    }
-    // 当前状态为 rejected
-    else if (this.status === 'rejected') {
-      handleCallback(onRejected, this.reason);
-    }
-    // 当前状态为 pending，将回调加入队列
-    else {
-      this.onFulfilledCallbacks.push(() => handleCallback(onFulfilled, this.value));
-      this.onRejectedCallbacks.push(() => handleCallback(onRejected, this.reason));
-    }
-  });
-
-  return promise2;
-};
-
-### 2. 手写 `Promise.all`
-
-MyPromise.all = function(promises) {
-  return new MyPromise((resolve, reject) => {
-    const results = []; // 存储所有 Promise 的结果
-    let completedCount = 0; // 记录完成的 Promise 数量
-
-    // 遍历所有 Promise
-    promises.forEach((promise, index) => {
-      // 用 Promise.resolve 包裹，确保处理非 Promise 值
-      MyPromise.resolve(promise).then(
-        value => {
-          results[index] = value; // 按顺序保存结果
-          completedCount++;
-          // 全部完成时 resolve 结果数组
-          if (completedCount === promises.length) {
-            resolve(results);
-          }
-        },
-        reason => {
-          reject(reason); // 任何一个失败立即 reject
-        }
-      );
-    });
-
-    // 处理空数组情况
-    if (promises.length === 0) {
-      resolve(results);
-    }
-  });
-};
-
-### 3. 手写 `Promise.race`
-
-MyPromise.race = function(promises) {
-  return new MyPromise((resolve, reject) => {
-    // 遍历所有 Promise
-    promises.forEach(promise => {
-      // 用 Promise.resolve 包裹，确保处理非 Promise 值
-      MyPromise.resolve(promise).then(
-        value => resolve(value), // 第一个成功的结果 resolve
-        reason => reject(reason) // 第一个失败的结果 reject
-      );
-    });
-
-    // 处理空数组情况（原生 Promise.race 会永久 pending）
-  });
-};
-
-### 4. 手写 `Promise.allSettled`
-
-MyPromise.allSettled = function(promises) {
-  return new MyPromise((resolve) => {
-    const results = []; // 存储所有 Promise 的结果
-    let completedCount = 0; // 记录完成的 Promise 数量
-
-    // 遍历所有 Promise
-    promises.forEach((promise, index) => {
-      MyPromise.resolve(promise).then(
-        value => {
-          results[index] = { status: 'fulfilled', value }; // 记录成功结果
-          completedCount++;
-          if (completedCount === promises.length) {
-            resolve(results);
-          }
-        },
-        reason => {
-          results[index] = { status: 'rejected', reason }; // 记录失败结果
-          completedCount++;
-          if (completedCount === promises.length) {
-            resolve(results);
-          }
-        }
-      );
-    });
-
-    // 处理空数组情况
-    if (promises.length === 0) {
-      resolve(results);
-    }
-  });
-};
-
-### 实现思路总结
-
-1. **Promise 构造函数**
-   - 通过 `status` 跟踪状态（pending/fulfilled/rejected）。
-   - 使用队列存储回调函数，确保异步执行。
-   - `resolve` 和 `reject` 修改状态并触发回调。
-   - `then` 方法返回新 Promise，处理链式调用和异步逻辑。
-
-2. **Promise.all**
-   - 遍历所有 Promise，记录结果顺序。
-   - 使用计数器判断是否全部完成，全部成功则 resolve 结果数组。
-   - 任何一个失败立即 reject。
-
-3. **Promise.race**
-   - 遍历所有 Promise，第一个完成（无论成功或失败）的结果直接决定返回 Promise 的状态。
-
-4. **Promise.allSettled**
-   - 类似 `Promise.all`，但无论成功失败都记录结果。
-   - 最终返回包含所有结果的数组，每个结果标记状态（fulfilled/rejected）。
-
 ```
