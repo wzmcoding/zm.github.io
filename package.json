@@ -11,6 +11,9 @@
     "rss": "valaxy rss",
     "serve": "vite preview"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "dependencies": {
     "valaxy": "0.26.2",
     "valaxy-theme-yun": "0.26.2"
