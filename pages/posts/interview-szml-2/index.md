@@ -1,10 +1,10 @@
 ---
-title: 数字马力二面
+title: 数马2
 date: 2025-08-10
-updated: 2025-08-10
-categories: 数字马力二面
+updated: 2025-08-12
+categories: interview
 tags:
-  - 数字马力二面
+  - interview
 top: 1
 ---
 

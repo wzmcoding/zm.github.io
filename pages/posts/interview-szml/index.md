@@ -1,10 +1,10 @@
 ---
-title: 数字马力面试题
+title: 数马1
 date: 2025-08-09
-updated: 2025-08-10
-categories: 面试题
+updated: 2025-08-12
+categories: interview
 tags:
-  - 面试题
+  - interview
 top: 1
 ---
 
