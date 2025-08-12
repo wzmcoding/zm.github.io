@@ -35,17 +35,17 @@ declare module 'vue-router/auto-routes' {
     '/posts/engineering/': RouteRecordInfo<'/posts/engineering/', '/posts/engineering', Record<never, never>, Record<never, never>>,
     '/posts/external-link-replacement/': RouteRecordInfo<'/posts/external-link-replacement/', '/posts/external-link-replacement', Record<never, never>, Record<never, never>>,
     '/posts/git-use/': RouteRecordInfo<'/posts/git-use/', '/posts/git-use', Record<never, never>, Record<never, never>>,
-    '/posts/interview/': RouteRecordInfo<'/posts/interview/', '/posts/interview', Record<never, never>, Record<never, never>>,
     '/posts/interview-szml/': RouteRecordInfo<'/posts/interview-szml/', '/posts/interview-szml', Record<never, never>, Record<never, never>>,
     '/posts/interview-szml-2/': RouteRecordInfo<'/posts/interview-szml-2/', '/posts/interview-szml-2', Record<never, never>, Record<never, never>>,
     '/posts/jeecg-table-empty-custom-render/': RouteRecordInfo<'/posts/jeecg-table-empty-custom-render/', '/posts/jeecg-table-empty-custom-render', Record<never, never>, Record<never, never>>,
     '/posts/js-writing/': RouteRecordInfo<'/posts/js-writing/', '/posts/js-writing', Record<never, never>, Record<never, never>>,
     '/posts/nestjs/': RouteRecordInfo<'/posts/nestjs/', '/posts/nestjs', Record<never, never>, Record<never, never>>,
     '/posts/reactivity/': RouteRecordInfo<'/posts/reactivity/', '/posts/reactivity', Record<never, never>, Record<never, never>>,
-    '/posts/rebase': RouteRecordInfo<'/posts/rebase', '/posts/rebase', Record<never, never>, Record<never, never>>,
+    '/posts/rebase/': RouteRecordInfo<'/posts/rebase/', '/posts/rebase', Record<never, never>, Record<never, never>>,
     '/posts/render/': RouteRecordInfo<'/posts/render/', '/posts/render', Record<never, never>, Record<never, never>>,
     '/posts/runtime-core/': RouteRecordInfo<'/posts/runtime-core/', '/posts/runtime-core', Record<never, never>, Record<never, never>>,
     '/posts/runtime-dom/': RouteRecordInfo<'/posts/runtime-dom/', '/posts/runtime-dom', Record<never, never>, Record<never, never>>,
+    '/posts/test/': RouteRecordInfo<'/posts/test/', '/posts/test', Record<never, never>, Record<never, never>>,
     '/posts/text-node/': RouteRecordInfo<'/posts/text-node/', '/posts/text-node', Record<never, never>, Record<never, never>>,
     '/posts/typescript/': RouteRecordInfo<'/posts/typescript/', '/posts/typescript', Record<never, never>, Record<never, never>>,
     '/posts/watch/': RouteRecordInfo<'/posts/watch/', '/posts/watch', Record<never, never>, Record<never, never>>,
@@ -131,10 +131,6 @@ declare module 'vue-router/auto-routes' {
       routes: '/posts/git-use/'
       views: never
     }
-    'pages/posts/interview/index.md': {
-      routes: '/posts/interview/'
-      views: never
-    }
     'pages/posts/interview-szml/index.md': {
       routes: '/posts/interview-szml/'
       views: never
@@ -159,8 +155,8 @@ declare module 'vue-router/auto-routes' {
       routes: '/posts/reactivity/'
       views: never
     }
-    'pages/posts/rebase.md': {
-      routes: '/posts/rebase'
+    'pages/posts/rebase/index.md': {
+      routes: '/posts/rebase/'
       views: never
     }
     'pages/posts/render/index.md': {
@@ -173,6 +169,10 @@ declare module 'vue-router/auto-routes' {
     }
     'pages/posts/runtime-dom/index.md': {
       routes: '/posts/runtime-dom/'
+      views: never
+    }
+    'pages/posts/test/index.md': {
+      routes: '/posts/test/'
       views: never
     }
     'pages/posts/text-node/index.md': {
