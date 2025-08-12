@@ -1,8 +1,8 @@
 ---
 title: git rebase合并多个commit
 date: 2025-05-27
-updated: 2025-05-27
-categories: ZM 笔记
+updated: 2025-08-12
+categories: Git
 tags:
   - Git
 top: 2
