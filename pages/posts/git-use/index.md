@@ -1,7 +1,7 @@
 ---
 title: git rebase
 date: 2024-03-31
-updated: 2025-08-12
+updated: 2025-08-13
 categories: Git
 tags:
   - Git
@@ -175,4 +175,181 @@ $ git push origin main --force-with-lease
 
 # Override changes
 $ git push origin main --force
+```
+
+
+## git rebase -i 详解
+> 交互式变基（git rebase -i）就是“时光手术刀”：把一段提交历史拿出来，逐条重放，同时允许你改刀口——合并、拆分、改信息、调顺序、删提交、顺手跑测试。下面把涉及到的命令与实操全盘梳理一遍，给你一把顺手的“历史整形”工具箱。
+
+### 一、git rebase -i 的本质
+- 做什么：把当前分支的一串提交（相对于某个基底）“重放”到新的基底上。重放路线由一个“todo”列表控制。
+- 为什么用：清理历史（合并噪音提交、修正文案）、把功能分支对齐主干最新进度、保证线性历史便于 bisect 和审阅。
+- 什么时候别用：已经公开共享且被别人基于它继续开发的历史，贸然重写会让同事怀疑人生。
+
+### 二、交互式 todo 文件里的指令（最常用）
+打开方式举例：
+```bash
+# 以最近 5 个提交为手术对象
+git rebase -i HEAD~5
+
+# 或者把当前分支变基到 origin/main 之上，同时进入交互
+git fetch
+git rebase -i origin/main
+```
+编辑器里会看到类似：
+```yaml
+pick 1a2b3c4 feat: 用户登录
+pick 2b3c4d5 fix: 拼写错误
+pick 3c4d5e6 wip: 调试输出
+# 以此类推...
+
+```
+把前缀改成以下动词即可控制这条提交的命运：
+
+- `pick`：照常保留这条提交（默认）。
+
+- `reword`（或 `r`）：保留代码，**修改提交信息**。
+
+- `edit`（或 `e`）：**停下来**，你可修改代码/分拆提交，然后 `git rebase --continue`。
+
+- `squash`（或 `s`）：把这条提交**与上一条合并**，并**合并提交信息**（会让你编辑最终信息）。
+
+- `fixup`（或 `f`）：和 `squash` 一样合并到上一条，但**丢弃本条提交信息**（更干净）。
+
+- `drop`（或 `d`）：**删除**这条提交。
+
+- `exec`（或 `x`）：在这一步**执行一段命令**（如跑测试）。
+
+**调整顺序**：直接**上下移动**行即可；todo 列表的顺序就是新历史的顺序。
+
+### 三、常见场景的“手术剧本”
+1. 合并多个 commit（把“口头禅式”提交压成一条整洁记录）
+```bash
+git rebase -i HEAD~5
+# 把想并到上一条的提交标为 squash / fixup
+# 保存退出 -> 如选择了 squash，会要求你编辑合并后的提交信息
+```
+- 选择 squash vs fixup：若你想保留副提交的描述，选 `squash`；不想保留，选 `fixup`。
+- 更丝滑：先用
+```bash
+git commit --fixup <目标commit哈希>
+git rebase -i --autosquash HEAD~5
+```
+配合 `--autosquash` 自动把 `fixup!/squash!` 提交排好位，省去手工移动。
+
+2. 修改过去某条提交信息
+```bash
+git rebase -i HEAD~N
+# 把那一行改成 reword
+# 保存退出 -> Git 会在那一步停下让你编辑 message
+```
+
+3. 调整提交顺序
+```bash
+git rebase -i HEAD~N
+# 直接在 todo 文件中把行上下移动
+```
+> 注意依赖关系：后移一条“使用了前面改动”的提交可能导致冲突，需要按冲突解决流程走。
+
+4. 拆分一个“大杂烩”提交为多条
+```bash
+git rebase -i HEAD~N
+# 把那条改成 edit
+# 进入停顿点后：
+git reset HEAD^             # 把该提交回退成未暂存改动
+git add -p                  # 交互式分块暂存（切片）
+git commit -m "切片1"
+git add -p
+git commit -m "切片2"
+# 重复直到切完
+git rebase --continue
+```
+
+5. 把功能分支对齐主干最新历史
+```bash
+git fetch
+git rebase origin/main
+# 发生冲突时：修 -> git add -A -> git rebase --continue
+# 不想要这步：git rebase --skip
+# 悔棋：git rebase --abort
+```
+
+需要保留分支的**合并结构**时，用：
+```bash
+git rebase --rebase-merges origin/main
+```
+
+6. 每一步都跑测试，失败就停
+两种方式，二选一：
+```bash
+# A：命令行参数
+git rebase -i --exec "npm test" HEAD~N
+
+# B：在 todo 中对若干条前加
+exec npm test
+```
+
+7. 从仓库的第一条提交开始“深度洗稿”
+```bash
+git rebase -i --root
+```
+
+8. 推送改写后的历史（安全地 force）
+```bash
+git push --force-with-lease
+# 比 --force 安全，可防止覆盖他人新推送的更新
+```
+
+9. 翻车后的自救
+```bash
+git reflog              # 找回任何“走丢”的提交
+git checkout <安全点>
+# 或者直接回到 rebase 之前的 HEAD
+git reset --hard <reflog里记录的原HEAD>
+```
+
+### 四、冲突解决与效率小技巧
+- 标准三连：解决冲突 ➜ git add -A ➜ git rebase --continue。
+- 重复冲突自动记忆：
+```bash
+git config --global rerere.enabled true
+```
+Git 会记住你的解决方式，下一处同类冲突自动套用。
+- 自动压合默认开启：
+```bash
+git config --global rebase.autosquash true
+```
+- 更好看的指令视图（在 todo 里展示作者/时间等）：
+```bash
+git config --global rebase.instructionFormat "(%an %ad) %s"
+```
+- 指定编辑器：
+```bash
+git config --global core.editor "nvim"     # 或 code --wait / idea64 / vim
+```
+- 更新引用（分支/轻量 tag 指到被改写的提交时自动迁移；新 Git 有此功能）：
+```bash
+git rebase --update-refs
+```
+用前先确认哪些引用会被移动，避免误伤。
+
+
+### 五、理念：何时该 rebase，何时该 merge
+- rebase：强调线性、干净、易读的故事线；适合 feature 开发过程中的自我清理与对齐主干。
+- merge：保留时间线真实形状与分支结构；适合把成熟的功能合进主干、或多人协作已公开的历史。
+
+### 六、一个端到端示例（合并+改文案+跑测试）
+```bash
+# 目标：把最近 6 个提交整理成 3 个、顺序重排、并在每步跑测试
+git fetch
+git rebase -i --exec "npm test" HEAD~6
+
+# 在编辑器里：
+# 1. 移动行，确定顺序
+# 2. 把一些小修正标记为 fixup 到对应的主提交上
+# 3. 把需要改文案的标记为 reword
+
+# 保存退出 -> 逐步执行；有冲突就解 -> add -> rebase --continue
+# 全部通过后：
+git push --force-with-lease
 ```
