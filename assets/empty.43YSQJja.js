@@ -1,0 +1,1 @@
+import"./chunks/@vueuse/motion.Cb66my9-.js";import{a3 as o,a4 as t,a5 as r,a6 as c}from"./framework.DbW8fMmt.js";const n={};function a(s,_){const e=t("RouterView");return c(),r(e)}const f=o(n,[["render",a]]);export{f as default};
