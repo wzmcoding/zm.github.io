@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>练习时长两年半~</title>
+        <link>https://zm-github-io.vercel.app/</link>
+        <description>唱，跳，rap，篮球~</description>
+        <lastBuildDate>Fri, 17 Oct 2025 05:56:56 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <image>
+            <title>练习时长两年半~</title>
+            <url>https://avatars.githubusercontent.com/u/99781695?v=4</url>
+            <link>https://zm-github-io.vercel.app/</link>
+        </image>
+        <copyright>CC BY-NC-SA 4.0 2025 © 前端练习生zm</copyright>
+        <atom:link href="https://zm-github-io.vercel.app/feed.xml" rel="self" type="application/rss+xml"/>
+        <item>
+            <title><![CDATA[实现图片预加载 vite 插件]]></title>
+            <link>https://zm-github-io.vercel.app/posts/vite-plugin/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/vite-plugin/index</guid>
+            <pubDate>Tue, 14 Oct 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>实现图片预加载 vite 插件</h2>
+<pre><code class="language-ts">export default definConfig({
+  // base: '/dist/', // 如果项目部署在二级目录，需要指定 bas</code></pre>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/vite-plugin/index" target="_blank">https://zm-github-io.vercel.app/posts/vite-plugin/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[编译时 —— compiler-core]]></title>
+            <link>https://zm-github-io.vercel.app/posts/compiler/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/compiler/index</guid>
+            <pubDate>Sat, 11 Oct 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2><strong>编译时 —— compiler-core</strong></h2>
+<h2>什么是编译时？</h2>
+<p>将模板编译成 js 的过程，就是编译时</p>
+<pre><code class="language-vue">&lt;div&gt;111&lt;/div&gt;
+</code></pre>
+<p>把上面这一坨当做一个</p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/compiler/index" target="_blank">https://zm-github-io.vercel.app/posts/compiler/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[PatchFlags]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component17/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component17/index</guid>
+            <pubDate>Sun, 05 Oct 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>PatchFlags</h2>
+<p>什么是 PatchFlags？<br>
+PatchFlags 是 Vue 3 中用于优化虚拟 DOM 更新的一种机制。<br>
+它们是编译器在编译模板时生成的标志，用于指示哪些部分的虚拟</p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component17/index" target="_blank">https://zm-github-io.vercel.app/posts/component17/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[defineAsyncComponent 实现原理]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component16/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component16/index</guid>
+            <pubDate>Sat, 04 Oct 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>defineAsyncComponent 实现原理</h2>
+<p><code>defineAsyncComponent</code> 是 Vue3 中用于定义异步组件的 API，它能够优雅地处理组件的异步加载、加载状态显示和错误</p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component16/index" target="_blank">https://zm-github-io.vercel.app/posts/component16/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[Transition 组件实现原理]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component15/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component15/index</guid>
+            <pubDate>Fri, 03 Oct 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>Transition 组件实现原理</h2>
+<p>Transition 是 Vue3 中的内置组件，用于在元素或组件进入和离开 DOM 时添加过渡动画效果。本文将深入分析 Transition 组件的实现原</p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component15/index" target="_blank">https://zm-github-io.vercel.app/posts/component15/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[Teleport 组件实现原理]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component13/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component13/index</guid>
+            <pubDate>Tue, 30 Sep 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>Teleport 组件实现原理</h2>
+<p>Teleport 是 Vue3 中一个非常实用的内置组件，它可以将组件的内容渲染到 DOM 树的任何位置。</p>
+<h2>1. 基本概念</h2>
+<p>Teleport 组件主要</p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component13/index" target="_blank">https://zm-github-io.vercel.app/posts/component13/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[KeepAlive 组件实现原理]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component14/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component14/index</guid>
+            <pubDate>Tue, 30 Sep 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>KeepAlive 组件实现原理</h2>
+<p>KeepAlive 是 Vue3 中一个内置组件，用于缓存组件实例和 DOM，以提高组件切换的性能。本文将深入分析 KeepAlive 组件的实现原理。</p>
+<h1></h1>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component14/index" target="_blank">https://zm-github-io.vercel.app/posts/component14/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[provide 和 inject]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component11/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component11/index</guid>
+            <pubDate>Mon, 29 Sep 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>provide 和 inject</h2>
+<ul>
+<li><code>provide</code> 和 <code>inject</code> 允许祖先组件向其所有子孙后代组件注入一个依赖，而不管组件层级有多深。我们一般会用它来进行祖先组件和后代组件之间的</li>
+</ul>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component11/index" target="_blank">https://zm-github-io.vercel.app/posts/component11/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[函数式组件实现原理]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component12/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component12/index</guid>
+            <pubDate>Mon, 29 Sep 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>函数式组件实现原理</h2>
+<p>函数式组件（Functional Component）是 Vue 中一种特殊的组件类型，它是一个纯函数，接收 <code>props</code> 作为参数并返回 <code>VNode</code>。本文将深入分析</p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component12/index" target="_blank">https://zm-github-io.vercel.app/posts/component12/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[ref 和 expose]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component10/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component10/index</guid>
+            <pubDate>Fri, 26 Sep 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>ref 和 expose</h2>
+<ul>
+<li>expose<br>
+我们先来实现一下 <code>expose</code>，之前我们完成了 <code>attrs</code>、<code>emit</code> 和 <code>slots</code>，所以我们直接在原来的 `createSetup</li>
+</ul>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component10/index" target="_blank">https://zm-github-io.vercel.app/posts/component10/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[获取组件的实例]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component8/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component8/index</guid>
+            <pubDate>Tue, 23 Sep 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>获取组件的实例</h2>
+<p>我们在组件中，一般会通过 <code>getCurrentInstance</code> 来获取当前组件的实例，这个 API 主要是为了在 <code>setup</code> 函数中获取当前组件的实例。</p>
+<pre><code class="language-java"></code></pre>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component8/index" target="_blank">https://zm-github-io.vercel.app/posts/component8/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[组件的生命周期]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component9/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component9/index</guid>
+            <pubDate>Tue, 23 Sep 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>组件的生命周期</h2>
+<h2>生命周期的使用</h2>
+<ul>
+<li>在组件 setup 内使用以下 API 注册生命周期：
+<ul>
+<li>onBeforeMount(fn)：在组件挂载之前调用</li>
+<li>onMounted(</li>
+</ul>
+</li>
+</ul>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component9/index" target="_blank">https://zm-github-io.vercel.app/posts/component9/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[组件的属性更新]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component5/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component5/index</guid>
+            <pubDate>Mon, 22 Sep 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>组件的属性更新</h2>
+<p>先看案例：</p>
+<pre><code class="language-javascript">const Child = {
+  // 接受了父组件传递的 age
+  props: ['age'],
+  setup(props) </code></pre>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component5/index" target="_blank">https://zm-github-io.vercel.app/posts/component5/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[绑定组件的事件]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component6/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component6/index</guid>
+            <pubDate>Mon, 22 Sep 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>绑定组件的事件</h2>
+<p>先看下平时使用的事件绑定方式：</p>
+<pre><code class="language-javascript">const Child = {
+  setup(props, { emit }) {
+    return () =</code></pre>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component6/index" target="_blank">https://zm-github-io.vercel.app/posts/component6/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[组件的插槽]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component7/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component7/index</guid>
+            <pubDate>Mon, 22 Sep 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>组件的插槽</h2>
+<p>先看使用案例:</p>
+<pre><code class="language-javascript">// 父组件
+const Comp = {
+  setup() {
+    return () =&gt; {
+      return h(</code></pre>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component7/index" target="_blank">https://zm-github-io.vercel.app/posts/component7/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[属性传递（props和attrs）]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component2/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component2/index</guid>
+            <pubDate>Thu, 18 Sep 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1>属性传递（props和attrs）</h1>
+<p>props和attrs的区别：是否在组件中声明属性，声明了就是props，没有声明就是attrs</p>
+<pre><code class="language-javascript">const Comp = {
+</code></pre>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component2/index" target="_blank">https://zm-github-io.vercel.app/posts/component2/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[组件的代理对象]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component3/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component3/index</guid>
+            <pubDate>Thu, 18 Sep 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>组件的代理对象</h2>
+<p>我们在组件中使用 <code>this</code> 可以访问到 <code>setupState、props、attrs、slots、$refs</code> 等属性，这些属性都是通过代理对象实现的。<br>
+组件的代理对象实</p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component3/index" target="_blank">https://zm-github-io.vercel.app/posts/component3/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[组件的异步更新]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component4/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component4/index</guid>
+            <pubDate>Thu, 18 Sep 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>组件的异步更新</h2>
+<p>先看案例</p>
+<pre><code class="language-javascript">import { h, ref, createApp } from '../dist/vue.esm.js'
+
+const Comp = </code></pre>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component4/index" target="_blank">https://zm-github-io.vercel.app/posts/component4/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[组件挂载]]></title>
+            <link>https://zm-github-io.vercel.app/posts/component/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/component/index</guid>
+            <pubDate>Wed, 17 Sep 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1>组件挂载</h1>
+<p>使用方式:</p>
+<pre><code class="language-javascript">import { h, ref, createApp } from '../dist/vue.esm.js'
+const Comp = {
+</code></pre>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/component/index" target="_blank">https://zm-github-io.vercel.app/posts/component/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[createApp]]></title>
+            <link>https://zm-github-io.vercel.app/posts/create-app/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/create-app/index</guid>
+            <pubDate>Tue, 16 Sep 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1>createApp</h1>
+<p>平时如何使用：</p>
+<pre><code class="language-typescript">import { h, ref, createApp } from '../dist/vue.esm.js'
+// 创建一个组件
+</code></pre>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/create-app/index" target="_blank">https://zm-github-io.vercel.app/posts/create-app/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[SSE原理]]></title>
+            <link>https://zm-github-io.vercel.app/posts/sse/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/sse/index</guid>
+            <pubDate>Fri, 15 Aug 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<p>服务器向浏览器推送信息，除了 <code>WebSocket</code>，还有一种方法：<code>Server-Sent Events</code>（以下简称 <code>SSE</code>）。<br>
+![image.png](<a href="https://www.ruany">https://www.ruany</a></p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/sse/index" target="_blank">https://zm-github-io.vercel.app/posts/sse/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[git rebase]]></title>
+            <link>https://zm-github-io.vercel.app/posts/git-use/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/git-use/index</guid>
+            <pubDate>Wed, 13 Aug 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>关于 Git 变基</h2>
+<p><code>git rebase</code> 命令用于轻松更改一系列提交，修改存储库的历史记录。 可以进行重新排序、编辑提交或将提交压缩到一起。<br>
+通常，你会使用 <code>git rebase</code>来：</p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/git-use/index" target="_blank">https://zm-github-io.vercel.app/posts/git-use/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[数马1]]></title>
+            <link>https://zm-github-io.vercel.app/posts/interview-szml/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/interview-szml/index</guid>
+            <pubDate>Tue, 12 Aug 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>数字马力面试题</h2>
+<h3>一面2025-07-18</h3>
+<ol>
+<li>自我介绍</li>
+<li>vue和react哪个熟悉</li>
+<li>深浅拷贝区别，实现深拷贝有什么思路</li>
+<li>对this的理解</li>
+<li>改变this指向的方</li>
+</ol>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/interview-szml/index" target="_blank">https://zm-github-io.vercel.app/posts/interview-szml/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[数马2]]></title>
+            <link>https://zm-github-io.vercel.app/posts/interview-szml-2/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/interview-szml-2/index</guid>
+            <pubDate>Tue, 12 Aug 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>数字马力二面 2025-07-28</h2>
+<ol>
+<li>自我介绍</li>
+<li>下一家公司为什么不继续考虑杭州，而是考虑到长沙，现在薪资多少，了解长沙的薪资水平吗？</li>
+<li>问项目是否是从0到1搭建的，参与制定git</li>
+</ol>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/interview-szml-2/index" target="_blank">https://zm-github-io.vercel.app/posts/interview-szml-2/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[git rebase合并多个commit]]></title>
+            <link>https://zm-github-io.vercel.app/posts/rebase/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/rebase/index</guid>
+            <pubDate>Tue, 12 Aug 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>git rebase合并多个commit</h2>
+<ol>
+<li>git rebase -i &lt;想合并提交的前一个 commithash&gt;</li>
+<li>git rebase -i HEAD~5 合并最近5个</li>
+</ol>
+<ul>
+<li></li>
+</ul>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/rebase/index" target="_blank">https://zm-github-io.vercel.app/posts/rebase/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[手写常见js代码]]></title>
+            <link>https://zm-github-io.vercel.app/posts/js-writing/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/js-writing/index</guid>
+            <pubDate>Mon, 11 Aug 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h3>模拟接口请求失败并实现递增间隔的重试机制</h3>
+<p>请编写一个 JavaScript 函数 retryFetchWithDelay，模拟一个会失败的接口请求，并实现递增间隔的重试机制。具体要求如下：</p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/js-writing/index" target="_blank">https://zm-github-io.vercel.app/posts/js-writing/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[Vue3 中二次封装组件]]></title>
+            <link>https://zm-github-io.vercel.app/posts/encapsulation-component/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/encapsulation-component/index</guid>
+            <pubDate>Tue, 05 Aug 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>Vue3 中二次封装组件</h2>
+<blockquote>
+<p>从二次封装 el-input 开始 🧀</p>
+</blockquote>
+<h3>要解决的问题</h3>
+<ol>
+<li>props 如何透传出去？</li>
+<li>slots 如何透传出去？</li>
+<li>组件的方法如何暴露出去</li>
+</ol>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/encapsulation-component/index" target="_blank">https://zm-github-io.vercel.app/posts/encapsulation-component/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[diff 最长递增子序列]]></title>
+            <link>https://zm-github-io.vercel.app/posts/diff/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/diff/index</guid>
+            <pubDate>Tue, 22 Jul 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1>diff</h1>
+<h2>全量 diff （重要）</h2>
+<p>全量 diff 主要是针对两个子节点都是数组的情况，我们需要对它所有的子元素进行全量更新，那么这种更新非常消耗性能，<br>
+在 vue 中会尝试着尽可能的复用</p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/diff/index" target="_blank">https://zm-github-io.vercel.app/posts/diff/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[文本节点]]></title>
+            <link>https://zm-github-io.vercel.app/posts/text-node/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/text-node/index</guid>
+            <pubDate>Tue, 22 Jul 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1>文本节点</h1>
+<p>我们之前一直讲的是使用虚拟 DOM 创建某一个元素节点，渲染到页面中，其实 vue 还支持渲染文本节点，简单来说就是将一个文本节点渲染到真实 DOM 中，我们来看一下怎么使用的：<br>
+``</p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/text-node/index" target="_blank">https://zm-github-io.vercel.app/posts/text-node/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[render 中的挂载、更新、卸载]]></title>
+            <link>https://zm-github-io.vercel.app/posts/render/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/render/index</guid>
+            <pubDate>Sun, 20 Jul 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1>render 中的挂载、更新、卸载</h1>
+<h2>render 函数</h2>
+<p>这个 <code>render</code> 跟我们组件中的 <code>render</code> 不是同一个 <code>render</code>，它是用来渲染根组件的<br>
+<code>render</code> 函数</p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/render/index" target="_blank">https://zm-github-io.vercel.app/posts/render/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[核心运行时 —— runtime-core]]></title>
+            <link>https://zm-github-io.vercel.app/posts/runtime-core/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/runtime-core/index</guid>
+            <pubDate>Fri, 18 Jul 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1>核心运行时 —— runtime-core</h1>
+<h2>虚拟DOM如何创建？</h2>
+<p>使用 <code>h</code> 和 <code>createVNode</code> 这两个函数来创建虚拟节点，那么既然都是创建虚拟节点，为什么还需要两个函数呢？</p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/runtime-core/index" target="_blank">https://zm-github-io.vercel.app/posts/runtime-core/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[浏览器运行时 —— runtime-dom]]></title>
+            <link>https://zm-github-io.vercel.app/posts/runtime-dom/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/runtime-dom/index</guid>
+            <pubDate>Tue, 15 Jul 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1>浏览器运行时 —— runtime-dom</h1>
+<h2>虚拟 dom 的概念</h2>
+<p>虚拟 DOM 其实就是用 js 对象来描述一个 DOM，Vue 最终会根据这个虚拟 DOM 创建出一个真实的 DOM 挂载</p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/runtime-dom/index" target="_blank">https://zm-github-io.vercel.app/posts/runtime-dom/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[手写 computed]]></title>
+            <link>https://zm-github-io.vercel.app/posts/computed/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/computed/index</guid>
+            <pubDate>Sun, 13 Jul 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h3>computed 实现原理</h3>
+<h4>1. computed 的双重身份</h4>
+<p><code>computed</code> 计算属性有一个非常独特的设计 - 它同时具备两个身份：</p>
+<ol>
+<li>作为依赖项（Dep）: 可以被其</li>
+</ol>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/computed/index" target="_blank">https://zm-github-io.vercel.app/posts/computed/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[手写 watch]]></title>
+            <link>https://zm-github-io.vercel.app/posts/watch/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/watch/index</guid>
+            <pubDate>Sun, 13 Jul 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2>watch</h2>
+<h3>1. 利用 effect 实现watch的基本功能</h3>
+<p><code>watch</code> 的核心原理是利用 <code>ReactiveEffect</code> 来追踪响应式数据的变化，当然此处我们利用到了之前讲过</p>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/watch/index" target="_blank">https://zm-github-io.vercel.app/posts/watch/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[WebStorm 如何调试 Vue 项目]]></title>
+            <link>https://zm-github-io.vercel.app/posts/debugger-vue-in-webstorm/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/debugger-vue-in-webstorm/index</guid>
+            <pubDate>Thu, 26 Jun 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h3>调试前准备</h3>
+<ol>
+<li>确保 WebStorm 已安装 <code>JavaScript Debugger</code>插件。一般情况下，WebStorm 默认已安装此插件。</li>
+<li>修改默认浏览器配置：`Setting</li>
+</ol>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/debugger-vue-in-webstorm/index" target="_blank">https://zm-github-io.vercel.app/posts/debugger-vue-in-webstorm/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[响应式]]></title>
+            <link>https://zm-github-io.vercel.app/posts/reactivity/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/reactivity/index</guid>
+            <pubDate>Wed, 25 Jun 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1>响应式 —— Reactivity</h1>
+<p>Vue 的响应式系统核心在于响应式对象的属性与 effect 副作用函数之间建立的依赖关系。让我们通过具体示例来理解这个概念：</p>
+<ul>
+<li>普通函数访问响应式数据</li>
+</ul>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/reactivity/index" target="_blank">https://zm-github-io.vercel.app/posts/reactivity/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[jeecg table 组件空数据时自定义内容]]></title>
+            <link>https://zm-github-io.vercel.app/posts/jeecg-table-empty-custom-render/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/jeecg-table-empty-custom-render/index</guid>
+            <pubDate>Fri, 20 Jun 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h4>jeecg table 组件空数据时自定义内容</h4>
+<ul>
+<li>在使用 jeecg table 组件时，默认的空数据提示可能不符合需求，可以通过 <code>locale.emptyText</code> 属性自定义空数据</li>
+</ul>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/jeecg-table-empty-custom-render/index" target="_blank">https://zm-github-io.vercel.app/posts/jeecg-table-empty-custom-render/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[替换有道图片外链]]></title>
+            <link>https://zm-github-io.vercel.app/posts/external-link-replacement/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/external-link-replacement/index</guid>
+            <pubDate>Wed, 18 Jun 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h4>替换有道图片外链</h4>
+<ul>
+<li>项目现在使用了有道的图片外链，后面可能导致图片无法显示，需要换成自己系统的</li>
+<li>在新增和编辑接口，将有道图片链接替换成自己的图片链接</li>
+<li>通过正则表达式匹配有道图片链</li>
+</ul>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/external-link-replacement/index" target="_blank">https://zm-github-io.vercel.app/posts/external-link-replacement/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[大文件分片上传]]></title>
+            <link>https://zm-github-io.vercel.app/posts/nestjs/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/nestjs/index</guid>
+            <pubDate>Fri, 21 Feb 2025 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h3>大文件上传介绍</h3>
+<ul>
+<li>把大文件分成小文件，然后并行上传</li>
+</ul>
+<h3><strong>如何拆分和合并</strong></h3>
+<ul>
+<li>通过 Blob的slice方法 对 File 分片,File是一种特殊的Blob</li>
+<li>合并：fs的</li>
+</ul>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/nestjs/index" target="_blank">https://zm-github-io.vercel.app/posts/nestjs/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[前端工程化-vite]]></title>
+            <link>https://zm-github-io.vercel.app/posts/engineering/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/engineering/index</guid>
+            <pubDate>Thu, 26 Sep 2024 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h3>前端工程的痛点</h3>
+<ul>
+<li>模块化需求</li>
+<li>兼容浏览器，编译高级语法</li>
+<li>线上代码的质量</li>
+<li>开发效率，项目的冷启动/二次启动时间、热更新时间</li>
+</ul>
+<h3>前端构建工具是如何解决以上问题的呢？</h3>
+<ul>
+<li>模</li>
+</ul>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/engineering/index" target="_blank">https://zm-github-io.vercel.app/posts/engineering/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+        <item>
+            <title><![CDATA[重学TypeScript]]></title>
+            <link>https://zm-github-io.vercel.app/posts/typescript/index</link>
+            <guid isPermaLink="false">https://zm-github-io.vercel.app/posts/typescript/index</guid>
+            <pubDate>Thu, 22 Aug 2024 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<pre><code class="language-typescript">interface A {
+  [key: string]: string
+}
+const foo: A = {
+  &quot;666&quot;: '123',
+  11: &quot;xxx&quot;,</code></pre>
+<br/><p>访问 <a href="https://zm-github-io.vercel.app/posts/typescript/index" target="_blank">https://zm-github-io.vercel.app/posts/typescript/index</a> 阅读全文。</p>]]></content:encoded>
+            <author>i@valaxy.site (前端练习生zm)</author>
+        </item>
+    </channel>
+</rss>
