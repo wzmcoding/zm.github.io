@@ -323,3 +323,18 @@ setTimeout(() => {
     })
 }, 1000)
 ```
+
+## sleep 函数
+```typescript
+/**
+ * 使用场景： 在异步函数中延迟一段时间再执行
+ */
+export function sleep(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+async function fn() {
+    await sleep(2000)
+    console.log('2秒后执行')
+}
+```
