@@ -266,4 +266,18 @@ export function debounceWithPromise<T = any>(fn: (...args: T[]) => T, delay: num
         })
     }
 }
+
+// 防抖
+const debounce = debounceWithPromise(function (a: number, b: number) {
+    console.log('debounce->', a, b)
+    return a + b
+}, 1500)
+setTimeout(() => {
+    debounce(1, 1)
+    debounce(2, 2)
+    const res = debounce(1, 2)
+    res.then((result: unknown) => {
+        console.log('debounce result->', result)
+    })
+}, 1000)
 ```
