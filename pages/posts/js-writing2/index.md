@@ -109,4 +109,14 @@ export function curry<T = any>(fn: (...args: T[]) => T): any {
 
     return _curried
 }
+
+// 测试用例
+console.log(curry(function (a: number, b: number, c: number) {
+    return a + b + c
+})(1)(2)(3))
+// 其它测试用例
+console.log(curry(function (a: number, b: number) {
+    return a + b
+})(1)(2))
 ```
+
