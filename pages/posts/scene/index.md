@@ -49,11 +49,50 @@ export function createCancelableTask(fn: any) {
     }
 }
 // 测试用例
+console.log("开始防竞态请求测试...");
+
 const { run, cancel } = createCancelableTask(async (num: number) => {
-    console.log('开始请求', num)
-    await new Promise(resolve => setTimeout(resolve, 3000))
-})
-run(1)
-run(2)
-run(3)
+    console.log(`开始请求 ${num}`);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log(`请求 ${num} 完成`);
+    return `结果 ${num}`;
+});
+
+// 连续发送三个请求
+run(1).then(result => {
+    console.log(`请求1结果: ${result}`);
+}).catch(err => {
+    console.log(`请求1被取消`);
+});
+
+run(2).then(result => {
+    console.log(`请求2结果: ${result}`);
+}).catch(err => {
+    console.log(`请求2被取消`);
+});
+
+run(3).then(result => {
+    console.log(`请求3结果: ${result}`);
+}).catch(err => {
+    console.log(`请求3被取消`);
+});
+
+console.log("注意: 只有最后一个请求(请求3)会成功完成，前两个会被自动取消");
+// 开始防竞态请求测试...
+// App.vue:36 开始请求 1
+// App.vue:36 开始请求 2
+// App.vue:36 开始请求 3
+// App.vue:61 注意: 只有最后一个请求(请求3)会成功完成，前两个会被自动取消
+// App.vue:38 请求 1 完成
+// App.vue:38 请求 2 完成
+// App.vue:38 请求 3 完成
+// App.vue:56 请求3结果: 结果 3
 ```
+
+这个函数实现了一个可取消的异步任务包装器，它接收一个异步函数作为参数，并返回一个包含`run` 和 `cancel` 方法的对象。
+
+- `run`方法接收与原函数相同的参数，并返回一个`Promise`,当原函数执行成功时，调用`resolve`,当原函数执行失败时，调用`reject`,,如果上一次请求没有完成，那么会取消上一次请求，并重新发起新的请求
+- `cancel`方法用于取消当前正在进行的任务，它会调用原函数的取消函数，并将 `resolve` 和 `reject` 重置为空操作，置空后，无论请求成功还是失败，都不会再执行之前的 `resolve` 和 `reject` ,所以`Promise`的状态不会改变，也就不会触发`then`或者`catch`方法
+
+> 注意，这种方法**只是说我们不再需要响应结果了**，但是请求是已经发出去的，函数也是已经执行的，我们并不能对它已经执行的操作进行回滚
+
