@@ -195,3 +195,116 @@ scheduler.addTask(() => delay(3000).then(() => console.timeEnd('分片5'))) // 3
 // 分片4: 3029.530029296875 ms
 // 分片5: 6035.072021484375 ms
 ```
+
+## 版本更新导致的副作用
+场景： 
+当我们的项目部署上线后，假设用户正在某个页面填写表单，这个表单比较大，有50个字段，用户在填写的过程中，突然你们发布了新版本，这个新版本导致表单填完之后跳转的页面中js加载错误，原因是重新部署后，之前的文件没了，这个问题怎么解决？
+
+解决方案：
+保留上个版本的静态资源，当客户端请求的资源在当前版本中不存在时，通过Nginx的配置自动在历史版本目录中查找文件
+
+Nginx的具体配置流程
+1. 目录结构设计
+首先，设计合理的目录结构来管理多个版本：
+```text
+/var/www/static/
+├── current/          # 当前版本 -> v2 (软链接)
+├── v1/               # 版本1目录
+│   ├── js/
+│   ├── css/
+│   └── assets/
+├── v2/               # 版本2目录  
+│   ├── js/
+│   ├── css/
+│   └── assets/
+└── v3/               # 版本3目录
+    ├── js/
+    ├── css/
+    └── assets/
+```
+
+2. Nginx 配置方案(使用映射表)
+```nginx
+# 创建版本映射
+map $uri $static_version {
+    default "current";
+    
+    # 可以根据文件特征映射到特定版本
+    ~*main\.[a-f0-9]{8}\.js$ "v2";
+    ~*chunk-\w+\.[a-f0-9]{8}\.js$ "v2";
+}
+
+server {
+    listen 80;
+    server_name your-domain.com;
+    
+    root /var/www/static;
+    
+    location / {
+        try_files /current/$uri /current/$uri/ /current/index.html;
+    }
+    
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        # 使用映射的版本，如果找不到则回退查找
+        try_files /$static_version/$uri /current/$uri @historical_versions;
+        
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+    
+    location @historical_versions {
+        # 在历史版本中查找
+        try_files /v3/$uri /v2/$uri /v1/$uri =404;
+        
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        add_header X-Static-Fallback "true";
+    }
+}
+```
+
+3. 部署脚本示例
+```bash
+#!/bin/bash
+# deploy.sh
+
+VERSION="v3"
+PREVIOUS_VERSION="v2"
+BACKUP_COUNT=3
+
+# 创建新版本目录
+mkdir -p /var/www/static/$VERSION
+
+# 复制新版本文件
+cp -r ./dist/* /var/www/static/$VERSION/
+
+# 更新当前版本软链接
+ln -sfn /var/www/static/$VERSION /var/www/static/current
+
+# 清理旧版本（保留最近3个版本）
+cd /var/www/static
+ls -d v* | sort -r | tail -n +$((BACKUP_COUNT+1)) | xargs rm -rf
+
+# 重载Nginx
+nginx -s reload
+
+echo "Deployed version $VERSION successfully"
+```
+4. 最佳实践建议
+- 版本化资源命名：使用文件hash作为文件名，如 main.a1b2c3d4.js
+- 保留策略：根据业务需求保留2-3个历史版本
+- 监控告警：监控404错误，及时发现资源缺失
+- 渐进式更新：先部署静态资源，再更新HTML入口文件
+- CDN配置：如果使用CDN，配置类似的回退策略
+
+5. 验证配置
+测试Nginx配置：
+```bash
+nginx -t
+```
+
+重载配置：
+```bash
+nginx -s reload
+```
+这样配置后，即使新版本发布，用户正在填写的表单所需的旧版本静态资源仍然可以正常加载，确保用户体验不受影响。
