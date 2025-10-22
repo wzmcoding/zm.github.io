@@ -308,3 +308,41 @@ nginx -t
 nginx -s reload
 ```
 这样配置后，即使新版本发布，用户正在填写的表单所需的旧版本静态资源仍然可以正常加载，确保用户体验不受影响。
+
+## localStorage 存储 token 的过期时间
+在前端登录流程中，后端会返回一个`token`用于用户的身份验证。
+如果你把这个`token`存到`localStorage`里，下次用户刷新页面时可以直接使用它去请求接口，但如果`token`永不过期，就会造成安全风险，比如被人盗用。
+因此，需要在存到`localStorage`时额外保存一个**过期时间戳**，在取`token`时判断是否过期，过期则跳转到登录页。
+
+> 注意我们正常也可以存到cookie里面，cookie里面是可以设置过期时间的，但是有的同学还是会放到`localStorage`里，这里就介绍一下如何在`localStorage`单存储`token`的过期时间
+
+```javascript
+// 存储 token(假设后端返回的 token 有效期是 2 小时)
+function setToken(token: string, expireSeconds: number = 7200) {
+    const data = {
+        token,
+        expire: Date.now() + expireSeconds * 1000
+    }
+    localStorage.setItem('authToken', JSON.stringify(data))
+}
+// 获取 token
+function getToken() {
+    const tokentStr = localStorage.getItem('authToken')
+    if (!tokentStr) {
+        return null
+    }
+    const tokenData = JSON.parse(tokentStr)
+    if (Date.now() > tokenData.expire) {
+        localStorage.removeItem('authToken') // 清理过期 token
+        return null
+    }
+    return tokenData.token
+}
+
+// 使用 token 
+const token = getToken()
+if (!token) {
+    // token 过期或者不存在，跳转到登录页
+    window.location.href = '/login'
+}
+```
