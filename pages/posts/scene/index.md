@@ -426,4 +426,81 @@ setTimeout(() => {
     - 避免服务器压力
 
 ### 实际案例
+模拟获取用户信息的场景
+```javascript
+// 原始的获取用户信息的函数
+async function fetchUserInfo(userId) {
+    const response = await fetch(`/api/user/${userId}`)
+    return response.json()
+}
+// 创建带缓存的版本
+const cachedFetchUserInfo = createCacheRequest(fetchUserInfo, 5000)
 
+// 使用示例
+async function handleUserRequest() {
+    // 第一次调用 - 实际发起请求
+    const user1 = await cachedFetchUserInfo(123)
+    console.log('First call', user1)
+    // 第二次调用 - 使用缓存
+    const user2 = await cachedFetchUserInfo(123)
+    console.log('Second call', user2)
+    // 5秒后缓存失效
+    setTimeout(() => {
+        // 缓存已失效，将重新发起请求
+        const user3 = await cachedFetchUserInfo(123)
+        console.log('缓存过期后', user3)
+    }, 6000)
+}
+```
+
+### 注意事项
+1. 缓存时间设置
+ - 需要根据数据的实时性要求来设置
+ - 建议不要设置过长的缓存时间，以免造成数据不一致
+
+2. 缓存键生成
+ - 默认使用 JSON.stringify 可能不适用于所有场景，需要根据实际情况来定义
+ - 可以根据需要自定义键生成函数
+
+3. 内存管理
+ - 缓存会占用内存，注意合理设置缓存时间
+ - 对于大量数据的缓存需要考虑内存占用
+
+4. 错误处理
+ - 缓存的是 Promise，需要妥善处理错误情况
+ - 考虑是否需要缓存错误结果
+
+
+### 最佳实践
+1. 合理的缓存时间
+```javascript
+// 示例： 设置 5 秒缓存
+const cachedRequest = createCacheRequest(apiCall, 5000);
+```
+
+2. 自定义缓存键
+```javascript
+// 示例： 使用自定义键生成函数
+const customKeyGen = args => args.map(arg => arg.id).join('-')
+const cachedRequest = createCacheRequest(apiCall, 5000, customKeyGen);
+```
+
+3. 错误处理
+```javascript
+cachedRequest(params)
+.then(data => {
+    // 处理成功情况
+})
+.catch(error => {
+    // 处理错误情况
+})
+```
+
+### 总结
+`createCacheRequest`是一个强大的工具函数，它可以帮助我们优化前端应用中的请求处理。通过合理使用这个函数，我们可以：
+1. 减少不必要的重复请求
+2. 提高应用响应速度
+3. 降低服务器压力
+4. 优化用户体验
+
+在实际使用中，需要根据具体场景合理设置缓存时间和缓存键生成策略，以达到最佳的效果。
