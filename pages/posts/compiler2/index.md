@@ -322,7 +322,7 @@ const tokenizer = new Tokenizer({
   stack = [div]
 ```
 
-**阶段2：解析 <span>**
+**阶段2：解析 `<span>`**
 
 ```text
 字符: <
@@ -362,7 +362,7 @@ const tokenizer = new Tokenizer({
   stack = [div, span]
 ```
 
-**阶段4：解析 </span>**
+**阶段4：解析 `</span>`**
 
 ```text
 字符: <
@@ -387,7 +387,7 @@ const tokenizer = new Tokenizer({
   stack = [div]
 ```
 
-**阶段5：解析 </div>**
+**阶段5：解析 `</div>`**
 
 ```text
 字符: <, /, d, i, v, >
