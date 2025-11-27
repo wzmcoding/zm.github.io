@@ -1,5 +1,5 @@
 ---
-title: 编译时 —— compiler-core
+title: 编译文本节点
 date: 2025-10-11
 updated: 2025-11-26
 categories: 手写Vue3源码之编译时
