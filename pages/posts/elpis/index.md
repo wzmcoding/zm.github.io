@@ -213,7 +213,7 @@ const webpackConfig = merge.smart(baseConfig, {
     ]
 })
 ```
-> 链接： [text](https://www.webpackjs.com/configuration/devtool/#development)
+> 链接： https://www.webpackjs.com/configuration/devtool/#development
 
 1. 对于开发环境
 - eval （构建快，不能正确显示行数）
@@ -241,7 +241,7 @@ const path = require('path');
 const os = require('os');
 const HappyPack = require('happypack');
 ```
-> 链接 [text](https://www.webpackjs.com/loaders/thread-loader/)
+> 链接 https://www.webpackjs.com/loaders/thread-loader/
 - 除了 HappyPack，目前主流的 Webpack 构建加速方案是 `thread-loader`
 - 使用时，需将 `thread-loader` 放置在其他 loader 之前。放置在此 loader 之后的 loader 会在一个独立的 worker 池中运行。
 - 每个 worker 都是一个独立的 node.js 进程，其开销大约为 600ms 左右。同时会限制跨进程的数据交换。仅在耗时的操作中使用此 loader！
@@ -328,36 +328,33 @@ const webpackConfig = merge.smart(baseConfig, {
 
 ```md
 生产环境和开发环境在Webpack配置上有以下关键差异：
-1. 构建目标与模式
-  开发环境：mode: 'development'，注重快速构建和开发体验
-  生产环境：mode: 'production'，注重代码优化和性能
-2. 调试与Source Map
+1. 调试与Source Map
   开发环境：配置 devtool: 'eval-cheap-module-source-map'，便于源代码调试
   生产环境：未显式设置，使用默认的production模式source map（通常不生成详细映射）
-3. 热更新机制
+2. 热更新机制
 开发环境：
   配置 webpack.HotModuleReplacementPlugin 插件
   entry中添加 webpack-hot-middleware/client 路径实现HMR
 生产环境：无HMR相关配置
-4. 代码优化处理
+3. 代码优化处理
   生产环境特有优化：
     使用 MiniCssExtractPlugin 提取CSS到单独文件
     通过 CSSMinimizerPlugin 压缩CSS资源
     使用 TerserWebpackPlugin 压缩JS并移除 console.log
     配置 optimization.minimizer 实现多进程压缩
     启用多线程打包（HappyPack）提升构建速度
-5. 资源缓存策略
+4. 资源缓存策略
   生产环境：
   使用内容哈希 [chunkhash:8] 实现长效缓存
   CSS使用 [contenthash:8] 确保内容变更时更新缓存
-6. 构建输出配置
+5. 构建输出配置
   输出路径：
     开发环境：./app/public/dist/dev/
     生产环境：./app/public/dist/prod/
   publicPath：
     开发环境：使用完整URL http://127.0.0.1:9002/public/dist/dev/
     生产环境：使用相对路径 /dist/prod
-7. 其他特殊处理
+6. 其他特殊处理
   生产环境：
     每次构建前清理输出目录（ClearWebpackPlugin）
     设置 crossOriginLoading: 'anonymous' 控制跨域资源请求
@@ -462,25 +459,3 @@ app.use(devMiddleware(compiler, {
 开发服务器需要同时服务前端资源和 API 请求
 没有这个配置，整个开发环境将无法正常工作，特别是服务器端渲染功能会完全失效。
 ```
-
-
-
-## 前端工程化
-
-```js
-/**
- * 在知乎或掘金社区上写一篇文章，分享你对前端工程化的理解
-   着重描述 多页面构建，分包策略、热更新 等工程化原理
-   写好整理到 MR 文档上的学习总结部分。
-   回答并改好上面的评论建议 && 写好文章后，就合并吧 ~~
- */
-```
-
-### 对前端工程化的理解
-
-### 多页面构建
-
-### 分包策略
-
-### 热更新
-
