@@ -325,3 +325,154 @@ const add = (a, b, c, d) => a + b + c + d
 const partialAdd = partialFn(add, '_', 2, '_')
 console.log(partialAdd(1, 3, 4)) // 10 相当于 add(1, 2, 3, 4)
 ```
+
+## 斐波那契数列及其优化
+> 利用函数记忆，将之前运算过的结果保存下来，对于频繁依赖之前结果的计算能够节省大量的时间，例如斐波那契数列，缺点就是闭包中的 obj 对象会额外占用内存
+```javascript
+let fibonacci = (n) => {
+  if (n < 1) throw new Error('参数有误')
+  if (n === 1 || n === 2) return 1
+  return fibonacci(n - 1) + fibonacci(n - 2)
+}
+
+const memory = function (fn) {
+  let obj = {}
+  return function (n) {
+    if (obj[n] === undefined)  obj[n] = fn(n)
+    return obj[n]
+  }
+}
+
+fibonacci = memory(fibonacci)
+
+// 测试用例
+console.log(fibonacci(1)) // 1
+console.log(fibonacci(2)) // 1
+console.log(fibonacci(3)) // 2
+console.log(fibonacci(4)) // 3
+console.log(fibonacci(5)) // 5
+console.log(fibonacci(6)) // 8
+console.log(fibonacci(7)) // 13
+
+// 使用动态规划空间复杂度更低
+function fibonacci_DP(n) {
+  /**
+   * 边界条件：
+   * 斐波那契第 1、2 项固定为 1
+   */
+  if (n === 1 || n === 2) return 1
+
+  /**
+   * pre 表示 F(n-2)
+   * cur 表示 F(n-1)
+   * res 表示当前计算得到的 F(n)
+   *
+   * 初始状态对应：
+   * F(1) = 1
+   * F(2) = 1
+   */
+  let pre = 1
+  let cur = 1
+  let res = 1
+
+  /**
+   * 已经有前两项，因此还需要计算 (n - 2) 次
+   * 每一轮循环：
+   *   res = pre + cur      => 得到新的 F(n)
+   *   pre = cur            => 状态前移
+   *   cur = res
+   */
+  n = n - 2
+  while (n > 0) {
+    res = pre + cur
+    pre = cur
+    cur = res
+    n--
+  }
+
+  return res
+}
+
+// 更直观版
+function fibonacci_DP(n) {
+  if (n === 1 || n === 2) return 1
+
+  let pre = 1
+  let cur = 1
+
+  for (let i = 3; i <= n; i++) {
+    const res = pre + cur
+    pre = cur
+    cur = res
+  }
+
+  return cur
+}
+console.log(fibonacci_DP(1)) // 1
+console.log(fibonacci_DP(2)) // 1
+console.log(fibonacci_DP(3)) // 2
+console.log(fibonacci_DP(4)) // 3
+console.log(fibonacci_DP(5)) // 5
+console.log(fibonacci_DP(6)) // 8
+console.log(fibonacci_DP(7)) // 13
+```
+
+## 实现函数 bind 方法
+```javascript
+Function.prototype.myBind = function (context, ...bindArgs) {
+  if (typeof this !== 'function') {
+    throw new TypeError('Bind must be called on a function')
+  }
+
+  const fn = this
+
+  function boundFn(...callArgs) {
+    const isNew = this instanceof boundFn
+    const thisArg = isNew ? this : context
+
+    return fn.apply(thisArg, bindArgs.concat(callArgs))
+  }
+
+  /**
+   * 维护原型链：
+   * new boundFn() instanceof fn === true
+   */
+  if (fn.prototype) {
+    boundFn.prototype = Object.create(fn.prototype)
+    boundFn.prototype.constructor = boundFn
+  }
+
+  return boundFn
+}
+
+// 测试用例
+function Person(name) {
+  this.name = name
+}
+
+Person.prototype.say = function () {
+  return this.name
+}
+
+const obj = { name: 'obj' }
+
+const Bound = Person.myBind(obj)
+q
+// 普通调用
+console.log(Bound('Tom')) // undefined（构造函数没 return）
+console.log(obj.name)     // Tom
+
+// new 调用
+const p = new Bound('Jerry')
+console.log(p.name)       // Jerry
+console.log(p instanceof Person) // true
+
+// 为什么原生 bind 不能再改 this？
+function fn() {
+  return this
+}
+
+const bound = fn.bind({ a: 1 })
+console.log(bound.call({ b: 2 })) // { a: 1 }
+// bind 返回的是一个全新函数，this 已在闭包里被锁死。
+```
