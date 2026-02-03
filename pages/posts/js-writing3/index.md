@@ -135,3 +135,102 @@ const myFlat = function (depth = 1) {
 Array.prototype.myFlat = myFlat
 console.log([1, [2, [3, [4, [5]]]]].myFlat())
 ```
+
+## 实现 es6 的 class 语法
+```javascript
+function inherit(Child, Parent) {
+  /**
+   * 1️⃣ 建立「实例 → 父类原型」的原型链
+   *
+   * 等价于：
+   *   Child.prototype.__proto__ === Parent.prototype
+   *
+   * 作用：
+   * - 子类实例可以访问 Parent.prototype 上的方法
+   * - 避免 Parent 构造函数被多次调用（区别于 Parent.call + new Parent）
+   */
+  Child.prototype = Object.create(Parent.prototype, {
+    /**
+     * 2️⃣ 修正 constructor 指向
+     *
+     * Object.create 会创建一个全新的对象作为 Child.prototype，
+     * 默认 constructor 会丢失，需要手动指回 Child
+     *
+     * 属性特征设置为：
+     * - enumerable: false（符合 class 行为，constructor 不可枚举）
+     * - configurable / writable: true（与默认函数一致）
+     */
+    constructor: {
+      enumerable: false,
+      configurable: true,
+      writable: true,
+      value: Child
+    }
+  })
+
+  /**
+   * 3️⃣ 建立「子类构造函数 → 父类构造函数」的原型链（静态继承）
+   *
+   * 等价于：
+   *   Child.__proto__ === Parent
+   *
+   * 作用：
+   * - 子类可以继承父类的静态属性和静态方法
+   * - 模拟 ES6：class Child extends Parent {}
+   */
+  Object.setPrototypeOf(Child, Parent)
+}
+
+
+// 测试用例
+function Parent(name) {
+  this.name = name
+}
+
+Parent.prototype.sayName = function () {
+  return `parent name: ${this.name}`
+}
+
+Parent.staticMethod = function () {
+  return 'static from parent'
+}
+
+function Child(name, age) {
+  // 模拟 super(name)
+  Parent.call(this, name)
+  this.age = age
+}
+
+// 建立继承关系
+inherit(Child, Parent)
+
+// 子类实例方法
+Child.prototype.sayAge = function () {
+  return `age: ${this.age}`
+}
+
+// 子类静态方法
+Child.childStatic = function () {
+  return 'static from child'
+}
+
+// 1. 实例方法继承是否生效
+const c = new Child('Tom', 18)
+
+console.log(c.sayName()) // parent name: Tom
+console.log(c.sayAge())  // age: 18
+
+// 2. 原型链关系是否正确（核心）
+console.log(Object.getPrototypeOf(Child.prototype) === Parent.prototype) // true
+
+console.log(c instanceof Child)  // true
+console.log(c instanceof Parent) // true
+
+// 3. constructor 是否指回 Child
+console.log(c.constructor === Child) // true
+
+// 4. 静态方法是否继承成功（关键）  Child.__proto__ === Parent 生效, 即 Object.setPrototypeOf(Child, Parent)
+console.log(Child.staticMethod()) // static from parent
+
+console.log(Child.childStatic()) // static from child
+```
