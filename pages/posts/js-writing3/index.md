@@ -1,10 +1,10 @@
 ---
-title: 手写常见js代码
+title: 你需要知道的JS技巧
 date: 2026-2-2
-updated: 2026-2-2
-categories: js手写
+updated: 2026-2-3
+categories: 你需要知道的JS技巧
 tags:
-  - js手写
+  - 你需要知道的JS技巧
 top: 1
 ---
 
@@ -231,6 +231,97 @@ console.log(c.constructor === Child) // true
 
 // 4. 静态方法是否继承成功（关键）  Child.__proto__ === Parent 生效, 即 Object.setPrototypeOf(Child, Parent)
 console.log(Child.staticMethod()) // static from parent
-
 console.log(Child.childStatic()) // static from child
+```
+
+## 函数柯里化
+柯里化是函数式编程的一个重要技巧，将使用多个参数的一个函数转换成一系列使用一个参数的函数的技术
+```javascript
+const curry = function (fn) {
+  const len = fn.length
+  if (len <= 1) return fn
+  function curried(...args) {
+    return args.length >= len ? fn(...args) : curried.bind(null, ...args)
+  }
+  return curried
+}
+// 测试用例
+const add = (a, b, c) => a + b + c
+const curriedAdd = curry(add)
+console.log(curriedAdd(1)(2)(3)) // 6
+```
+
+## 函数柯里化（支持占位符）
+> 通过占位符能让柯里化更加灵活，实现思路是，每一轮传入的参数先去填充上一轮的占位符，如果当前轮参数含有占位符，则放到内部保存的数组末尾，
+> 当前轮的元素不会去填充当前轮参数的占位符，只会填充之前传入的占位符
+```javascript
+const curry = (fn, placeholder = '_') => {
+  curry._placeholder = placeholder
+  if (fn.length <= 1) return fn
+  const argsList = []
+  const curried = function (...args) {
+    // 记录了非当前轮最近的一个占位符下标，防止当前轮元素覆盖了当前轮的占位符
+    let currentPlaceholderIndex = -1
+    args.forEach((arg) => {
+      let placeholderIndex = argsList.findIndex((arg) => arg === curry._placeholder)
+      if (placeholderIndex < 0) {
+        // 如果数组中没有占位符直接往数组末尾放入一个元素
+        currentPlaceholderIndex = argsList.push(arg) - 1
+      } else if (placeholderIndex !== currentPlaceholderIndex) {
+        // 防止将元素填充到当前轮参数的占位符
+        // (1, '_')('_',2) 数字 2 应该填充 1 后面的占位符，不能是 2 前面的占位符
+        argsList[placeholderIndex] = arg
+      } else {
+        // 当前元素是占位符的情况
+        argsList.push(arg)
+      }
+    })
+    // 过滤出不含占位符的数组
+    let realArgsList = argsList.filter((arg) => arg !== curry._placeholder)
+    if (realArgsList.length === fn.length) {
+      return fn(...argsList)
+    } else if (realArgsList.length > fn.length) {
+      throw new Error('超出初始函数参数最大值')
+    } else {
+      return curried
+    }
+  }
+  return curried
+}
+
+// 测试用例
+const add = (a, b, c, d) => a + b + c + d
+const curriedAdd = curry(add)
+console.log(curriedAdd('_',6)(5, '_')(7)(8)) // 26  相当于 add(5, 6, 7, 8)
+
+const display = (a, b, c, d, e, f, g, h) => [a, b, c, d, e, f, g, h]
+const curriedDisplay = curry(display)
+console.log(curriedDisplay('_', 2)(1, '_')(3)(4, '_')('_', 5)(6)(7,8)) // [1, 2, 3, 4, 5, 6, 7, 8]
+// 相当于 display(1, 2, 3, 4, 5, 6, 7, 8)
+```
+
+## 偏函数
+> - 偏函数和柯里化概念类似，个人认为它们区别在于偏函数会固定你传入的几个参数，再一次性接受剩下的参数，而函数柯里化会根据你传入参数不停的返回函数，直到参数个数满足被柯里化前函数的参数个数
+> - Function.prototype.bind 函数就是一个偏函数的典型代表，它接受的第二个参数开始，为预先添加到绑定函数的参数列表中的参数，与 bind 不同的是，上面的这个函数同样支持占位符
+
+```javascript
+const partialFn = (fn, ...args) => {
+  let placeholderNum = 0;
+  return (...newArgs) => {
+    newArgs.forEach(arg => {
+      let index = args.findIndex(v => v === '_')
+      if (index < 0) return
+      args[index] = arg
+      placeholderNum++
+    })
+    if (placeholderNum < newArgs.length) {
+      newArgs = newArgs.slice(placeholderNum, newArgs.length)
+    }
+    return fn.apply(this, [...args, ...newArgs])
+  }
+}
+// 测试用例
+const add = (a, b, c, d) => a + b + c + d
+const partialAdd = partialFn(add, '_', 2, '_')
+console.log(partialAdd(1, 3, 4)) // 10 相当于 add(1, 2, 3, 4)
 ```
