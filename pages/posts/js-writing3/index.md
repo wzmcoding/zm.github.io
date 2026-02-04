@@ -591,3 +591,326 @@ function sum(a, b) {
 
 console.log(sum.myCall(null, 3, 4)) // 7
 ```
+
+## 简易的 CO 模块
+`co` 函数库是著名程序员 TJ Holowaychuk 于2013年6月发布的一个小工具，用于 `Generator` 函数的自动执行。
+
+比如，有一个 Generator 函数，用于依次读取两个文件。
+```javascript
+const gen = function* (){
+  const f1 = yield readFile('');
+  const f2 = yield readFile('');
+  console.log(f1.toString());
+  console.log(f2.toString());
+}
+```
+co 函数库可以让你不用编写 Generator 函数的执行器。
+```javascript
+const co = require('co');
+co(gen);
+```
+上面代码中，Generator 函数只要传入 co 函数，就会**自动执行**。
+
+co 函数**返回一个 Promise 对象**，因此可以用 then 方法添加回调函数。
+```javascript
+co(gen).then(function (){
+  console.log('Generator 函数执行完成');
+})
+```
+上面代码中，等到 Generator 函数执行结束，就会输出一行提示。
+
+co 函数具体实现
+```javascript
+const co = (genFn) => {
+  return new Promise((resolve, reject) => {
+    // 生成迭代器
+    const gen = genFn()
+
+    function next(nextFn, arg) {
+      let res
+      try {
+        // 执行 next / throw
+        res = nextFn.call(gen, arg)
+      } catch (err) {
+        // Generator 内部抛错，直接 reject
+        return reject(err)
+      }
+
+      const { value, done } = res
+
+      // 判断是否结束
+      if (done) {
+        return resolve(value)
+      }
+
+      // 把 yield 的结果 Promise 化
+      Promise.resolve(value).then(
+        (val) => next(gen.next, val), // 迭代器继续执行
+        (err) => next(gen.throw, err) // 迭代器抛出错误
+      )
+    }
+
+    // 迭代器开始执行
+    next(gen.next)
+  })
+}
+
+// 测试用例
+// 正常 Promise 串行
+function* task() {
+  const a = yield Promise.resolve(1)
+  const b = yield Promise.resolve(a + 1)
+  const c = yield Promise.resolve(b + 1)
+  return c
+}
+
+co(task).then(res => {
+  console.log(res) // 3
+})
+// yield 普通值（co 会自动包 Promise）
+function* test() {
+  const a = yield 1
+  const b = yield a + 1
+  return b
+}
+
+co(test).then(res => {
+  console.log(res) // 2
+})
+// 错误处理（重点）
+function* errorTask() {
+  try {
+    yield Promise.reject('boom')
+  } catch (e) {
+    return 'caught: ' + e
+  }
+}
+
+co(errorTask).then(res => {
+  console.log(res) // caught: boom
+})
+```
+和 async / await 的等价关系
+```javascript
+// co + Generator
+co(function* () {
+  const a = yield fetchA()
+  const b = yield fetchB(a)
+  return b
+})
+
+// async / await
+(async () => {
+  const a = await fetchA()
+  const b = await fetchB(a)
+  return b
+})()
+```
+async/await 本质上就是语言级 co。
+
+## 函数防抖
+```javascript
+const debounce = (fn, delay, options = { immediate: true, context: null }) => {
+  let timer = null
+  const _debounce = function (...args) {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    if (options.immediate && !timer) {
+      timer = setTimeout(null, delay)
+      fn.apply(options.context, args)
+    } else {
+      timer = setTimeout(() => {
+        fn.apply(options.context, args)
+        timer = null
+      }, delay)
+    }
+  }
+  _debounce.cancel = function () {
+    clearTimeout(timer)
+    timer = null
+  }
+  return _debounce
+}
+```
+> immediate 为是否在进入时立即执行一次，原理是利用定时器，如果在规定时间内再次触发事件会将上次的定时器清除，即不会执行函数并重新设置一个新的定时器，
+> 直到超过规定时间自动触发定时器中的函数
+> 同时通过闭包向外暴露了一个 cancel 函数，使得外部能直接清除内部的计数器
+
+## 函数节流
+```javascript
+// leading：是否首次立即执行
+// trailing：是否在停止触发后再执行一次
+const throttle = (fn, delay, options = { leading: true, trailing: false, context: null }) => {
+  let previous = 0
+  let timer
+
+  const _throttle = function (...args) {
+    const now = new Date().getTime()
+    if (!options.leading) {
+      // 首次不执行
+      if (timer) return
+      timer = setTimeout(() => {
+        timer = null
+        fn.apply(options.context, args)
+      }, delay)
+    } else if (now - previous > delay) {
+      fn.apply(options.context, args)
+      previous = now // 更新上一次执行时间
+    } else if (options.trailing) {
+      // 停止触发后再执行一次
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        fn.apply(options.context, args)
+      }, delay)
+    }
+  }
+
+  _throttle.cancel = function () {
+    previous = 0
+    clearTimeout(timer)
+    timer = null
+  }
+
+  return _throttle
+}
+// 测试用例
+let count = 0
+const fn = () => {
+  count++
+  console.log('执行次数:', count)
+}
+
+const t = throttle(fn, 1000)
+
+// 连续触发
+t()
+t()
+t()
+t()
+
+// 1 秒后再触发
+setTimeout(() => {
+  t()
+}, 1200)
+```
+
+## 图片懒加载
+```javascript
+const imgList = [...document.querySelectorAll('img')]
+
+const lazyLoad = function () {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.intersectionRatio > 0) {
+        entry.target.src = entry.target.dataset.src
+        observer.unobserve(entry.target)
+      }
+    })
+  })
+  imgList.forEach((img) => {
+    observer.observe(img)
+  })
+}
+```
+> - intersectionObserver 的实现方式，实例化一个 IntersectionObserver ，并使其观察所有 img 标签
+> - 当 img 标签进入可视区域时会执行实例化时的回调，同时给回调传入一个 entries 参数，保存着实例观察的所有元素的一些状态，
+> 比如每个元素的边界信息，当前元素对应的 DOM 节点，当前元素进入可视区域的比率，每当一个元素进入可视区域，将真正的图片赋值给当前 img 标签，同时解除对其的观察
+
+## new 关键字
+对 new Fn(...args)，JS 引擎按顺序干这四件事：
+1. 创建一个全新的空对象
+2. 把这个对象的 [[Prototype]] 指向 Fn.prototype
+3. 用这个对象作为 this，执行构造函数
+4. 根据返回值决定最终结果
+   - 如果构造函数返回 对象 / 函数 → 用返回值
+   - 否则 → 用步骤 1 创建的对象
+```javascript
+function myNew(Constructor, ...args) {
+  // 1. 参数校验
+  if (typeof Constructor !== 'function') {
+    throw new TypeError('Constructor must be a function')
+  }
+
+  // 2. 创建对象，并绑定原型
+  const obj = Object.create(Constructor.prototype)
+
+  // 3. 执行构造函数，绑定 this
+  const result = Constructor.apply(obj, args)
+
+  // 4. 返回规则（对象优先）
+  return (result !== null && (typeof result === 'object' || typeof result === 'function'))
+    ? result
+    : obj
+}
+
+// 测试用例
+function Person(name) {
+  this.name = name
+}
+Person.prototype.say = function () {
+  return this.name
+}
+const p = myNew(Person, 'Tom')
+
+console.log(p.name)               // Tom
+console.log(p.say())              // Tom
+console.log(p instanceof Person)  // true
+
+function Foo() {
+  this.a = 1
+  return { b: 2 }
+}
+const f = myNew(Foo)
+
+console.log(f)          // { b: 2 }
+console.log(f.a)        // undefined
+```
+
+## 实现 Object.assign
+```javascript
+Object.myAssign = function (target, ...sources) {
+  // 1. target 校验
+  if (target == null) {
+    throw new TypeError('Cannot convert undefined or null to object')
+  }
+
+  // 2. 装箱（原生行为）
+  const to = Object(target)
+
+  for (let source of sources) {
+    // 3. 跳过 null / undefined
+    if (source == null) continue
+
+    const from = Object(source)
+
+    // 4. 拷贝字符串键（可枚举）
+    for (let key of Object.keys(from)) {
+      to[key] = from[key]
+    }
+
+    // 5. 拷贝 Symbol 键（可枚举）
+    for (let sym of Object.getOwnPropertySymbols(from)) {
+      if (Object.prototype.propertyIsEnumerable.call(from, sym)) {
+        to[sym] = from[sym]
+      }
+    }
+  }
+
+  return to
+}
+// 测试用例
+const a = { x: 1 }
+const b = { y: 2 }
+
+Object.myAssign(a, b)
+
+console.log(a) // { x: 1, y: 2 }
+
+// 浅拷贝验证
+const obj = { nested: { x: 1 } }
+const res = Object.myAssign({}, obj)
+
+res.nested.x = 99
+console.log(obj.nested.x) // 99
+```
