@@ -914,3 +914,19 @@ const res = Object.myAssign({}, obj)
 res.nested.x = 99
 console.log(obj.nested.x) // 99
 ```
+
+## 实现 instanceof
+> - instanceof 的原理是：
+> - 沿着 left 对象的原型链向上查找，逐层将其 [[Prototype]] 与 right.prototype 进行比较
+> - 若在原型链中找到相等的引用则返回 true
+> - 若查找到原型链终点（null）仍未找到，则返回 false
+```javascript
+const myInstanceof = function (left, right) {
+  let proto = Object.getPrototypeOf(left)
+  while (true) {
+    if (proto === null) return false
+    if (proto === right.prototype) return true
+    proto = Object.getPrototypeOf(proto)
+  }
+}
+```
