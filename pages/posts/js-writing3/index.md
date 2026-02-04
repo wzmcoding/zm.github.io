@@ -1,7 +1,7 @@
 ---
 title: 你需要知道的JS技巧
 date: 2026-2-2
-updated: 2026-2-3
+updated: 2026-2-4
 categories: 你需要知道的JS技巧
 tags:
   - 你需要知道的JS技巧
@@ -418,6 +418,7 @@ console.log(fibonacci_DP(7)) // 13
 ```
 
 ## 实现函数 bind 方法
+- bind 返回的函数被 new 调用作为构造函数时，绑定的值会失效并且改为 new 指定的对象
 ```javascript
 Function.prototype.myBind = function (context, ...bindArgs) {
   if (typeof this !== 'function') {
@@ -442,6 +443,15 @@ Function.prototype.myBind = function (context, ...bindArgs) {
     boundFn.prototype.constructor = boundFn
   }
 
+  // 定义绑定后函数的 name 和 length 属性（不可枚举）
+  const desc = Object.getOwnPropertyDescriptors(fn)
+  Object.defineProperties(boundFn, {
+    length: desc.length,
+    name: Object.assign(desc.name, {
+      value: `bound ${desc.name.value}`
+    })
+  })
+
   return boundFn
 }
 
@@ -457,7 +467,6 @@ Person.prototype.say = function () {
 const obj = { name: 'obj' }
 
 const Bound = Person.myBind(obj)
-q
 // 普通调用
 console.log(Bound('Tom')) // undefined（构造函数没 return）
 console.log(obj.name)     // Tom
@@ -474,5 +483,111 @@ function fn() {
 
 const bound = fn.bind({ a: 1 })
 console.log(bound.call({ b: 2 })) // { a: 1 }
-// bind 返回的是一个全新函数，this 已在闭包里被锁死。
+// fn.bind({ a: 1 }).call({ b: 2 })
+// bind 优先级更高
+// this = { a: 1 }      value: `bound ${desc.name.value}`
+```
+> - bind 返回的不是普通函数，而是一种带有内部 [[BoundThis]] 的绑定函数。
+> - 在调用时，该内部绑定优先级高于 call / apply，因此无法再被修改。
+> - new > bind > call / apply > 隐式绑定(obj.fn) > 默认绑定（window/undefined）
+
+## 实现函数 call 方法
+```javascript
+Function.prototype.myCall = function (context, ...args) {
+  /**
+   * this 指向调用 myCall 的函数
+   * 例如：fn.myCall(obj)
+   * 此时 this === fn
+   */
+  const fn = this
+
+  /**
+   * ❗ this 校验
+   * call 只能被函数调用
+   * 如果 Function.prototype.myCall.call({}, obj)
+   * 那么 this 就不是函数，必须抛错
+   */
+  if (typeof fn !== 'function') {
+    throw new TypeError('this is not a function')
+  }
+
+  /**
+   * 处理 context 为空的情况
+   * 这里使用的是：
+   *   context || (context = window)
+   *
+   * 含义：
+   *   - 如果 context 为假值（null / undefined / 0 / '' / false）
+   *     就会被替换成 window
+   *
+   * ⚠️ 注意：
+   *   这一步并不完全符合原生 call 行为
+   *   原生 call 只会在 null / undefined 时才使用全局对象
+   *   0 / '' / false 是合法的 this，会被装箱
+   */
+  context || (context = window)
+  // 规范级写法应是：context = context == null ? window : Object(context)
+
+  /**
+   * 使用 Symbol 作为临时属性名
+   * 目的：
+   *   - 避免覆盖 context 上已有的属性
+   *   - 确保属性唯一且不可被外部访问
+   */
+  const caller = Symbol('caller')
+
+  /**
+   * 将函数临时挂载到 context 上
+   * 本质：
+   *   context.caller = fn
+   *
+   * 这样在调用时：
+   *   context.caller(...)
+   * 函数内部的 this 就会指向 context
+   */
+  context[caller] = fn
+
+  /**
+   * 以“对象.方法()”的形式调用函数
+   * 从而隐式绑定 this
+   *
+   * 等价于：
+   *   fn.call(context, ...args)
+   */
+  const res = context[caller](...args)
+
+  /**
+   * 清理临时属性
+   * 避免污染 context 对象
+   */
+  delete context[caller]
+
+  /**
+   * 返回函数执行结果
+   * call 本身是有返回值的
+   */
+  return res
+}
+// 测试用例
+// this 是否正确绑定
+function fn(a, b) {
+  return { thisVal: this, sum: a + b }
+}
+const obj = { x: 1 }
+const res = fn.myCall(obj, 2, 3)
+console.log(res.thisVal === obj) // true
+console.log(res.sum)             // 5
+// context 为空的测试（默认绑定）
+function showThis() {
+  return this
+}
+console.log(showThis.myCall())          // window（非严格模式）
+console.log(showThis.myCall(null))      // window
+console.log(showThis.myCall(undefined)) // window
+// 返回值测试
+function sum(a, b) {
+  return a + b
+}
+
+console.log(sum.myCall(null, 3, 4)) // 7
 ```
