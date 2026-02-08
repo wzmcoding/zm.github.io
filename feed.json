@@ -1,0 +1,662 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "练习时长两年半~",
+    "home_page_url": "https://zm-github-io.vercel.app/",
+    "feed_url": "https://zm-github-io.vercel.app/feed.json",
+    "description": "唱，跳，rap，篮球~",
+    "icon": "https://avatars.githubusercontent.com/u/99781695?v=4",
+    "author": {
+        "name": "前端练习生zm",
+        "url": "https://valaxy.site"
+    },
+    "items": [
+        {
+            "id": "https://zm-github-io.vercel.app/posts/compiler3/index",
+            "content_html": "<h1>编译属性</h1>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/compiler3/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/compiler3/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/compiler3/index",
+            "title": "编译时 —— compiler-core",
+            "date_modified": "2026-02-01T00:00:00.000Z",
+            "date_published": "2026-02-08T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/volta/index",
+            "content_html": "<h1>邂逅 volta</h1>\n<p>volta 是一个 JavaScript 工具链管理器，用来管理 Node / npm / yarn / pnpm 等版本。<br>\n核心功能：</p>\n<ul>\n<li>✅ 管理 Node 版本</li>\n<li>✅</li>\n</ul>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/volta/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/volta/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/volta/index",
+            "title": "volta 优秀的项目级 Node.js 版本管理工具",
+            "date_modified": "2026-02-06T00:00:00.000Z",
+            "date_published": "2026-02-06T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/js-writing3/index",
+            "content_html": "<h2>循环实现数组 map 方法</h2>\n<pre><code class=\"language-javascript\">const myMap = function (fn, context) {\n  const arr = Array.prototype</code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/js-writing3/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/js-writing3/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/js-writing3/index",
+            "title": "你需要知道的JS技巧",
+            "date_modified": "2026-02-02T00:00:00.000Z",
+            "date_published": "2026-02-04T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/elpis5/index",
+            "content_html": "<h1>抽离并发布 elpis npm包</h1>\n<h2>本地调试 npm 包</h2>\n<ul>\n<li>elpis 中执行 <code>npm link</code>, 将 <code>elpis</code> 软链接到 <code>node_modules</code> 目录下（全局）</li>\n<li>业</li>\n</ul>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/elpis5/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/elpis5/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/elpis5/index",
+            "title": "抽离并发布 elpis npm包",
+            "date_modified": "2026-01-28T00:00:00.000Z",
+            "date_published": "2026-01-29T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/elpis4/index",
+            "content_html": "<h1>动态组件扩展设计</h1>\n<h2>动态组件DSL设计</h2>\n<pre><code class=\"language-javascript\">// schemaConfig.schema.properties[key] 对每一个key 都有对应的配置\n// 字段</code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/elpis4/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/elpis4/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/elpis4/index",
+            "title": "elpis 动态组件扩展设计",
+            "date_modified": "2026-01-27T00:00:00.000Z",
+            "date_published": "2026-01-27T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/elpis3/index",
+            "content_html": "<h1>elpis 是什么？</h1>\n<p>elpis 是一个基于领域模型架构的全栈开发框架，通过DSL (Domain Specific Language) 与 Schema 设计，解决中后台开发中80%的CRUD</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/elpis3/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/elpis3/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/elpis3/index",
+            "title": "elpis 框架设计理念（领域模型架构建设）",
+            "date_modified": "2026-01-22T00:00:00.000Z",
+            "date_published": "2026-01-22T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/elpis2/index",
+            "content_html": "<h1>前端工程化</h1>\n<h2>什么是前端工程化？</h2>\n<p>前端工程化，指的是将前端开发过程标准化、模块化、自动化，以提升开发效率、保障代码质量，并增强项目的可维护性和可扩展性。</p>\n<p>主要体现在以下几个方面：</p>\n<ol>\n<li></li>\n</ol>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/elpis2/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/elpis2/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/elpis2/index",
+            "title": "前端工程化",
+            "date_modified": "2026-01-14T00:00:00.000Z",
+            "date_published": "2026-01-14T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/elpis/index",
+            "content_html": "<h1>基于 webpack5 完成工程化建设</h1>\n<h2>1. 控制打包多页面的核心逻辑,多页面与单页面应用的区别</h2>\n<pre><code class=\"language-js\">// app/webpack/config/webpack.base.js\n</code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/elpis/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/elpis/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/elpis/index",
+            "title": "基于 webpack5 完成工程化建设",
+            "date_modified": "2026-01-13T00:00:00.000Z",
+            "date_published": "2026-01-13T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/compiler2/index",
+            "content_html": "<h1>编译元素节点</h1>\n<h2>1. 元素解析的核心思想</h2>\n<p>解析元素的关键点在于我们<strong>什么情况下需要开始解析元素，什么时候结束解析元素</strong>。<br>\n比如：</p>\n<pre><code class=\"language-javascript\">const templat</code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/compiler2/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/compiler2/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/compiler2/index",
+            "title": "编译元素节点",
+            "date_modified": "2025-11-27T00:00:00.000Z",
+            "date_published": "2025-11-27T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/compiler/index",
+            "content_html": "<h1><strong>编译时 —— compiler-core</strong></h1>\n<h1>什么是编译时？</h1>\n<p>将模板编译成 js 的过程，就是编译时</p>\n<pre><code class=\"language-vue\">&lt;div&gt;111&lt;/div&gt;\n</code></pre>\n<p>把上面这一坨当做一个字符</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/compiler/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/compiler/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/compiler/index",
+            "title": "编译文本节点",
+            "date_modified": "2025-10-11T00:00:00.000Z",
+            "date_published": "2025-11-26T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/vue-interview/index",
+            "content_html": "<h1>Vue</h1>\n<h2>1. Vue的响应式原理</h2>\n<pre><code class=\"language-typescript\">type EffectFN = () =&gt; void\n\nlet activeEffect: EffectFN | null\n\n</code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/vue-interview/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/vue-interview/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/vue-interview/index",
+            "title": "Vue",
+            "date_modified": "2025-10-24T00:00:00.000Z",
+            "date_published": "2025-10-24T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/scene/index",
+            "content_html": "<h1>场景题</h1>\n<h2>请求竞态问题</h2>\n<blockquote>\n<p>假如我们页面上有两个按钮，这两个按钮是调用同一个函数发送请求，但是他们的参数是不一样的，最终页面上只能展示一个请求的结果，<br>\n如果我们不对它进行限制，那么就会</p>\n</blockquote>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/scene/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/scene/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/scene/index",
+            "title": "场景题",
+            "date_modified": "2025-10-22T00:00:00.000Z",
+            "date_published": "2025-10-22T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/websocket/index",
+            "content_html": "<h2>什么是WebSocket?</h2>\n<p>WebSocket 是一种在单个TCP连接上进行全双工通信的协议。WebSocket 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/websocket/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/websocket/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/websocket/index",
+            "title": "WebSocket",
+            "date_modified": "2025-10-21T00:00:00.000Z",
+            "date_published": "2025-10-21T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/js-writing2/index",
+            "content_html": "<h2>数组去重</h2>\n<pre><code class=\"language-typescript\">// 1. Set\nexport function unique&lt;T&gt;(...arr: T[]): T[] {\n    return [...new Se</code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/js-writing2/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/js-writing2/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/js-writing2/index",
+            "title": "手写常见js代码",
+            "date_modified": "2025-10-20T00:00:00.000Z",
+            "date_published": "2025-10-20T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/vite-plugin/index",
+            "content_html": "<h2>实现图片预加载 vite 插件</h2>\n<pre><code class=\"language-ts\">export default definConfig({\n  // base: '/dist/', // 如果项目部署在二级目录，需要指定 bas</code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/vite-plugin/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/vite-plugin/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/vite-plugin/index",
+            "title": "实现图片预加载 vite 插件",
+            "date_modified": "2025-10-14T00:00:00.000Z",
+            "date_published": "2025-10-14T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component17/index",
+            "content_html": "<h2>PatchFlags</h2>\n<p>什么是 PatchFlags？<br>\nPatchFlags 是 Vue 3 中用于优化虚拟 DOM 更新的一种机制。<br>\n它们是编译器在编译模板时生成的标志，用于指示哪些部分的虚拟</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component17/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component17/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component17/index",
+            "title": "PatchFlags",
+            "date_modified": "2025-10-05T00:00:00.000Z",
+            "date_published": "2025-10-05T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component16/index",
+            "content_html": "<h2>defineAsyncComponent 实现原理</h2>\n<p><code>defineAsyncComponent</code> 是 Vue3 中用于定义异步组件的 API，它能够优雅地处理组件的异步加载、加载状态显示和错误</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component16/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component16/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component16/index",
+            "title": "defineAsyncComponent 实现原理",
+            "date_modified": "2025-10-04T00:00:00.000Z",
+            "date_published": "2025-10-04T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component15/index",
+            "content_html": "<h2>Transition 组件实现原理</h2>\n<p>Transition 是 Vue3 中的内置组件，用于在元素或组件进入和离开 DOM 时添加过渡动画效果。本文将深入分析 Transition 组件的实现原</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component15/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component15/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component15/index",
+            "title": "Transition 组件实现原理",
+            "date_modified": "2025-09-30T00:00:00.000Z",
+            "date_published": "2025-10-03T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component13/index",
+            "content_html": "<h2>Teleport 组件实现原理</h2>\n<p>Teleport 是 Vue3 中一个非常实用的内置组件，它可以将组件的内容渲染到 DOM 树的任何位置。</p>\n<h2>1. 基本概念</h2>\n<p>Teleport 组件主要</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component13/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component13/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component13/index",
+            "title": "Teleport 组件实现原理",
+            "date_modified": "2025-09-30T00:00:00.000Z",
+            "date_published": "2025-09-30T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component14/index",
+            "content_html": "<h2>KeepAlive 组件实现原理</h2>\n<p>KeepAlive 是 Vue3 中一个内置组件，用于缓存组件实例和 DOM，以提高组件切换的性能。本文将深入分析 KeepAlive 组件的实现原理。</p>\n<h1></h1>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component14/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component14/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component14/index",
+            "title": "KeepAlive 组件实现原理",
+            "date_modified": "2025-09-30T00:00:00.000Z",
+            "date_published": "2025-09-30T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component11/index",
+            "content_html": "<h2>provide 和 inject</h2>\n<ul>\n<li><code>provide</code> 和 <code>inject</code> 允许祖先组件向其所有子孙后代组件注入一个依赖，而不管组件层级有多深。我们一般会用它来进行祖先组件和后代组件之间的</li>\n</ul>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component11/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component11/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component11/index",
+            "title": "provide 和 inject",
+            "date_modified": "2025-09-28T00:00:00.000Z",
+            "date_published": "2025-09-29T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component12/index",
+            "content_html": "<h2>函数式组件实现原理</h2>\n<p>函数式组件（Functional Component）是 Vue 中一种特殊的组件类型，它是一个纯函数，接收 <code>props</code> 作为参数并返回 <code>VNode</code>。本文将深入分析</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component12/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component12/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component12/index",
+            "title": "函数式组件实现原理",
+            "date_modified": "2025-09-29T00:00:00.000Z",
+            "date_published": "2025-09-29T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component10/index",
+            "content_html": "<h2>ref 和 expose</h2>\n<ul>\n<li>expose<br>\n我们先来实现一下 <code>expose</code>，之前我们完成了 <code>attrs</code>、<code>emit</code> 和 <code>slots</code>，所以我们直接在原来的 `createSetup</li>\n</ul>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component10/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component10/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component10/index",
+            "title": "ref 和 expose",
+            "date_modified": "2025-09-25T00:00:00.000Z",
+            "date_published": "2025-09-26T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component8/index",
+            "content_html": "<h2>获取组件的实例</h2>\n<p>我们在组件中，一般会通过 <code>getCurrentInstance</code> 来获取当前组件的实例，这个 API 主要是为了在 <code>setup</code> 函数中获取当前组件的实例。</p>\n<pre><code class=\"language-java\"></code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component8/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component8/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component8/index",
+            "title": "获取组件的实例",
+            "date_modified": "2025-09-23T00:00:00.000Z",
+            "date_published": "2025-09-23T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component9/index",
+            "content_html": "<h2>组件的生命周期</h2>\n<h2>生命周期的使用</h2>\n<ul>\n<li>在组件 setup 内使用以下 API 注册生命周期：\n<ul>\n<li>onBeforeMount(fn)：在组件挂载之前调用</li>\n<li>onMounted(</li>\n</ul>\n</li>\n</ul>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component9/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component9/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component9/index",
+            "title": "组件的生命周期",
+            "date_modified": "2025-09-23T00:00:00.000Z",
+            "date_published": "2025-09-23T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component5/index",
+            "content_html": "<h2>组件的属性更新</h2>\n<p>先看案例：</p>\n<pre><code class=\"language-javascript\">const Child = {\n  // 接受了父组件传递的 age\n  props: ['age'],\n  setup(props) </code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component5/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component5/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component5/index",
+            "title": "组件的属性更新",
+            "date_modified": "2025-09-22T00:00:00.000Z",
+            "date_published": "2025-09-22T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component6/index",
+            "content_html": "<h2>绑定组件的事件</h2>\n<p>先看下平时使用的事件绑定方式：</p>\n<pre><code class=\"language-javascript\">const Child = {\n  setup(props, { emit }) {\n    return () =</code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component6/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component6/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component6/index",
+            "title": "绑定组件的事件",
+            "date_modified": "2025-09-22T00:00:00.000Z",
+            "date_published": "2025-09-22T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component7/index",
+            "content_html": "<h2>组件的插槽</h2>\n<p>先看使用案例:</p>\n<pre><code class=\"language-javascript\">// 父组件\nconst Comp = {\n  setup() {\n    return () =&gt; {\n      return h(</code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component7/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component7/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component7/index",
+            "title": "组件的插槽",
+            "date_modified": "2025-09-22T00:00:00.000Z",
+            "date_published": "2025-09-22T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component2/index",
+            "content_html": "<h1>属性传递（props和attrs）</h1>\n<p>props和attrs的区别：是否在组件中声明属性，声明了就是props，没有声明就是attrs</p>\n<pre><code class=\"language-javascript\">const Comp = {\n</code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component2/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component2/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component2/index",
+            "title": "属性传递（props和attrs）",
+            "date_modified": "2025-09-18T00:00:00.000Z",
+            "date_published": "2025-09-18T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component3/index",
+            "content_html": "<h2>组件的代理对象</h2>\n<p>我们在组件中使用 <code>this</code> 可以访问到 <code>setupState、props、attrs、slots、$refs</code> 等属性，这些属性都是通过代理对象实现的。<br>\n组件的代理对象实</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component3/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component3/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component3/index",
+            "title": "组件的代理对象",
+            "date_modified": "2025-09-18T00:00:00.000Z",
+            "date_published": "2025-09-18T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component4/index",
+            "content_html": "<h2>组件的异步更新</h2>\n<p>先看案例</p>\n<pre><code class=\"language-javascript\">import { h, ref, createApp } from '../dist/vue.esm.js'\n\nconst Comp = </code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component4/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component4/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component4/index",
+            "title": "组件的异步更新",
+            "date_modified": "2025-09-18T00:00:00.000Z",
+            "date_published": "2025-09-18T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/component/index",
+            "content_html": "<h1>组件挂载</h1>\n<p>使用方式:</p>\n<pre><code class=\"language-javascript\">import { h, ref, createApp } from '../dist/vue.esm.js'\nconst Comp = {\n</code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/component/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/component/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/component/index",
+            "title": "组件挂载",
+            "date_modified": "2025-09-17T00:00:00.000Z",
+            "date_published": "2025-09-17T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/create-app/index",
+            "content_html": "<h1>createApp</h1>\n<p>平时如何使用：</p>\n<pre><code class=\"language-typescript\">import { h, ref, createApp } from '../dist/vue.esm.js'\n// 创建一个组件\n</code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/create-app/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/create-app/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/create-app/index",
+            "title": "createApp",
+            "date_modified": "2025-09-16T00:00:00.000Z",
+            "date_published": "2025-09-16T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/sse/index",
+            "content_html": "<p>服务器向浏览器推送信息，除了 <code>WebSocket</code>，还有一种方法：<code>Server-Sent Events</code>（以下简称 <code>SSE</code>）。<br>\n![image.png](<a href=\"https://www.ruany\">https://www.ruany</a></p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/sse/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/sse/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/sse/index",
+            "title": "SSE原理",
+            "date_modified": "2025-08-15T00:00:00.000Z",
+            "date_published": "2025-08-15T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/git-use/index",
+            "content_html": "<h2>关于 Git 变基</h2>\n<p><code>git rebase</code> 命令用于轻松更改一系列提交，修改存储库的历史记录。 可以进行重新排序、编辑提交或将提交压缩到一起。<br>\n通常，你会使用 <code>git rebase</code>来：</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/git-use/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/git-use/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/git-use/index",
+            "title": "git rebase",
+            "date_modified": "2024-03-31T00:00:00.000Z",
+            "date_published": "2025-08-13T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/interview-szml/index",
+            "content_html": "<h2>数字马力面试题</h2>\n<h3>一面2025-07-18</h3>\n<ol>\n<li>自我介绍</li>\n<li>vue和react哪个熟悉</li>\n<li>深浅拷贝区别，实现深拷贝有什么思路</li>\n<li>对this的理解</li>\n<li>改变this指向的方</li>\n</ol>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/interview-szml/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/interview-szml/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/interview-szml/index",
+            "title": "数马1",
+            "date_modified": "2025-08-09T00:00:00.000Z",
+            "date_published": "2025-08-12T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/interview-szml-2/index",
+            "content_html": "<h2>数字马力二面 2025-07-28</h2>\n<ol>\n<li>自我介绍</li>\n<li>下一家公司为什么不继续考虑杭州，而是考虑到长沙，现在薪资多少，了解长沙的薪资水平吗？</li>\n<li>问项目是否是从0到1搭建的，参与制定git</li>\n</ol>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/interview-szml-2/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/interview-szml-2/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/interview-szml-2/index",
+            "title": "数马2",
+            "date_modified": "2025-08-10T00:00:00.000Z",
+            "date_published": "2025-08-12T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/rebase/index",
+            "content_html": "<h2>git rebase合并多个commit</h2>\n<ol>\n<li>git rebase -i &lt;想合并提交的前一个 commithash&gt;</li>\n<li>git rebase -i HEAD~5 合并最近5个</li>\n</ol>\n<ul>\n<li></li>\n</ul>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/rebase/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/rebase/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/rebase/index",
+            "title": "git rebase合并多个commit",
+            "date_modified": "2025-05-27T00:00:00.000Z",
+            "date_published": "2025-08-12T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/js-writing/index",
+            "content_html": "<h3>模拟接口请求失败并实现递增间隔的重试机制</h3>\n<p>请编写一个 JavaScript 函数 retryFetchWithDelay，模拟一个会失败的接口请求，并实现递增间隔的重试机制。具体要求如下：</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/js-writing/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/js-writing/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/js-writing/index",
+            "title": "手写常见js代码",
+            "date_modified": "2025-04-21T00:00:00.000Z",
+            "date_published": "2025-08-11T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/encapsulation-component/index",
+            "content_html": "<h2>Vue3 中二次封装组件</h2>\n<blockquote>\n<p>从二次封装 el-input 开始 🧀</p>\n</blockquote>\n<h3>要解决的问题</h3>\n<ol>\n<li>props 如何透传出去？</li>\n<li>slots 如何透传出去？</li>\n<li>组件的方法如何暴露出去</li>\n</ol>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/encapsulation-component/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/encapsulation-component/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/encapsulation-component/index",
+            "title": "Vue3 中二次封装组件",
+            "date_modified": "2025-08-05T00:00:00.000Z",
+            "date_published": "2025-08-05T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/diff/index",
+            "content_html": "<h1>diff</h1>\n<h2>全量 diff （重要）</h2>\n<p>全量 diff 主要是针对两个子节点都是数组的情况，我们需要对它所有的子元素进行全量更新，那么这种更新非常消耗性能，<br>\n在 vue 中会尝试着尽可能的复用</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/diff/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/diff/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/diff/index",
+            "title": "diff 最长递增子序列",
+            "date_modified": "2025-07-21T00:00:00.000Z",
+            "date_published": "2025-07-22T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/text-node/index",
+            "content_html": "<h1>文本节点</h1>\n<p>我们之前一直讲的是使用虚拟 DOM 创建某一个元素节点，渲染到页面中，其实 vue 还支持渲染文本节点，简单来说就是将一个文本节点渲染到真实 DOM 中，我们来看一下怎么使用的：<br>\n``</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/text-node/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/text-node/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/text-node/index",
+            "title": "文本节点",
+            "date_modified": "2025-07-21T00:00:00.000Z",
+            "date_published": "2025-07-22T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/render/index",
+            "content_html": "<h1>render 中的挂载、更新、卸载</h1>\n<h2>render 函数</h2>\n<p>这个 <code>render</code> 跟我们组件中的 <code>render</code> 不是同一个 <code>render</code>，它是用来渲染根组件的<br>\n<code>render</code> 函数</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/render/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/render/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/render/index",
+            "title": "render 中的挂载、更新、卸载",
+            "date_modified": "2025-07-20T00:00:00.000Z",
+            "date_published": "2025-07-20T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/runtime-core/index",
+            "content_html": "<h1>核心运行时 —— runtime-core</h1>\n<h2>虚拟DOM如何创建？</h2>\n<p>使用 <code>h</code> 和 <code>createVNode</code> 这两个函数来创建虚拟节点，那么既然都是创建虚拟节点，为什么还需要两个函数呢？</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/runtime-core/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/runtime-core/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/runtime-core/index",
+            "title": "核心运行时 —— runtime-core",
+            "date_modified": "2025-07-16T00:00:00.000Z",
+            "date_published": "2025-07-18T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/runtime-dom/index",
+            "content_html": "<h1>浏览器运行时 —— runtime-dom</h1>\n<h2>虚拟 dom 的概念</h2>\n<p>虚拟 DOM 其实就是用 js 对象来描述一个 DOM，Vue 最终会根据这个虚拟 DOM 创建出一个真实的 DOM 挂载</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/runtime-dom/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/runtime-dom/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/runtime-dom/index",
+            "title": "浏览器运行时 —— runtime-dom",
+            "date_modified": "2025-07-15T00:00:00.000Z",
+            "date_published": "2025-07-15T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/computed/index",
+            "content_html": "<h3>computed 实现原理</h3>\n<h4>1. computed 的双重身份</h4>\n<p><code>computed</code> 计算属性有一个非常独特的设计 - 它同时具备两个身份：</p>\n<ol>\n<li>作为依赖项（Dep）: 可以被其</li>\n</ol>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/computed/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/computed/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/computed/index",
+            "title": "手写 computed",
+            "date_modified": "2025-07-04T00:00:00.000Z",
+            "date_published": "2025-07-13T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/watch/index",
+            "content_html": "<h2>watch</h2>\n<h3>1. 利用 effect 实现watch的基本功能</h3>\n<p><code>watch</code> 的核心原理是利用 <code>ReactiveEffect</code> 来追踪响应式数据的变化，当然此处我们利用到了之前讲过</p>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/watch/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/watch/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/watch/index",
+            "title": "手写 watch",
+            "date_modified": "2025-07-13T00:00:00.000Z",
+            "date_published": "2025-07-13T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/debugger-vue-in-webstorm/index",
+            "content_html": "<h3>调试前准备</h3>\n<ol>\n<li>确保 WebStorm 已安装 <code>JavaScript Debugger</code>插件。一般情况下，WebStorm 默认已安装此插件。</li>\n<li>修改默认浏览器配置：`Setting</li>\n</ol>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/debugger-vue-in-webstorm/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/debugger-vue-in-webstorm/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/debugger-vue-in-webstorm/index",
+            "title": "WebStorm 如何调试 Vue 项目",
+            "date_modified": "2025-06-26T00:00:00.000Z",
+            "date_published": "2025-06-26T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/reactivity/index",
+            "content_html": "<h1>响应式 —— Reactivity</h1>\n<p>Vue 的响应式系统核心在于响应式对象的属性与 effect 副作用函数之间建立的依赖关系。让我们通过具体示例来理解这个概念：</p>\n<ul>\n<li>普通函数访问响应式数据</li>\n</ul>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/reactivity/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/reactivity/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/reactivity/index",
+            "title": "响应式",
+            "date_modified": "2025-06-15T00:00:00.000Z",
+            "date_published": "2025-06-25T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/jeecg-table-empty-custom-render/index",
+            "content_html": "<h4>jeecg table 组件空数据时自定义内容</h4>\n<ul>\n<li>在使用 jeecg table 组件时，默认的空数据提示可能不符合需求，可以通过 <code>locale.emptyText</code> 属性自定义空数据</li>\n</ul>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/jeecg-table-empty-custom-render/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/jeecg-table-empty-custom-render/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/jeecg-table-empty-custom-render/index",
+            "title": "jeecg table 组件空数据时自定义内容",
+            "date_modified": "2025-06-20T00:00:00.000Z",
+            "date_published": "2025-06-20T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/external-link-replacement/index",
+            "content_html": "<h4>替换有道图片外链</h4>\n<ul>\n<li>项目现在使用了有道的图片外链，后面可能导致图片无法显示，需要换成自己系统的</li>\n<li>在新增和编辑接口，将有道图片链接替换成自己的图片链接</li>\n<li>通过正则表达式匹配有道图片链</li>\n</ul>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/external-link-replacement/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/external-link-replacement/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/external-link-replacement/index",
+            "title": "替换有道图片外链",
+            "date_modified": "2025-06-18T00:00:00.000Z",
+            "date_published": "2025-06-18T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/nestjs/index",
+            "content_html": "<h3>大文件上传介绍</h3>\n<ul>\n<li>把大文件分成小文件，然后并行上传</li>\n</ul>\n<h3><strong>如何拆分和合并</strong></h3>\n<ul>\n<li>通过 Blob的slice方法 对 File 分片,File是一种特殊的Blob</li>\n<li>合并：fs的</li>\n</ul>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/nestjs/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/nestjs/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/nestjs/index",
+            "title": "大文件分片上传",
+            "date_modified": "2025-02-21T00:00:00.000Z",
+            "date_published": "2025-02-21T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/engineering/index",
+            "content_html": "<h3>前端工程的痛点</h3>\n<ul>\n<li>模块化需求</li>\n<li>兼容浏览器，编译高级语法</li>\n<li>线上代码的质量</li>\n<li>开发效率，项目的冷启动/二次启动时间、热更新时间</li>\n</ul>\n<h3>前端构建工具是如何解决以上问题的呢？</h3>\n<ul>\n<li>模</li>\n</ul>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/engineering/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/engineering/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/engineering/index",
+            "title": "前端工程化-vite",
+            "date_modified": "2024-09-26T00:00:00.000Z",
+            "date_published": "2024-09-26T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        },
+        {
+            "id": "https://zm-github-io.vercel.app/posts/typescript/index",
+            "content_html": "<pre><code class=\"language-typescript\">interface A {\n  [key: string]: string\n}\nconst foo: A = {\n  &quot;666&quot;: '123',\n  11: &quot;xxx&quot;,</code></pre>\n<br/><p>访问 <a href=\"https://zm-github-io.vercel.app/posts/typescript/index\" target=\"_blank\">https://zm-github-io.vercel.app/posts/typescript/index</a> 阅读全文。</p>",
+            "url": "https://zm-github-io.vercel.app/posts/typescript/index",
+            "title": "重学TypeScript",
+            "date_modified": "2024-08-22T00:00:00.000Z",
+            "date_published": "2024-08-22T00:00:00.000Z",
+            "author": {
+                "name": "前端练习生zm",
+                "url": "https://valaxy.site"
+            }
+        }
+    ]
+}
