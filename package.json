@@ -15,6 +15,7 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
+    "@unocss/reset": "^66.6.7",
     "valaxy": "0.26.2",
     "valaxy-theme-yun": "0.26.2"
   },

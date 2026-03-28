@@ -28,9 +28,36 @@ declare module 'vue-router/auto-routes' {
     '/links/': RouteRecordInfo<'/links/', '/links', Record<never, never>, Record<never, never>>,
     '/page/[page]': RouteRecordInfo<'/page/[page]', '/page/:page', { page: ParamValue<true> }, { page: ParamValue<false> }>,
     '/posts/': RouteRecordInfo<'/posts/', '/posts', Record<never, never>, Record<never, never>>,
+    '/posts/ai/skills/': RouteRecordInfo<'/posts/ai/skills/', '/posts/ai/skills', Record<never, never>, Record<never, never>>,
+    '/posts/compiler/': RouteRecordInfo<'/posts/compiler/', '/posts/compiler', Record<never, never>, Record<never, never>>,
+    '/posts/compiler2/': RouteRecordInfo<'/posts/compiler2/', '/posts/compiler2', Record<never, never>, Record<never, never>>,
+    '/posts/compiler3/': RouteRecordInfo<'/posts/compiler3/', '/posts/compiler3', Record<never, never>, Record<never, never>>,
+    '/posts/component/': RouteRecordInfo<'/posts/component/', '/posts/component', Record<never, never>, Record<never, never>>,
+    '/posts/component10/': RouteRecordInfo<'/posts/component10/', '/posts/component10', Record<never, never>, Record<never, never>>,
+    '/posts/component11/': RouteRecordInfo<'/posts/component11/', '/posts/component11', Record<never, never>, Record<never, never>>,
+    '/posts/component12/': RouteRecordInfo<'/posts/component12/', '/posts/component12', Record<never, never>, Record<never, never>>,
+    '/posts/component13/': RouteRecordInfo<'/posts/component13/', '/posts/component13', Record<never, never>, Record<never, never>>,
+    '/posts/component14/': RouteRecordInfo<'/posts/component14/', '/posts/component14', Record<never, never>, Record<never, never>>,
+    '/posts/component15/': RouteRecordInfo<'/posts/component15/', '/posts/component15', Record<never, never>, Record<never, never>>,
+    '/posts/component16/': RouteRecordInfo<'/posts/component16/', '/posts/component16', Record<never, never>, Record<never, never>>,
+    '/posts/component17/': RouteRecordInfo<'/posts/component17/', '/posts/component17', Record<never, never>, Record<never, never>>,
+    '/posts/component2/': RouteRecordInfo<'/posts/component2/', '/posts/component2', Record<never, never>, Record<never, never>>,
+    '/posts/component3/': RouteRecordInfo<'/posts/component3/', '/posts/component3', Record<never, never>, Record<never, never>>,
+    '/posts/component4/': RouteRecordInfo<'/posts/component4/', '/posts/component4', Record<never, never>, Record<never, never>>,
+    '/posts/component5/': RouteRecordInfo<'/posts/component5/', '/posts/component5', Record<never, never>, Record<never, never>>,
+    '/posts/component6/': RouteRecordInfo<'/posts/component6/', '/posts/component6', Record<never, never>, Record<never, never>>,
+    '/posts/component7/': RouteRecordInfo<'/posts/component7/', '/posts/component7', Record<never, never>, Record<never, never>>,
+    '/posts/component8/': RouteRecordInfo<'/posts/component8/', '/posts/component8', Record<never, never>, Record<never, never>>,
+    '/posts/component9/': RouteRecordInfo<'/posts/component9/', '/posts/component9', Record<never, never>, Record<never, never>>,
     '/posts/computed/': RouteRecordInfo<'/posts/computed/', '/posts/computed', Record<never, never>, Record<never, never>>,
+    '/posts/create-app/': RouteRecordInfo<'/posts/create-app/', '/posts/create-app', Record<never, never>, Record<never, never>>,
     '/posts/debugger-vue-in-webstorm/': RouteRecordInfo<'/posts/debugger-vue-in-webstorm/', '/posts/debugger-vue-in-webstorm', Record<never, never>, Record<never, never>>,
     '/posts/diff/': RouteRecordInfo<'/posts/diff/', '/posts/diff', Record<never, never>, Record<never, never>>,
+    '/posts/elpis/': RouteRecordInfo<'/posts/elpis/', '/posts/elpis', Record<never, never>, Record<never, never>>,
+    '/posts/elpis2/': RouteRecordInfo<'/posts/elpis2/', '/posts/elpis2', Record<never, never>, Record<never, never>>,
+    '/posts/elpis3/': RouteRecordInfo<'/posts/elpis3/', '/posts/elpis3', Record<never, never>, Record<never, never>>,
+    '/posts/elpis4/': RouteRecordInfo<'/posts/elpis4/', '/posts/elpis4', Record<never, never>, Record<never, never>>,
+    '/posts/elpis5/': RouteRecordInfo<'/posts/elpis5/', '/posts/elpis5', Record<never, never>, Record<never, never>>,
     '/posts/encapsulation-component/': RouteRecordInfo<'/posts/encapsulation-component/', '/posts/encapsulation-component', Record<never, never>, Record<never, never>>,
     '/posts/engineering/': RouteRecordInfo<'/posts/engineering/', '/posts/engineering', Record<never, never>, Record<never, never>>,
     '/posts/external-link-replacement/': RouteRecordInfo<'/posts/external-link-replacement/', '/posts/external-link-replacement', Record<never, never>, Record<never, never>>,
@@ -39,16 +66,23 @@ declare module 'vue-router/auto-routes' {
     '/posts/interview-szml-2/': RouteRecordInfo<'/posts/interview-szml-2/', '/posts/interview-szml-2', Record<never, never>, Record<never, never>>,
     '/posts/jeecg-table-empty-custom-render/': RouteRecordInfo<'/posts/jeecg-table-empty-custom-render/', '/posts/jeecg-table-empty-custom-render', Record<never, never>, Record<never, never>>,
     '/posts/js-writing/': RouteRecordInfo<'/posts/js-writing/', '/posts/js-writing', Record<never, never>, Record<never, never>>,
+    '/posts/js-writing2/': RouteRecordInfo<'/posts/js-writing2/', '/posts/js-writing2', Record<never, never>, Record<never, never>>,
+    '/posts/js-writing3/': RouteRecordInfo<'/posts/js-writing3/', '/posts/js-writing3', Record<never, never>, Record<never, never>>,
     '/posts/nestjs/': RouteRecordInfo<'/posts/nestjs/', '/posts/nestjs', Record<never, never>, Record<never, never>>,
     '/posts/reactivity/': RouteRecordInfo<'/posts/reactivity/', '/posts/reactivity', Record<never, never>, Record<never, never>>,
     '/posts/rebase/': RouteRecordInfo<'/posts/rebase/', '/posts/rebase', Record<never, never>, Record<never, never>>,
     '/posts/render/': RouteRecordInfo<'/posts/render/', '/posts/render', Record<never, never>, Record<never, never>>,
     '/posts/runtime-core/': RouteRecordInfo<'/posts/runtime-core/', '/posts/runtime-core', Record<never, never>, Record<never, never>>,
     '/posts/runtime-dom/': RouteRecordInfo<'/posts/runtime-dom/', '/posts/runtime-dom', Record<never, never>, Record<never, never>>,
-    '/posts/test/': RouteRecordInfo<'/posts/test/', '/posts/test', Record<never, never>, Record<never, never>>,
+    '/posts/scene/': RouteRecordInfo<'/posts/scene/', '/posts/scene', Record<never, never>, Record<never, never>>,
+    '/posts/sse/': RouteRecordInfo<'/posts/sse/', '/posts/sse', Record<never, never>, Record<never, never>>,
     '/posts/text-node/': RouteRecordInfo<'/posts/text-node/', '/posts/text-node', Record<never, never>, Record<never, never>>,
     '/posts/typescript/': RouteRecordInfo<'/posts/typescript/', '/posts/typescript', Record<never, never>, Record<never, never>>,
+    '/posts/vite-plugin/': RouteRecordInfo<'/posts/vite-plugin/', '/posts/vite-plugin', Record<never, never>, Record<never, never>>,
+    '/posts/volta/': RouteRecordInfo<'/posts/volta/', '/posts/volta', Record<never, never>, Record<never, never>>,
+    '/posts/vue-interview/': RouteRecordInfo<'/posts/vue-interview/', '/posts/vue-interview', Record<never, never>, Record<never, never>>,
     '/posts/watch/': RouteRecordInfo<'/posts/watch/', '/posts/watch', Record<never, never>, Record<never, never>>,
+    '/posts/websocket/': RouteRecordInfo<'/posts/websocket/', '/posts/websocket', Record<never, never>, Record<never, never>>,
     '/tags/': RouteRecordInfo<'/tags/', '/tags', Record<never, never>, Record<never, never>>,
   }
 
@@ -63,11 +97,11 @@ declare module 'vue-router/auto-routes' {
    * @internal
    */
   export interface _RouteFileInfoMap {
-    'node_modules/.pnpm/valaxy-theme-yun@0.26.2_vue@3.5.18_typescript@5.9.2_/node_modules/valaxy-theme-yun/pages/index.vue': {
+    'node_modules/valaxy-theme-yun/pages/index.vue': {
       routes: '/'
       views: never
     }
-    'node_modules/.pnpm/valaxy@0.26.2_@babel+parser_306444fa64591f1ca59fc494e657897a/node_modules/valaxy/client/pages/[...path].vue': {
+    'node_modules/valaxy/client/pages/[...path].vue': {
       routes: '/[...path]'
       views: never
     }
@@ -95,16 +129,104 @@ declare module 'vue-router/auto-routes' {
       routes: '/links/'
       views: never
     }
-    'node_modules/.pnpm/valaxy-theme-yun@0.26.2_vue@3.5.18_typescript@5.9.2_/node_modules/valaxy-theme-yun/pages/page/[page].vue': {
+    'node_modules/valaxy-theme-yun/pages/page/[page].vue': {
       routes: '/page/[page]'
       views: never
     }
-    'node_modules/.pnpm/valaxy-theme-yun@0.26.2_vue@3.5.18_typescript@5.9.2_/node_modules/valaxy-theme-yun/pages/posts/index.vue': {
+    'node_modules/valaxy-theme-yun/pages/posts/index.vue': {
       routes: '/posts/'
+      views: never
+    }
+    'pages/posts/ai/skills/index.md': {
+      routes: '/posts/ai/skills/'
+      views: never
+    }
+    'pages/posts/compiler/index.md': {
+      routes: '/posts/compiler/'
+      views: never
+    }
+    'pages/posts/compiler2/index.md': {
+      routes: '/posts/compiler2/'
+      views: never
+    }
+    'pages/posts/compiler3/index.md': {
+      routes: '/posts/compiler3/'
+      views: never
+    }
+    'pages/posts/component/index.md': {
+      routes: '/posts/component/'
+      views: never
+    }
+    'pages/posts/component10/index.md': {
+      routes: '/posts/component10/'
+      views: never
+    }
+    'pages/posts/component11/index.md': {
+      routes: '/posts/component11/'
+      views: never
+    }
+    'pages/posts/component12/index.md': {
+      routes: '/posts/component12/'
+      views: never
+    }
+    'pages/posts/component13/index.md': {
+      routes: '/posts/component13/'
+      views: never
+    }
+    'pages/posts/component14/index.md': {
+      routes: '/posts/component14/'
+      views: never
+    }
+    'pages/posts/component15/index.md': {
+      routes: '/posts/component15/'
+      views: never
+    }
+    'pages/posts/component16/index.md': {
+      routes: '/posts/component16/'
+      views: never
+    }
+    'pages/posts/component17/index.md': {
+      routes: '/posts/component17/'
+      views: never
+    }
+    'pages/posts/component2/index.md': {
+      routes: '/posts/component2/'
+      views: never
+    }
+    'pages/posts/component3/index.md': {
+      routes: '/posts/component3/'
+      views: never
+    }
+    'pages/posts/component4/index.md': {
+      routes: '/posts/component4/'
+      views: never
+    }
+    'pages/posts/component5/index.md': {
+      routes: '/posts/component5/'
+      views: never
+    }
+    'pages/posts/component6/index.md': {
+      routes: '/posts/component6/'
+      views: never
+    }
+    'pages/posts/component7/index.md': {
+      routes: '/posts/component7/'
+      views: never
+    }
+    'pages/posts/component8/index.md': {
+      routes: '/posts/component8/'
+      views: never
+    }
+    'pages/posts/component9/index.md': {
+      routes: '/posts/component9/'
       views: never
     }
     'pages/posts/computed/index.md': {
       routes: '/posts/computed/'
+      views: never
+    }
+    'pages/posts/create-app/index.md': {
+      routes: '/posts/create-app/'
       views: never
     }
     'pages/posts/debugger-vue-in-webstorm/index.md': {
@@ -113,6 +235,26 @@ declare module 'vue-router/auto-routes' {
     }
     'pages/posts/diff/index.md': {
       routes: '/posts/diff/'
+      views: never
+    }
+    'pages/posts/elpis/index.md': {
+      routes: '/posts/elpis/'
+      views: never
+    }
+    'pages/posts/elpis2/index.md': {
+      routes: '/posts/elpis2/'
+      views: never
+    }
+    'pages/posts/elpis3/index.md': {
+      routes: '/posts/elpis3/'
+      views: never
+    }
+    'pages/posts/elpis4/index.md': {
+      routes: '/posts/elpis4/'
+      views: never
+    }
+    'pages/posts/elpis5/index.md': {
+      routes: '/posts/elpis5/'
       views: never
     }
     'pages/posts/encapsulation-component/index.md': {
@@ -147,6 +289,14 @@ declare module 'vue-router/auto-routes' {
       routes: '/posts/js-writing/'
       views: never
     }
+    'pages/posts/js-writing2/index.md': {
+      routes: '/posts/js-writing2/'
+      views: never
+    }
+    'pages/posts/js-writing3/index.md': {
+      routes: '/posts/js-writing3/'
+      views: never
+    }
     'pages/posts/nestjs/index.md': {
       routes: '/posts/nestjs/'
       views: never
@@ -171,8 +321,12 @@ declare module 'vue-router/auto-routes' {
       routes: '/posts/runtime-dom/'
       views: never
     }
-    'pages/posts/test/index.md': {
-      routes: '/posts/test/'
+    'pages/posts/scene/index.md': {
+      routes: '/posts/scene/'
+      views: never
+    }
+    'pages/posts/sse/index.md': {
+      routes: '/posts/sse/'
       views: never
     }
     'pages/posts/text-node/index.md': {
@@ -183,8 +337,24 @@ declare module 'vue-router/auto-routes' {
       routes: '/posts/typescript/'
       views: never
     }
+    'pages/posts/vite-plugin/index.md': {
+      routes: '/posts/vite-plugin/'
+      views: never
+    }
+    'pages/posts/volta/index.md': {
+      routes: '/posts/volta/'
+      views: never
+    }
+    'pages/posts/vue-interview/index.md': {
+      routes: '/posts/vue-interview/'
+      views: never
+    }
     'pages/posts/watch/index.md': {
       routes: '/posts/watch/'
+      views: never
+    }
+    'pages/posts/websocket/index.md': {
+      routes: '/posts/websocket/'
       views: never
     }
     'pages/tags/index.md': {
